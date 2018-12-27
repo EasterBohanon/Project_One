@@ -1,23 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Health App</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!-- jQuery -->
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
-  </head>
 
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <title>Health App</title>
+
+  <!-- Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+</head>
+
+<body>
   <!-- Jumbotron/Header -->
 
-  <!-- Search -->
-  </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- All the below HTML are for just testing functionality with HTML inputs and AJAX calls -->
+
+  <!-- If you will be changing the class / id / data-value / position / etc, 
+  let us know in your code/chat or just change it in logic.js file -->
+
+  <div class="container">
+
+
+
+    <!-- Search Input Field -->
+    <!-- Designed to display autocomplete list of what a user enters into the search -->
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">textsms</i>
+            <input type="text" id="autocomplete-input" class="autocomplete">
+            <label for="autocomplete-input">Autocomplete</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <!-- JavaScript -->
+  <script src="assets/javascript/logic.js"></script>
+</body>
+
 </html>
