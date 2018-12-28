@@ -1,2 +1,55 @@
+html {
+    box-sizing: border-box;
+}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* All Below is for testing
+***************/
+
+
+
+
+.recipes_view {
+    margin: auto;
+    width: 100%;
+}
+
+#recipes_view {
+    text-align: center;
+
+}
+
+.recipe_name {
+    display: inline-block;
+}
+
+img {
+    height: 200px;
+    border-radius: 8px;
+    margin: auto;
+    display: inline-block;
+}
 
