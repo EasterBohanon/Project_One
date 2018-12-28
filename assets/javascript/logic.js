@@ -75,11 +75,18 @@ $(document).ready(function () {
         // 1) Assign new search object
         search = new Search(query);
 
+<<<<<<< HEAD
         // 2) Prepare UI for recipes
         $('#recipes_view').empty()
+=======
+      //on click of user recipie submit button
+      $(document).ready(function(){
+        $('select').formSelect();
+>>>>>>> just pushing code so I can pull new code from test, nothing worth keeping that I coded
 
         // Add preloader gif
 
+<<<<<<< HEAD
         // 3) 
         search.getResult(query)
 
@@ -232,9 +239,25 @@ $(document).ready(function () {
     //     },
     //     minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
     // });
+=======
+        console.log("This is the recipie search button");
+        
 
 
+        // //Perform Ajax Call
+        // $.ajax({
+        //     url: "http://api.yummly.com/v1/api/recipes?_app_id=fa6a5b04$_app_key=4d7d57aa09b888bc12e36f57b76129bc&" + input,
+        //     method: "GET"
+        // }).then(function(response){
 
+        //     var results = response.data;
+>>>>>>> just pushing code so I can pull new code from test, nothing worth keeping that I coded
+
+        // })
+
+      });
+
+      
 
     // $(function () {
     //     $.ajax({
