@@ -109,7 +109,8 @@ $(document).ready(function () {
 
 
         recipes.forEach(function (el) {
-            var name = $("<div class='recipe_name'>" + el.recipeName + "</div>");
+            // var name = $("<div class='recipe_name'>" + el.recipeName + "</div>");
+            var name = $("<div class='recipe_" + el.recipeName + "'>" + el.recipeName + "<br>" + "</div>");
             var largeImg;
             if (el.smallImageUrls[0] !== -1) {
                 name.append(el.smallImageUrls[0])
