@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     // Initialize database
-    // Chris's Firebase 
+    // Firebase 
     var config = {
         apiKey: "AIzaSyDcivjtLR1cf14Z7z1EiGaIThJ4qwWZKMQ",
         authDomain: "healthapp-fc0e3.firebaseapp.com",
@@ -15,27 +15,53 @@ $(document).ready(function () {
 
 
     // Global variables
-    var state = {};
+    var search = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
     var appID = '992846dd' // Chris's Yummly API ID
     var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
+    // var search;
 
 
 
-
+    /***
+     * Class will construct a new object for every search
+     * Less API calls for data and easier saved locally
+     */
     class Search {
         constructor(query) {
             this.query = query;
         }
+
+        // Protos
         getResult() {
 
-            return $.get(`http://api.yummly.com/v1/api/recipes?_app_id=${appID}&_app_key=${key}&q=${this.query}&requirePictures=true`, function (response) {
+            // GET request
+            return $.get(`http://api.yummly.com/v1/api/recipes?_app_id=${appID}&_app_key=${key}&${this.query}requirePictures=true`, function (response) {
 
-                // response.matches.forEach()
+                var arr = response.matches;
+                console.log(arr);
 
+                // Search API request does not contain larger images
+                // Loop array of recipes
+                for (var i = 0; i < arr.length; i++) {
+                    var largeImg = null
+                    var html = '';
+                    var img;
 
-                this.results = response.matches;
+                    // change to large image URL
+                    if (arr[i].smallImageUrls[0] !== -1) {
+                        largeImg = arr[i].smallImageUrls[0].replace('=s90', '=l90');
+                        html = `<img src="${largeImg}">`;
+                        arr[i].smallImageUrls[0] = html;
+                    } else if (arr[i].imageUrlsBySize['90']) {
+                        img = arr[i].imageUrlsBySize['90'];
+                        largeImg = img.replace('=s90', '=l90');
+                        arr[i].imageUrlsBySize['90'].largeImg;
+                    }
+                }
+                // Assign results property as array of recipes
+                this.results = arr;
 
             }.bind(this));
         }
@@ -43,52 +69,90 @@ $(document).ready(function () {
 
 
 
-    const searchController = function () {
+    // Controls all searching tasks
+    const searchController = function (query) {
 
-        const search = new Search(query);
+        // 1) Assign new search object
+        search = new Search(query);
 
-        search.getResult(query).done(function () {
+        // 2) Prepare UI for recipes
+        $('#recipes_view').empty()
 
-            console.log(search.results);
+        // Add preloader gif
 
-        });
+        // 3) 
+        search.getResult(query)
+
+            // If API request successful
+            .done(function () {
+                console.log(search.results);
+
+                // 4) Render results to UI
+                renderResults(search.results);
+
+                // Add a method to create pagination buttons
+                // https://materializecss.com/pagination.html
+
+            })
+
+            // If API returns error
+            .fail(function (error) {
+                console.log(error)
+            });
+    };
+
+
+
+    // Renders results and appends to recipes class in DOM
+    var renderResults = function (recipes) {
+        // var name = `<div class="recipe_name">${recipes.recipeName}</div>`
+
+
+        recipes.forEach(function (el) {
+            var name = $("<div class='recipe_name'>" + el.recipeName + "</div>");
+            var largeImg;
+            if (el.smallImageUrls[0] !== -1) {
+                name.append(el.smallImageUrls[0])
+                $('#recipes_view').append(name);
+            } else {
+            
+                largeImg = $('<img>').attr('src', imageUrlsBySize['90'])
+                name.append(largeImg)
+                $('#recipes_view').append(name);
+            }
+            // el[0];
+            // name.append(recipeImg);
+        })
+    };
+
+
+
+
+    // Prevents white space in URL
+    var encodeSearch = function (param, query) {
+        var enQuery = encodeURIComponent(query);
+        var enParams = param + enQuery + '&'
+
+        searchController(enParams);
     }
 
 
 
-    var getSearch = function (query) {
-
-        search.getResult(query).done(function () {
-            console.log()
-        });
-    }
-
-
-    var encodeSearch = function (query) {
-        var params = encodeURIComponent(query);
-    }
-
-
+    // Search submit button listener
     $('.submit').on('click', function (e) {
         e.preventDefault();
         var query = $('#textarea1').val();
-        
+
         if (query.length > 1) {
-            encodeSearch(query);
+            encodeSearch('q=', query);
         }
-        
+        $('#textarea1').val('')
+
     })
 
 
 
 
-    // for (i = 0; 0 < response.matches.length; i++) {
-    //     var img = response.matches[i].smallImageUrls[0]
-    //     var largeImg = img.replace('=s90', '=l90')
-    //     var newImg = $('<img>')
-    //     newImg.attr('src', largeImg)
-    //     $('.container').append(largeImg);
-    // }
 
 
 
@@ -103,12 +167,11 @@ $(document).ready(function () {
 
 
 
-    /*
-    
-    All below code are just for testing purposes
-    
-    */
 
+    /********************
+     * All below code are just 
+     * for testing
+     */
 
 
     /*********************** Search Recipe GET request
@@ -135,14 +198,6 @@ $(document).ready(function () {
      * 
      * 
      * 
-     * 
-     * ****************GET Recipe Request
-     * **** The below will produce details on a given recipe using the GET Recipe request
-     * *** Response = JSON object
-     * 
-     * 
-     * 
-     * 
      */
 
 
@@ -152,9 +207,12 @@ $(document).ready(function () {
 
 
 
-    /*********************  Below are Possible methods for autocomplete when a user enters in ingredients to include / exclude
+    /*****************  Below are Possible methods for autocomplete 
+     * 
+     * when a user enters in ingredients to include / exclude
      * 
      */
+
 
 
     // jquery search autocomplete reference
@@ -196,18 +254,4 @@ $(document).ready(function () {
     //         }
     //     });
     // });
-
-
-
-
-    /************ Reference to URL encoding
-     * https://stackoverflow.com/questions/75980/when-are-you-supposed-to-use-escape-instead-of-encodeuri-encodeuricomponent
-     * 
-     * For each parameter value that can be appended to the query URL, in order
-     * to filter a search after a user chooses a filter, encodeURIComponent() needs to be used on that value to prevent white space/prevent an incorrect URL query
-     * 
-     * This needs to be done for every value that is a paramter in the recipe search API call
-     * 
-     */
-
 });
