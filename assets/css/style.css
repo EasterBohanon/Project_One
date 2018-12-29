@@ -29,7 +29,9 @@ html {
 /* All Below is for testing
 ***************/
 
-
+#filters {
+    display: none;
+}
 
 #recipes_view {
     text-align: center;
