@@ -35,7 +35,7 @@ $(document).ready(function () {
         getResult() {
 
             // GET request
-            return $.get(`http://api.yummly.com/v1/api/recipes?_app_id=${appID}&_app_key=${key}&${this.query}requirePictures=true`, function (response) {
+            return $.get(`http://api.yummly.com/v1/api/recipes?_app_id=${appID}&_app_key=${key}&${this.query}requirePictures=true&maxResult=8&start=10`, function (response) {
 
                 var arr = response.matches;
 
@@ -43,20 +43,31 @@ $(document).ready(function () {
                 // Loop array of recipes
                 for (var i = 0; i < arr.length; i++) {
                     var largeImg = null
-                    var html = '';
                     var img;
 
                     // change to large image URL
                     if (arr[i].hasOwnProperty('smallImageUrls')) {
                         largeImg = arr[i].smallImageUrls[0].replace('=s90', '=l90');
-                        html = `<img src="${largeImg}">`;
-                        arr[i].smallImageUrls[0] = html;
+                        arr[i].smallImageUrls[0] = largeImg;
                     } else if (arr[i].hasOwnProperty('imageUrlsBySize')) {
                         img = arr[i].imageUrlsBySize['90'];
                         largeImg = img.replace('=s90', '=l90');
                         arr[i].imageUrlsBySize['90'] = largeImg;
                     }
                 }
+
+                // Contains object of attributions Yummly requires
+                this.attribution = response.attribution;
+
+                // Contains number of total matches a user searches for
+                this.totalMatchCount = response.totalMatchCount;
+
+                // Contains object of all the facetCounts matching the results of faceField parameter
+                this.facetCounts = response.facetCounts;
+
+                // Contains object of all the filters/criteria that a user may select for a search
+                this.criteria = response.criteria;
+
                 // Assign results property as array of recipes
                 this.results = arr;
 
@@ -75,8 +86,9 @@ $(document).ready(function () {
 
         // 2) Prepare UI for recipes
         $('#recipes_view').empty()
-        renderLoader(true);
 
+        // Render the preloader
+        renderLoader(true);
 
         // 3) Call getResult method in order to return API response consisting of recipes based on the search query
         search.getResult(query)
@@ -87,6 +99,7 @@ $(document).ready(function () {
                 console.log(search);
                 console.log(search.results);
 
+                // Remove preloader
                 renderLoader(false);
 
                 // 4) Render results to UI
@@ -108,19 +121,21 @@ $(document).ready(function () {
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
 
+        $('#num_results').text(search.totalMatchCount);
+
         recipes.forEach(function (el) {
 
             var name = $("<div class='fadeIn recipe_" + el.recipeName + "'>" + el.recipeName + "<br>" + "</div>");
-            var largeImg;
+            var img;
 
             if (el.hasOwnProperty('smallImageUrls')) {
-                name.append(el.smallImageUrls[0]);
-                $('#recipes_view').append(name);
+                img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result');
             } else if (el.hasOwnProperty('imageUrlsBySize')) {
-                largeImg = $('<img>').attr('src', el.imageUrlsBySize['90']);
-                name.append(largeImg);
-                $('#recipes_view').append(name);
+                img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result');
             }
+
+            name.append(img);
+            $('#recipes_view').append(name);
         });
     };
 
@@ -135,7 +150,7 @@ $(document).ready(function () {
         searchController(enParams);
     }
 
-
+    // Renders preloader gif
     var renderLoader = function (e) {
         var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
 
@@ -144,8 +159,7 @@ $(document).ready(function () {
         } else {
             $('.preloader').remove();
         }
-    }
-
+    };
 
 
     // Search submit button listener

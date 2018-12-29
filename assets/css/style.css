@@ -31,22 +31,16 @@ html {
 
 
 
-
-.recipes_view {
-    margin: auto;
-    width: 100%;
-}
-
 #recipes_view {
     text-align: center;
-
+    float: left;
 }
 
 .recipe_name {
     display: inline-block;
 }
 
-img {
+.recipe_result {
     height: 200px;
     border-radius: 8px;
     margin: auto;
@@ -56,8 +50,6 @@ img {
 .preloader {
     height: 130px;
 }
-
-
 
 /* class to create fade effect */
 .fadeIn {
