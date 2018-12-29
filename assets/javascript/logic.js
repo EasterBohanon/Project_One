@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    /********************************* Global Variables *****************************/
+
     // Initialize database
     // Firebase 
     var config = {
@@ -13,19 +15,22 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
 
-
     // Global variables
     var search = {};
+    var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
     var appID = '992846dd' // Chris's Yummly API ID
-    var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
-    var recipeURL = 'http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
-    // var search;
+    var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23';
+    var recipeURL = 'http://api.yummly.com/v1/api/recipe/';
 
 
+
+
+
+    /********************************** Classes / Dynamic Data ******************************/
 
     /***
-     * Class will construct a new object for every search
+     * Classes will construct a new object for every search
      * Less API calls for data and easier saved locally
      */
     class Search {
@@ -33,33 +38,43 @@ $(document).ready(function () {
             this.query = query;
         }
 
-        // Protos
+        // Method to get new search results
         getResult() {
 
-            // GET request
-            return $.get(`http://api.yummly.com/v1/api/recipes?_app_id=${appID}&_app_key=${key}&${this.query}requirePictures=true`, function (response) {
+            // returns the GET request
+            return $.get(`${searchURL}&${this.query}requirePictures=true`, function (response) {
 
                 var arr = response.matches;
-                console.log(arr);
 
                 // Search API request does not contain larger images
                 // Loop array of recipes
                 for (var i = 0; i < arr.length; i++) {
                     var largeImg = null
-                    var html = '';
                     var img;
 
                     // change to large image URL
-                    if (arr[i].smallImageUrls[0] !== -1) {
+                    if (arr[i].hasOwnProperty('smallImageUrls')) {
                         largeImg = arr[i].smallImageUrls[0].replace('=s90', '=l90');
-                        html = `<img src="${largeImg}">`;
-                        arr[i].smallImageUrls[0] = html;
-                    } else if (arr[i].imageUrlsBySize['90']) {
+                        arr[i].smallImageUrls[0] = largeImg;
+                    } else if (arr[i].hasOwnProperty('imageUrlsBySize')) {
                         img = arr[i].imageUrlsBySize['90'];
                         largeImg = img.replace('=s90', '=l90');
-                        arr[i].imageUrlsBySize['90'].largeImg;
+                        arr[i].imageUrlsBySize['90'] = largeImg;
                     }
                 }
+
+                // Contains object of attributions Yummly requires
+                this.attribution = response.attribution;
+
+                // Contains number of total matches a user searches for
+                this.totalMatchCount = response.totalMatchCount;
+
+                // Contains object of all the facetCounts matching the results of faceField parameter
+                this.facetCounts = response.facetCounts;
+
+                // Contains object of all the filters/criteria that a user may select for a search
+                this.criteria = response.criteria;
+
                 // Assign results property as array of recipes
                 this.results = arr;
 
@@ -69,6 +84,42 @@ $(document).ready(function () {
 
 
 
+
+    // Class to create an object containing a certain recipe
+    class Recipe {
+        constructor(id) {
+            this.id = id;
+        }
+
+        // method to get the recipe API request
+        getRecipe() {
+
+            return $.get(`${recipeURL}${this.id}?_app_id=${appID}&_app_key=${key}`, function (response) {
+
+                this.attribution = response.attribution;
+                this.nutritionEstimates = response.nutritionEstimates;
+                this.totalTime = response.totalTime;
+                this.images = response.images;
+                this.name = response.name;
+                this.source = response.source;
+                this.ingredientLines = response.ingredientLines;
+                this.numberOfServings = response.numberOfServings;
+                this.totalTimeInSeconds = response.totalTimeInSeconds;
+                this.attributes = response.attributes;
+                this.flavors = response.flavors;
+                this.rating = response.rating;
+
+            }.bind(this));
+        }
+    };
+
+
+
+
+
+
+    /********************************** Global APP Controllers *******************************/
+
     // Controls all searching tasks
     const searchController = function (query) {
 
@@ -76,68 +127,152 @@ $(document).ready(function () {
         search = new Search(query);
 
         // 2) Prepare UI for recipes
-        $('#recipes_view').empty()
+        $('#recipes_view').empty();
+        $('.num_results').empty();
 
-        // Add preloader gif
+        // Render the preloader
+        renderLoader(true);
 
-        // 3) 
+        // 3) Call getResult method in order to return API response consisting of recipes based on the search query
         search.getResult(query)
+
 
             // If API request successful
             .done(function () {
+                console.log(search);
                 console.log(search.results);
 
+                // Remove preloader
+                renderLoader(false);
+
                 // 4) Render results to UI
+                renderTotalMatches(search.totalMatchCount);
                 renderResults(search.results);
 
                 // Add a method to create pagination buttons
-                // https://materializecss.com/pagination.html
+                // 
 
             })
 
             // If API returns error
             .fail(function (error) {
-                console.log(error)
+                var tag = $('<h4>');
+                tag.text('Sorry, something went wrong.');
+                $('#recipes_view').append(tag);
             });
     };
 
 
 
+    const recipeController = function (id) {
+
+        if (id) {
+
+            recipe = new Recipe(id);
+            $('.recipe_content').empty();
+
+            recipe.getRecipe()
+
+                .done(function () { 
+
+                    renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+
+                })
+
+        }
+    }
+
+
+
+
+
+
+    /********************************** UI / View Functions ******************************/
+
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
-        // var name = `<div class="recipe_name">${recipes.recipeName}</div>`
 
+        // Displays total matched recipes
+        $('#num_results').text(search.totalMatchCount);
 
         recipes.forEach(function (el) {
-            // var name = $("<div class='recipe_name'>" + el.recipeName + "</div>");
-            var name = $("<div class='recipe_" + el.recipeName + "'>" + el.recipeName + "<br>" + "</div>");
-            var largeImg;
-            if (el.smallImageUrls[0] !== -1) {
-                name.append(el.smallImageUrls[0])
-                $('#recipes_view').append(name);
-            } else {
-            
-                largeImg = $('<img>').attr('src', imageUrlsBySize['90'])
-                name.append(largeImg)
-                $('#recipes_view').append(name);
+            var img;
+            var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+
+
+            if (el.hasOwnProperty('smallImageUrls')) {
+                img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
+            } else if (el.hasOwnProperty('imageUrlsBySize')) {
+                img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
             }
-            // el[0];
-            // name.append(recipeImg);
-        })
+
+            name.append(img);
+            $('#recipes_view').append(name);
+        });
     };
 
 
-
+    // Renders total amount of matches depending on search
+    var renderTotalMatches = function (total) {
+        el = $("<p>Total Suggested Recipe: " + total + "</p>");
+        $('.num_results').append(el);
+    };
 
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
-        var enParams = param + enQuery + '&'
+        var enParams = param + enQuery + '&';
 
         searchController(enParams);
+    };
+
+    // Renders preloader gif
+    var renderLoader = function (e) {
+        var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+
+        if (e) {
+            $('#recipes_view').append(loader);
+        } else {
+            $('.preloader').remove();
+        }
+    };
+
+
+
+    // Stil working on this 
+    var renderRecipeModal = function (img, name, ing) {
+
+        var modal = document.querySelector('#recipe_modal');
+        
+        var recipeName = $("<h4>" + name + "</h4>");
+        var recipeImg = $('<img>').attr('src', img);
+        var ingredients = $("<p>").text(ing);
+
+        recipeName.append(recipeImg).append(ingredients);
+
+        var instance = M.Modal.init(modal, {
+            onOpenStart: function () {
+                $('.recipe_content').append(recipeName);
+            },
+            onCloseEnd: function () {
+                $('.recipe_content').empty();
+            },
+            dismissible: false,
+            startingTop: '10%',
+            endingTop: '30%'
+        });
+
+        instance.open();
+
     }
 
 
+
+
+
+
+
+    /************************************** Event Listeners ********************************/
 
     // Search submit button listener
     $('.submit').on('click', function (e) {
@@ -147,14 +282,16 @@ $(document).ready(function () {
         if (query.length > 1) {
             encodeSearch('q=', query);
         }
-        $('#textarea1').val('')
 
-    })
-
-
+        $('#textarea1').val('');
+    });
 
 
 
+    $(document).on('click', '.recipe_result', function () {
+        var id = $(this).attr('data-recipeid');
+        recipeController(id);
+    });
 
 
 
@@ -162,6 +299,39 @@ $(document).ready(function () {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    /****** IDEAS
+     * 
+     * Can possibly utilize tags whenever a user selects a filter
+     * 
+     */
+
+
+
+
+    /**
+     * 
+     * On Search API request:
+     * 
+     * maxResult, start = &maxResult=10&start=10
+     *
+     * max 5 page items in pagination (use array)
+     * 
+     * start = page * 10
+     * 
+     * 
+     * 
+     */
 
 
 
