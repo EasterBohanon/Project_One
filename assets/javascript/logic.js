@@ -173,7 +173,7 @@ $(document).ready(function () {
 
             recipe.getRecipe()
 
-                .done(function () { 
+                .done(function () {
 
                     renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
 
@@ -243,7 +243,7 @@ $(document).ready(function () {
     var renderRecipeModal = function (img, name, ing) {
 
         var modal = document.querySelector('#recipe_modal');
-        
+
         var recipeName = $("<h4>" + name + "</h4>");
         var recipeImg = $('<img>').attr('src', img);
         var ingredients = $("<p>").text(ing);
@@ -293,7 +293,21 @@ $(document).ready(function () {
         recipeController(id);
     });
 
+    // Sidenav button event listener
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, options);
+    });
 
+    // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
+    // var collapsibleElem = document.querySelector('.collapsible');
+    // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+
+    // Or with jQuery
+
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
 
 
 

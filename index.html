@@ -20,14 +20,34 @@
   <nav>
     <div class="nav-wrapper teal">
       <a href="#" class="brand-logo teal">Health App</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down teal">
+      <!-- <ul id="nav-mobile" class="right hide-on-med-and-down teal">
         <li><a href="#">Link 1</a></li>
         <li><a href="#">Link 2</a></li>
         <li><a href="#">Link 3</a></li>
-      </ul>
+      </ul> -->
     </div>
   </nav>
-  <br>
+
+  <ul id="slide-out" class="sidenav">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="images/office.jpg">
+        </div>
+        <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+        <a href="#name"><span class="white-text name">John Doe</span></a>
+        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+      </div>
+    </li>
+    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+    <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+    <li>
+      <div class="divider"></div>
+    </li>
+    <!-- <li><a class="subheader">Subheader</a></li>
+      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
+  </ul>
+  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
 
   <!-- <img src="" alt=""> -->
 
@@ -52,65 +72,64 @@
       </div>
     </div> -->
 
-
-
+    <!-- Search -->
     <div class="row">
-      <form class="col s12">
+      <form class="col s10">
         <div class="row">
-          <!-- Search instructions -->
-          <span class="black-text">Search here to find recipes.
-          </span>
-          <div class="input-field col s12">
+          <div class="input-field col s10">
+            <i class="material-icons prefix">search</i>
             <textarea id="textarea1" class="materialize-textarea"></textarea>
             <label for="textarea1">Search</label>
           </div>
-        </div>
+          <div class="col s2">
+            <button id="submitButton" class="btn waves-effect waves-light submit" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
       </form>
-      <button class="btn waves-effect waves-light submit" type="submit" name="action">Submit
-        <i class="material-icons right">send</i>
-      </button>
     </div>
+  </div>
 
 
-    <!-- Total Matched Recipes -->
-    <div class="num_results">
+  <!-- Total Matched Recipes -->
+  <div class="num_results">
+  </div>
+
+
+  <!-- Recipes -->
+  <div class="row">
+    <div class="col s12" id="recipes_view">
     </div>
+  </div>
 
 
-    <!-- Recipes -->
-    <div class="row">
-      <div class="col s12" id="recipes_view">
-      </div>
+  <!-- Recipe Modal -->
+  <div id="recipe_modal" class="modal bottom-sheet">
+    <div class="modal-content recipe_content">
+      <h4 id="recipeid_name"></h4>
+      <p></p>
     </div>
-
-
-    <!-- Recipe Modal -->
-    <div id="recipe_modal" class="modal bottom-sheet">
-      <div class="modal-content recipe_content">
-        <h4 id="recipeid_name"></h4>
-        <p></p>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
-      </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
+  </div>
 
 
 
-    <!-- Pagination for results -->
-    <div class="row">
-      <div class="col s12">
-        <ul class="pagination center-align">
-          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active teal"><a href="#!">1</a></li>
-          <li class="waves-effect"><a href="#!">2</a></li>
-          <li class="waves-effect"><a href="#!">3</a></li>
-          <li class="waves-effect"><a href="#!">4</a></li>
-          <li class="waves-effect"><a href="#!">5</a></li>
-          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
-      </div>
+  <!-- Pagination for results -->
+  <div class="row">
+    <div class="col s12">
+      <ul class="pagination center-align">
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        <li class="active teal"><a href="#!">1</a></li>
+        <li class="waves-effect"><a href="#!">2</a></li>
+        <li class="waves-effect"><a href="#!">3</a></li>
+        <li class="waves-effect"><a href="#!">4</a></li>
+        <li class="waves-effect"><a href="#!">5</a></li>
+        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+      </ul>
     </div>
+  </div>
 
 
   </div>
