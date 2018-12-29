@@ -33,7 +33,7 @@ html {
 
 #recipes_view {
     text-align: center;
-    float: left;
+    /* float: left; */
 }
 
 .recipe_name {
@@ -41,10 +41,18 @@ html {
 }
 
 .recipe_result {
+
+    margin: auto;
+    display: inline-block;
+}
+
+.recipe_result_img {
     height: 200px;
     border-radius: 8px;
     margin: auto;
     display: inline-block;
+    cursor: pointer;
+
 }
 
 .preloader {

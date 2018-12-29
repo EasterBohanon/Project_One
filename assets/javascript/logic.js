@@ -17,11 +17,11 @@ $(document).ready(function () {
 
     // Global variables
     var search = {};
+    var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
     var appID = '992846dd' // Chris's Yummly API ID
     var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23';
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/';
-
 
 
 
@@ -92,26 +92,27 @@ $(document).ready(function () {
         }
 
         // method to get the recipe API request
-        getRecipe () {
+        getRecipe() {
 
-            return $.get(`${recipeURL}?${this.id}_app_id=${appID}&_app_key=${key}`, function (response) {
+            return $.get(`${recipeURL}${this.id}?_app_id=${appID}&_app_key=${key}`, function (response) {
 
-            this.attribution = response.attribution;
-            this.nutritionEstimates = response.nutritionEstimates;
-            this.totalTime = response.totalTime;
-            this.images = response.images;
-            this.name = response.name;
-            this.source = response.source;
-            this.ingredientLines = response.ingredientLines;
-            this.numberOfServings = response.numberOfServings;
-            this.totalTimeInSeconds = response.totalTimeInSeconds;
-            this.attributes = response.attributes;
-            this.flavors = response.flavors;
-            this.rating = response.rating;
+                this.attribution = response.attribution;
+                this.nutritionEstimates = response.nutritionEstimates;
+                this.totalTime = response.totalTime;
+                this.images = response.images;
+                this.name = response.name;
+                this.source = response.source;
+                this.ingredientLines = response.ingredientLines;
+                this.numberOfServings = response.numberOfServings;
+                this.totalTimeInSeconds = response.totalTimeInSeconds;
+                this.attributes = response.attributes;
+                this.flavors = response.flavors;
+                this.rating = response.rating;
 
-        }.bind(this));
-    }
-};
+            }.bind(this));
+        }
+    };
+
 
 
 
@@ -165,7 +166,22 @@ $(document).ready(function () {
 
     const recipeController = function (id) {
 
+        if (id) {
+
+            recipe = new Recipe(id);
+            $('.recipe_content').empty();
+
+            recipe.getRecipe()
+
+                .done(function () { 
+
+                    renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+
+                })
+
+        }
     }
+
 
 
 
@@ -181,14 +197,13 @@ $(document).ready(function () {
 
         recipes.forEach(function (el) {
             var img;
-            var name = $("<div class='fadeIn recipe_" + el.recipeName + "' data-recipeID='" + el.id +
-                "'>" + el.recipeName + "<br></div>");
+            var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
 
 
             if (el.hasOwnProperty('smallImageUrls')) {
-                img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result');
+                img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
             } else if (el.hasOwnProperty('imageUrlsBySize')) {
-                img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result');
+                img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
             }
 
             name.append(img);
@@ -224,6 +239,36 @@ $(document).ready(function () {
 
 
 
+    // Stil working on this 
+    var renderRecipeModal = function (img, name, ing) {
+
+        var modal = document.querySelector('#recipe_modal');
+        
+        var recipeName = $("<h4>" + name + "</h4>");
+        var recipeImg = $('<img>').attr('src', img);
+        var ingredients = $("<p>").text(ing);
+
+        recipeName.append(recipeImg).append(ingredients);
+
+        var instance = M.Modal.init(modal, {
+            onOpenStart: function () {
+                $('.recipe_content').append(recipeName);
+            },
+            onCloseEnd: function () {
+                $('.recipe_content').empty();
+            },
+            dismissible: false,
+            startingTop: '10%',
+            endingTop: '30%'
+        });
+
+        instance.open();
+
+    }
+
+
+
+
 
 
 
@@ -244,7 +289,8 @@ $(document).ready(function () {
 
 
     $(document).on('click', '.recipe_result', function () {
-
+        var id = $(this).attr('data-recipeid');
+        recipeController(id);
     });
 
 
