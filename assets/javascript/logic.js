@@ -83,9 +83,9 @@ $(document).ready(function () {
         // 1) Assign new search object
         search = new Search(query);
 
-
         // 2) Prepare UI for recipes
         $('#recipes_view').empty()
+        $('.num_results').empty();
 
         // Render the preloader
         renderLoader(true);
@@ -103,6 +103,7 @@ $(document).ready(function () {
                 renderLoader(false);
 
                 // 4) Render results to UI
+                renderTotalMatches(search.totalMatchCount);
                 renderResults(search.results);
 
                 // Add a method to create pagination buttons
@@ -117,10 +118,10 @@ $(document).ready(function () {
     };
 
 
-
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
 
+        // Displays total matched recipes
         $('#num_results').text(search.totalMatchCount);
 
         recipes.forEach(function (el) {
@@ -140,6 +141,11 @@ $(document).ready(function () {
     };
 
 
+    // Renders total amount of matches depending on search
+    var renderTotalMatches = function (total) {
+        el = $("<p>Total Suggested Recipe: " + total + "</p>");
+        $('.num_results').append(el);
+    }
 
 
     // Prevents white space in URL
