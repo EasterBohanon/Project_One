@@ -38,7 +38,6 @@ $(document).ready(function () {
             return $.get(`http://api.yummly.com/v1/api/recipes?_app_id=${appID}&_app_key=${key}&${this.query}requirePictures=true`, function (response) {
 
                 var arr = response.matches;
-                console.log(arr);
 
                 // Search API request does not contain larger images
                 // Loop array of recipes
@@ -76,8 +75,8 @@ $(document).ready(function () {
 
         // 2) Prepare UI for recipes
         $('#recipes_view').empty()
+        renderLoader(true);
 
-        // Add preloader gif
 
         // 3) Call getResult method in order to return API response consisting of recipes based on the search query
         search.getResult(query)
@@ -87,6 +86,8 @@ $(document).ready(function () {
             .done(function () {
                 console.log(search);
                 console.log(search.results);
+
+                renderLoader(false);
 
                 // 4) Render results to UI
                 renderResults(search.results);
@@ -129,9 +130,20 @@ $(document).ready(function () {
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
-        var enParams = param + enQuery + '&'
+        var enParams = param + enQuery + '&';
 
         searchController(enParams);
+    }
+
+
+    var renderLoader = function (e) {
+        var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+
+        if (e) {
+            $('#recipes_view').append(loader);
+        } else {
+            $('.preloader').remove();
+        }
     }
 
 

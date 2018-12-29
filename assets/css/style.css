@@ -53,6 +53,13 @@ img {
     display: inline-block;
 }
 
+.preloader {
+    height: 130px;
+}
+
+
+
+/* class to create fade effect */
 .fadeIn {
     animation-name: fadeIn;
     animation-duration: 0.6s;
