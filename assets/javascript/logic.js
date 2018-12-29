@@ -173,14 +173,14 @@ $(document).ready(function () {
 
             recipe.getRecipe()
 
-                .done(function () { 
+                .done(function () {
 
                     renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
 
                 })
 
         }
-    }
+    };
 
 
 
@@ -243,7 +243,7 @@ $(document).ready(function () {
     var renderRecipeModal = function (img, name, ing) {
 
         var modal = document.querySelector('#recipe_modal');
-        
+
         var recipeName = $("<h4>" + name + "</h4>");
         var recipeImg = $('<img>').attr('src', img);
         var ingredients = $("<p>").text(ing);
@@ -265,6 +265,15 @@ $(document).ready(function () {
         instance.open();
 
     }
+
+
+
+
+
+
+    // var renderFilters = function () {
+    //     var filterTabs = 
+    // }
 
 
 
@@ -294,13 +303,30 @@ $(document).ready(function () {
     });
 
 
+    // Search Keypress Listenerr
+    $('#search_form').keypress((e) => {
+
+        var query = $('#textarea1');
+
+        if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            encodeSearch('q=', query);
+            $('#textarea1').val('');
+        }
+    });
 
 
 
 
-
-
-
+    // Search 
+    $("#textarea1").on({
+        focus: function () {
+            $('#filters').slideDown('slow');
+        },
+        blur: function () {
+            $('#filters').slideUp('slow');
+        }
+    });
 
 
 

@@ -55,22 +55,41 @@
 
 
     <div class="row">
-      <form class="col s12">
+      <form class="col s12" id="search_form">
         <div class="row">
           <!-- Search instructions -->
           <span class="black-text">Search here to find recipes.
           </span>
           <div class="input-field col s12">
             <textarea id="textarea1" class="materialize-textarea"></textarea>
-            <label for="textarea1">Search</label>
+            <label id="search_label" for="textarea1">Search</label>
           </div>
         </div>
+        <button class="btn waves-effect waves-light submit" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
       </form>
-      <button class="btn waves-effect waves-light submit" type="submit" name="action">Submit
+      <!-- <button class="btn waves-effect waves-light submit" type="submit" name="action">Submit
         <i class="material-icons right">send</i>
-      </button>
+      </button> -->
     </div>
 
+
+    <!-- Tabs -->
+    <div class="row" id="filters">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#test1">Test 1</a></li>
+          <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
+          <li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>
+          <li class="tab col s3"><a href="#test4">Test 4</a></li>
+        </ul>
+      </div>
+      <div id="test1" class="col s12">Test 1</div>
+      <div id="test2" class="col s12">Test 2</div>
+      <div id="test3" class="col s12">Test 3</div>
+      <div id="test4" class="col s12">Test 4</div>
+    </div>
 
     <!-- Total Matched Recipes -->
     <div class="num_results">
@@ -90,10 +109,11 @@
         <h4 id="recipeid_name"></h4>
         <p></p>
       </div>
-      <div class="modal-footer">
+      <div class="modal-header">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
       </div>
     </div>
+
 
 
 
