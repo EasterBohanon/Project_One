@@ -53,3 +53,19 @@ img {
     display: inline-block;
 }
 
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: 0.6s;
+    animation-timing-function: ease-in;
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

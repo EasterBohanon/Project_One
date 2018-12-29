@@ -20,8 +20,6 @@ $(document).ready(function () {
     var appID = '992846dd' // Chris's Yummly API ID
     var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
-    // var search;
-
 
 
     /***
@@ -50,14 +48,14 @@ $(document).ready(function () {
                     var img;
 
                     // change to large image URL
-                    if (arr[i].smallImageUrls[0] !== -1) {
+                    if (arr[i].hasOwnProperty('smallImageUrls')) {
                         largeImg = arr[i].smallImageUrls[0].replace('=s90', '=l90');
                         html = `<img src="${largeImg}">`;
                         arr[i].smallImageUrls[0] = html;
-                    } else if (arr[i].imageUrlsBySize['90']) {
+                    } else if (arr[i].hasOwnProperty('imageUrlsBySize')) {
                         img = arr[i].imageUrlsBySize['90'];
                         largeImg = img.replace('=s90', '=l90');
-                        arr[i].imageUrlsBySize['90'].largeImg;
+                        arr[i].imageUrlsBySize['90'] = largeImg;
                     }
                 }
                 // Assign results property as array of recipes
@@ -75,29 +73,32 @@ $(document).ready(function () {
         // 1) Assign new search object
         search = new Search(query);
 
+
         // 2) Prepare UI for recipes
         $('#recipes_view').empty()
 
         // Add preloader gif
 
-        // 3) 
+        // 3) Call getResult method in order to return API response consisting of recipes based on the search query
         search.getResult(query)
+
 
             // If API request successful
             .done(function () {
+                console.log(search);
                 console.log(search.results);
 
                 // 4) Render results to UI
                 renderResults(search.results);
 
                 // Add a method to create pagination buttons
-                // https://materializecss.com/pagination.html
+                // 
 
             })
 
             // If API returns error
             .fail(function (error) {
-                console.log(error)
+                console.log(error);
             });
     };
 
@@ -105,25 +106,21 @@ $(document).ready(function () {
 
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
-        // var name = `<div class="recipe_name">${recipes.recipeName}</div>`
-
 
         recipes.forEach(function (el) {
-            // var name = $("<div class='recipe_name'>" + el.recipeName + "</div>");
-            var name = $("<div class='recipe_" + el.recipeName + "'>" + el.recipeName + "<br>" + "</div>");
+
+            var name = $("<div class='fadeIn recipe_" + el.recipeName + "'>" + el.recipeName + "<br>" + "</div>");
             var largeImg;
-            if (el.smallImageUrls[0] !== -1) {
-                name.append(el.smallImageUrls[0])
+
+            if (el.hasOwnProperty('smallImageUrls')) {
+                name.append(el.smallImageUrls[0]);
                 $('#recipes_view').append(name);
-            } else {
-            
-                largeImg = $('<img>').attr('src', imageUrlsBySize['90'])
-                name.append(largeImg)
+            } else if (el.hasOwnProperty('imageUrlsBySize')) {
+                largeImg = $('<img>').attr('src', el.imageUrlsBySize['90']);
+                name.append(largeImg);
                 $('#recipes_view').append(name);
             }
-            // el[0];
-            // name.append(recipeImg);
-        })
+        });
     };
 
 
