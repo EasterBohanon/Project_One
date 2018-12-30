@@ -1,9 +1,9 @@
 $(document).ready(function () {
 
-    /********************************* Global Variables *****************************/
+    /***************************** Global Variables / Initializations *************************/
 
     // Initialize database
-    // Firebase 
+    // Firebase
     var config = {
         apiKey: "AIzaSyDcivjtLR1cf14Z7z1EiGaIThJ4qwWZKMQ",
         authDomain: "healthapp-fc0e3.firebaseapp.com",
@@ -15,7 +15,19 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
 
-    // Global variables
+    // Initialize filter tabs
+    var filterTabs = document.querySelector('.tabs');
+    var instance = M.Tabs.init(filterTabs, {
+        onShow: function () {
+            // var id = $(this)[0].$content.attr('id')
+            // $('#' + id).addClass('slideUptab');
+        }
+    });
+
+    // Initialize side navbar
+    $('.sidenav').sidenav();
+
+
     var search = {};
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
@@ -84,7 +96,6 @@ $(document).ready(function () {
 
 
 
-
     // Class to create an object containing a certain recipe
     class Recipe {
         constructor(id) {
@@ -118,7 +129,7 @@ $(document).ready(function () {
 
 
 
-    /********************************** Global APP Controllers *******************************/
+    /******************************* Global APP Controllers *****************************/
 
     // Controls all searching tasks
     const searchController = function (query) {
@@ -133,21 +144,19 @@ $(document).ready(function () {
         // Render the preloader
         renderLoader(true);
 
-        // 3) Call getResult method in order to return API response consisting of recipes based on the search query
+        // 3) Call getResult method to return API response consisting of recipes
         search.getResult(query)
-
 
             // If API request successful
             .done(function () {
                 console.log(search);
                 console.log(search.results);
 
-                // Remove preloader
-                renderLoader(false);
-
                 // 4) Render results to UI
+                renderLoader(false);
                 renderTotalMatches(search.totalMatchCount);
                 renderResults(search.results);
+
 
                 // Add a method to create pagination buttons
                 // 
@@ -164,23 +173,33 @@ $(document).ready(function () {
 
 
 
+    // Controls all recipe tasks
     const recipeController = function (id) {
 
         if (id) {
 
+            // Create new Recipe object
             recipe = new Recipe(id);
             $('.recipe_content').empty();
 
+            // Call getRecipe method to call API request
             recipe.getRecipe()
 
                 .done(function () {
 
+                    // Render recipe and open modal
                     renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
 
                 })
 
+                .fail(function (error) {
+                    var tag = $('<h4>');
+                    tag.text('Sorry, something went wrong.');
+                    $('#recipes_view').append(tag);
+                });
         }
     };
+
 
 
 
@@ -191,9 +210,7 @@ $(document).ready(function () {
 
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
-
-        // Displays total matched recipes
-        $('#num_results').text(search.totalMatchCount);
+        var results = $("<div class='fadeIn'>");
 
         recipes.forEach(function (el) {
             var img;
@@ -207,22 +224,60 @@ $(document).ready(function () {
             }
 
             name.append(img);
-            $('#recipes_view').append(name);
+            results.append(name);
         });
+
+        // Displays total matched recipes
+        $('#num_results').text(search.totalMatchCount);
+        $('#recipes_view').append(results);
+
     };
 
 
     // Renders total amount of matches depending on search
     var renderTotalMatches = function (total) {
-        el = $("<p>Total Suggested Recipe: " + total + "</p>");
+        el = $("<p>Total Suggested Recipes: " + total + "</p>");
         $('.num_results').append(el);
     };
+
+
+
+    // Still working on this 
+    var renderRecipeModal = function (img, name, ing) {
+
+        var modal = document.querySelector('#recipe_modal');
+
+        var recipeName = $("<h4>" + name + "</h4>");
+        var recipeImg = $('<img>').attr({
+            src: img,
+            alt: name
+        });
+
+        var ingredients = $("<p>").text(ing);
+
+        recipeName.append(recipeImg).append(ingredients);
+
+        var instance = M.Modal.init(modal, {
+            onOpenStart: function () {
+                $('.recipe_content').append(recipeName);
+            },
+            onCloseEnd: function () {
+                $('.recipe_content').empty();
+            },
+            dismissible: false,
+            startingTop: '70%',
+            endingTop: '60%'
+        });
+
+        instance.open();
+
+    };
+
 
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
         var enParams = param + enQuery + '&';
-
         searchController(enParams);
     };
 
@@ -239,49 +294,13 @@ $(document).ready(function () {
 
 
 
-    // Stil working on this 
-    var renderRecipeModal = function (img, name, ing) {
-
-        var modal = document.querySelector('#recipe_modal');
-
-        var recipeName = $("<h4>" + name + "</h4>");
-        var recipeImg = $('<img>').attr('src', img);
-        var ingredients = $("<p>").text(ing);
-
-        recipeName.append(recipeImg).append(ingredients);
-
-        var instance = M.Modal.init(modal, {
-            onOpenStart: function () {
-                $('.recipe_content').append(recipeName);
-            },
-            onCloseEnd: function () {
-                $('.recipe_content').empty();
-            },
-            dismissible: false,
-            startingTop: '10%',
-            endingTop: '30%'
-        });
-
-        instance.open();
-
-    }
 
 
 
 
 
 
-    // var renderFilters = function () {
-    //     var filterTabs = 
-    // }
-
-
-
-
-
-
-
-    /************************************** Event Listeners ********************************/
+    /************************************ Event Listeners ********************************/
 
     // Search submit button listener
     $('.submit').on('click', function (e) {
@@ -293,6 +312,7 @@ $(document).ready(function () {
         }
 
         $('#textarea1').val('');
+        // $('#filters').slideUp('slow');
     });
 
 
@@ -302,47 +322,66 @@ $(document).ready(function () {
         recipeController(id);
     });
 
-    // Sidenav button event listener
-    document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, options);
+
+    // Search Keypress Listener
+    $('#search_form').keypress((e) => {
+        var query = $('#textarea1').val();
+        if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            if (query.length >= 2) {
+                encodeSearch('q=', query);
+                $('#textarea1').val('');
+                // $('#filters').slideUp();
+            }
+        }
     });
+
+
+    // Search field listener for when a user clicks on search field or not, slides filters down
+    $("#textarea1").on({
+        focus: function () {
+            $('#filters').slideDown('435');
+        },
+        blur: function () {
+            hideOnClickOutside('#filters')
+        }
+
+    });
+
+
+    // Function adds/removes click listener depending on if user clicks inside or outside filter area
+    var hideOnClickOutside = function (selector) {
+        const outsideClickListener = (event) => {
+            if (!$(event.target).closest(selector).length) {
+                if ($(selector).is(':visible')) {
+                    $(selector).slideUp('435');
+                    removeClickListener()
+                }
+            }
+        };
+        const removeClickListener = () => {
+            document.removeEventListener('click', outsideClickListener)
+        };
+        document.addEventListener('click', outsideClickListener)
+    };
+
+
+
+
+
+
+
+    // Sidenav button event listener
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     var elems = document.querySelectorAll('.sidenav');
+    //     var instances = M.Sidenav.init(elems, options);
+    // });
 
     // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
     // var collapsibleElem = document.querySelector('.collapsible');
     // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
 
 
-    // Or with jQuery
-
-    $(document).ready(function () {
-        $('.sidenav').sidenav();
-    });
-
-    // Search Keypress Listener
-    $('#search_form').keypress((e) => {
-        var query = $('#textarea1');
-        if (e.keyCode === 13 || e.which === 13) {
-            e.preventDefault();
-            encodeSearch('q=', query);
-            $('#textarea1').val('');
-            $('#textarea1').blur();
-        }
-    });
-
-
-    // Search field Listener for when a user clicks on search field or not, slides filters down or up
-    $("#textarea1").on({
-        focus: function () {
-            // $('#filters').css('display', 'block');
-            $('#filters').slideDown('slow');
-        },
-        blur: function () {
-
-            $('#filters').slideUp('slow');
-        }
-
-    });
 
 
 
@@ -354,10 +393,6 @@ $(document).ready(function () {
 
 
 
-
-
-
-    
 
 
     /****** IDEAS
