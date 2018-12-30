@@ -74,13 +74,15 @@
 
     <!-- Search -->
     <div class="row">
-      <form class="col s10">
+
+      <form class="col s10" id="search_form">
         <div class="row">
           <div class="input-field col s10">
             <i class="material-icons prefix">search</i>
             <textarea id="textarea1" class="materialize-textarea"></textarea>
-            <label for="textarea1">Search</label>
+            <label id="search_label" for="textarea1">Search</label>
           </div>
+
           <div class="col s2">
             <button id="submitButton" class="btn waves-effect waves-light submit" type="submit" name="action">Submit
               <i class="material-icons right">send</i>
@@ -91,9 +93,26 @@
   </div>
 
 
-  <!-- Total Matched Recipes -->
-  <div class="num_results">
-  </div>
+
+    <!-- Tabs -->
+    <div class="row" id="filters">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#test1">Test 1</a></li>
+          <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
+          <li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>
+          <li class="tab col s3"><a href="#test4">Test 4</a></li>
+        </ul>
+      </div>
+      <div id="test1" class="col s12">Test 1</div>
+      <div id="test2" class="col s12">Test 2</div>
+      <div id="test3" class="col s12">Test 3</div>
+      <div id="test4" class="col s12">Test 4</div>
+    </div>
+
+    <!-- Total Matched Recipes -->
+    <div class="num_results">
+    </div>
 
 
   <!-- Recipes -->
@@ -103,31 +122,33 @@
   </div>
 
 
-  <!-- Recipe Modal -->
-  <div id="recipe_modal" class="modal bottom-sheet">
-    <div class="modal-content recipe_content">
-      <h4 id="recipeid_name"></h4>
-      <p></p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+
+    <!-- Recipe Modal -->
+    <div id="recipe_modal" class="modal bottom-sheet">
+      <div class="modal-content recipe_content">
+        <h4 id="recipeid_name"></h4>
+        <p></p>
+      </div>
+      <div class="modal-header">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+      </div>
     </div>
   </div>
 
 
-
-  <!-- Pagination for results -->
-  <div class="row">
-    <div class="col s12">
-      <ul class="pagination center-align">
-        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-        <li class="active teal"><a href="#!">1</a></li>
-        <li class="waves-effect"><a href="#!">2</a></li>
-        <li class="waves-effect"><a href="#!">3</a></li>
-        <li class="waves-effect"><a href="#!">4</a></li>
-        <li class="waves-effect"><a href="#!">5</a></li>
-        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-      </ul>
+    <!-- Pagination for results -->
+    <div class="row">
+      <div class="col s12">
+        <ul class="pagination center-align">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active teal"><a href="#!">1</a></li>
+          <li class="waves-effect"><a href="#!">2</a></li>
+          <li class="waves-effect"><a href="#!">3</a></li>
+          <li class="waves-effect"><a href="#!">4</a></li>
+          <li class="waves-effect"><a href="#!">5</a></li>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+      </div>
     </div>
   </div>
 

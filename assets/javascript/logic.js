@@ -180,7 +180,7 @@ $(document).ready(function () {
                 })
 
         }
-    }
+    };
 
 
 
@@ -271,6 +271,15 @@ $(document).ready(function () {
 
 
 
+    // var renderFilters = function () {
+    //     var filterTabs = 
+    // }
+
+
+
+
+
+
 
     /************************************** Event Listeners ********************************/
 
@@ -287,7 +296,7 @@ $(document).ready(function () {
     });
 
 
-
+    // Click Listener for when a user clicks a recipe image to display recipe details
     $(document).on('click', '.recipe_result', function () {
         var id = $(this).attr('data-recipeid');
         recipeController(id);
@@ -303,10 +312,36 @@ $(document).ready(function () {
     // var collapsibleElem = document.querySelector('.collapsible');
     // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
 
+
     // Or with jQuery
 
     $(document).ready(function () {
         $('.sidenav').sidenav();
+    });
+
+    // Search Keypress Listener
+    $('#search_form').keypress((e) => {
+        var query = $('#textarea1');
+        if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            encodeSearch('q=', query);
+            $('#textarea1').val('');
+            $('#textarea1').blur();
+        }
+    });
+
+
+    // Search field Listener for when a user clicks on search field or not, slides filters down or up
+    $("#textarea1").on({
+        focus: function () {
+            // $('#filters').css('display', 'block');
+            $('#filters').slideDown('slow');
+        },
+        blur: function () {
+
+            $('#filters').slideUp('slow');
+        }
+
     });
 
 
@@ -322,6 +357,7 @@ $(document).ready(function () {
 
 
 
+    
 
 
     /****** IDEAS
