@@ -14,12 +14,8 @@ $(document).ready(function () {
     };
     firebase.initializeApp(config);
 
+
     // Initialize filter tabs
-    // var filterTabs = document.querySelector('.tabs');
-    // var fTabsInstance = M.Tabs.init(filterTabs);
-
-    // M.AutoInit();
-
     var filterTabs = document.querySelector('.tabs');
     var instance = M.Tabs.init(filterTabs, {
         onShow: function () {
@@ -27,7 +23,6 @@ $(document).ready(function () {
             // $('#' + id).addClass('slideUptab');
         }
     });
-
 
     // Global variables
     var search = {};
