@@ -54,7 +54,6 @@ html {
     margin: auto;
     display: inline-block;
     cursor: pointer;
-
 }
 
 .preloader {
@@ -68,6 +67,12 @@ html {
     animation-timing-function: ease-in;
 }
 
+.slideUptab {
+    animation-name: tabSlideUp;
+    animation-duration: .4s;
+    animation-timing-function: ease-in;
+}
+
 
 @keyframes fadeIn {
     0% {
@@ -76,5 +81,18 @@ html {
 
     100% {
         opacity: 1;
+    }
+}
+
+
+@keyframes tabSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

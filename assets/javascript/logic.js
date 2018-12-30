@@ -3,7 +3,7 @@ $(document).ready(function () {
     /********************************* Global Variables *****************************/
 
     // Initialize database
-    // Firebase 
+    // Firebase
     var config = {
         apiKey: "AIzaSyDcivjtLR1cf14Z7z1EiGaIThJ4qwWZKMQ",
         authDomain: "healthapp-fc0e3.firebaseapp.com",
@@ -13,6 +13,20 @@ $(document).ready(function () {
         messagingSenderId: "153355736177"
     };
     firebase.initializeApp(config);
+
+    // Initialize filter tabs
+    // var filterTabs = document.querySelector('.tabs');
+    // var fTabsInstance = M.Tabs.init(filterTabs);
+
+    // M.AutoInit();
+
+    var filterTabs = document.querySelector('.tabs');
+    var instance = M.Tabs.init(filterTabs, {
+        onShow: function () {
+            // var id = $(this)[0].$content.attr('id')
+            // $('#' + id).addClass('slideUptab');
+        }
+    });
 
 
     // Global variables
@@ -165,6 +179,8 @@ $(document).ready(function () {
 
 
 
+
+
     // Controls all recipe tasks
     const recipeController = function (id) {
 
@@ -194,7 +210,7 @@ $(document).ready(function () {
 
 
 
-    
+
 
 
     /********************************** UI / View Functions ******************************/
@@ -355,7 +371,15 @@ $(document).ready(function () {
     }
 
 
+    // $(document).on('click', '.filter_tab', function () {
+    //     var filterTabs = document.querySelector('.tabs');
+    //     // var tabInstance = M.Tabs.init(filterTabs);
+    //     // var instance = M.Tabs.getInstance(filterTabs);
+    //     // var tab = $(this).attr('data-tab');
+    //     // instance.select(tab);
 
+    //     // tabInstance.select(tab);
+    // })
 
 
 
