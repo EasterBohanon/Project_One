@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    /********************************* Global Variables *****************************/
+    /***************************** Global Variables / Initializations *************************/
 
     // Initialize database
     // Firebase
@@ -28,7 +28,6 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
 
 
-    // Global variables
     var search = {};
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
@@ -97,7 +96,6 @@ $(document).ready(function () {
 
 
 
-
     // Class to create an object containing a certain recipe
     class Recipe {
         constructor(id) {
@@ -146,19 +144,16 @@ $(document).ready(function () {
         // Render the preloader
         renderLoader(true);
 
-        // 3) Call getResult method in order to return API response consisting of recipes based on the search query
+        // 3) Call getResult method to return API response consisting of recipes
         search.getResult(query)
-
 
             // If API request successful
             .done(function () {
                 console.log(search);
                 console.log(search.results);
 
-                // Remove preloader
-                renderLoader(false);
-
                 // 4) Render results to UI
+                renderLoader(false);
                 renderTotalMatches(search.totalMatchCount);
                 renderResults(search.results);
 
@@ -178,19 +173,21 @@ $(document).ready(function () {
 
 
 
-
     // Controls all recipe tasks
     const recipeController = function (id) {
 
         if (id) {
 
+            // Create new Recipe object
             recipe = new Recipe(id);
             $('.recipe_content').empty();
 
+            // Call getRecipe method to call API request
             recipe.getRecipe()
 
                 .done(function () {
 
+                    // Render recipe and open modal
                     renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
 
                 })
@@ -200,7 +197,6 @@ $(document).ready(function () {
                     tag.text('Sorry, something went wrong.');
                     $('#recipes_view').append(tag);
                 });
-
         }
     };
 
@@ -246,12 +242,10 @@ $(document).ready(function () {
 
 
 
-    // Stil working on this 
+    // Still working on this 
     var renderRecipeModal = function (img, name, ing) {
 
         var modal = document.querySelector('#recipe_modal');
-
-        // $('.materialboxed').materialbox();
 
         var recipeName = $("<h4>" + name + "</h4>");
         var recipeImg = $('<img>').attr({
@@ -284,7 +278,6 @@ $(document).ready(function () {
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
         var enParams = param + enQuery + '&';
-
         searchController(enParams);
     };
 
@@ -307,7 +300,7 @@ $(document).ready(function () {
 
 
 
-    /************************************** Event Listeners ********************************/
+    /************************************ Event Listeners ********************************/
 
     // Search submit button listener
     $('.submit').on('click', function (e) {
@@ -330,7 +323,6 @@ $(document).ready(function () {
     });
 
 
-
     // Search Keypress Listener
     $('#search_form').keypress((e) => {
         var query = $('#textarea1').val();
@@ -348,7 +340,7 @@ $(document).ready(function () {
     // Search field listener for when a user clicks on search field or not, slides filters down
     $("#textarea1").on({
         focus: function () {
-            $('#filters').slideDown('425');
+            $('#filters').slideDown('435');
         },
         blur: function () {
             hideOnClickOutside('#filters')
@@ -357,23 +349,21 @@ $(document).ready(function () {
     });
 
 
-    // Function adds / removes click listener depending on if user clicks inside or outside filter area
+    // Function adds/removes click listener depending on if user clicks inside or outside filter area
     var hideOnClickOutside = function (selector) {
         const outsideClickListener = (event) => {
             if (!$(event.target).closest(selector).length) {
                 if ($(selector).is(':visible')) {
-                    $(selector).slideUp('425');
+                    $(selector).slideUp('435');
                     removeClickListener()
                 }
             }
-        }
-
+        };
         const removeClickListener = () => {
             document.removeEventListener('click', outsideClickListener)
-        }
-
+        };
         document.addEventListener('click', outsideClickListener)
-    }
+    };
 
 
 

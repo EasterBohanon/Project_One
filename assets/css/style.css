@@ -33,6 +33,7 @@ html {
 /* All Below is for testing
 ***************/
 
+
 #filters {
     display: none;
 }
@@ -47,7 +48,6 @@ html {
 }
 
 .recipe_result {
-
     margin: auto;
     display: inline-block;
 }
@@ -71,13 +71,20 @@ html {
     animation-timing-function: ease-in;
 }
 
+#filters {
+    margin-bottom: 40px;
+}
+
 .slideUpTab {
     animation-name: tabSlideUp;
     animation-duration: .35s;
     animation-timing-function: ease-in;
 }
 
-#diets_tab .row {
+#diets_tab .row,
+#nutrition_tab .row,
+#allergies_tab .row,
+#ingredients_tab .row {
     margin-top: 30px;
     padding-left: 15px;
 }
