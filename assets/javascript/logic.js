@@ -149,6 +149,7 @@ $(document).ready(function () {
                 renderTotalMatches(search.totalMatchCount);
                 renderResults(search.results);
 
+
                 // Add a method to create pagination buttons
                 // 
 
@@ -193,16 +194,14 @@ $(document).ready(function () {
 
 
 
+    
+
 
     /********************************** UI / View Functions ******************************/
 
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
-
-        var results = $('<div>');
-
-        // Displays total matched recipes
-        $('#num_results').text(search.totalMatchCount);
+        var results = $("<div class='fadeIn'>");
 
         recipes.forEach(function (el) {
             var img;
@@ -219,9 +218,11 @@ $(document).ready(function () {
             results.append(name);
         });
 
+        // Displays total matched recipes
+        $('#num_results').text(search.totalMatchCount);
         $('#recipes_view').append(results);
-    };
 
+    };
 
 
     // Renders total amount of matches depending on search
@@ -252,13 +253,12 @@ $(document).ready(function () {
             },
             dismissible: false,
             startingTop: '10%',
-            endingTop: '10%'
+            endingTop: '30%'
         });
 
         instance.open();
 
     };
-
 
 
     // Prevents white space in URL
@@ -300,6 +300,7 @@ $(document).ready(function () {
         }
 
         $('#textarea1').val('');
+        // $('#filters').slideUp('slow');
     });
 
 
@@ -315,22 +316,43 @@ $(document).ready(function () {
         var query = $('#textarea1').val();
         if (e.keyCode === 13 || e.which === 13) {
             e.preventDefault();
-            encodeSearch('q=', query);
-            $('#textarea1').val('');
-            $('#textarea1').blur();
+            if (query.length >= 2) {
+                encodeSearch('q=', query);
+                $('#textarea1').val('');
+                // $('#filters').slideUp();
+            }
         }
     });
 
 
-    // Search field listener for when a user clicks on search field or not, slides filters down or up
+    // Search field listener for when a user clicks on search field or not, slides filters down
     $("#textarea1").on({
         focus: function () {
             $('#filters').slideDown('slow');
         },
         blur: function () {
-            $('#filters').slideUp('slow');
+            hideOnClickOutside('#filters')
         }
     });
+
+
+    // Function adds / removes click listener depending on if user clicks inside or outside filter area
+    var hideOnClickOutside = function (selector) {
+        const outsideClickListener = (event) => {
+            if (!$(event.target).closest(selector).length) {
+                if ($(selector).is(':visible')) {
+                    $(selector).slideUp('slow');
+                    removeClickListener()
+                }
+            }
+        }
+
+        const removeClickListener = () => {
+            document.removeEventListener('click', outsideClickListener)
+        }
+
+        document.addEventListener('click', outsideClickListener)
+    }
 
 
 
