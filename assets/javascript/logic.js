@@ -180,7 +180,6 @@ $(document).ready(function () {
 
 
 
-
     // Controls all recipe tasks
     const recipeController = function (id) {
 
@@ -205,7 +204,6 @@ $(document).ready(function () {
 
         }
     };
-
 
 
 
@@ -344,7 +342,7 @@ $(document).ready(function () {
     // Search field listener for when a user clicks on search field or not, slides filters down
     $("#textarea1").on({
         focus: function () {
-            $('#filters').slideDown('slow');
+            $('#filters').slideDown('425');
         },
         blur: function () {
             hideOnClickOutside('#filters')
@@ -357,7 +355,7 @@ $(document).ready(function () {
         const outsideClickListener = (event) => {
             if (!$(event.target).closest(selector).length) {
                 if ($(selector).is(':visible')) {
-                    $(selector).slideUp('slow');
+                    $(selector).slideUp('425');
                     removeClickListener()
                 }
             }
@@ -371,15 +369,9 @@ $(document).ready(function () {
     }
 
 
-    // $(document).on('click', '.filter_tab', function () {
-    //     var filterTabs = document.querySelector('.tabs');
-    //     // var tabInstance = M.Tabs.init(filterTabs);
-    //     // var instance = M.Tabs.getInstance(filterTabs);
-    //     // var tab = $(this).attr('data-tab');
-    //     // instance.select(tab);
 
-    //     // tabInstance.select(tab);
-    // })
+
+
 
 
 

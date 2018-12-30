@@ -67,9 +67,9 @@ html {
     animation-timing-function: ease-in;
 }
 
-.slideUptab {
+.slideUpTab {
     animation-name: tabSlideUp;
-    animation-duration: .4s;
+    animation-duration: .35s;
     animation-timing-function: ease-in;
 }
 
