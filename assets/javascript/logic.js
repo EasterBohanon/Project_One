@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 
 
-    /********************************** Global APP Controllers *******************************/
+    /******************************* Global APP Controllers *****************************/
 
     // Controls all searching tasks
     const searchController = function (query) {
@@ -164,6 +164,7 @@ $(document).ready(function () {
 
 
 
+    // Controls all recipe tasks
     const recipeController = function (id) {
 
         if (id) {
@@ -179,6 +180,12 @@ $(document).ready(function () {
 
                 })
 
+                .fail(function (error) {
+                    var tag = $('<h4>');
+                    tag.text('Sorry, something went wrong.');
+                    $('#recipes_view').append(tag);
+                });
+
         }
     };
 
@@ -191,6 +198,8 @@ $(document).ready(function () {
 
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
+
+        var results = $('<div>');
 
         // Displays total matched recipes
         $('#num_results').text(search.totalMatchCount);
@@ -207,34 +216,18 @@ $(document).ready(function () {
             }
 
             name.append(img);
-            $('#recipes_view').append(name);
+            results.append(name);
         });
+
+        $('#recipes_view').append(results);
     };
+
 
 
     // Renders total amount of matches depending on search
     var renderTotalMatches = function (total) {
-        el = $("<p>Total Suggested Recipe: " + total + "</p>");
+        el = $("<p>Total Suggested Recipes: " + total + "</p>");
         $('.num_results').append(el);
-    };
-
-    // Prevents white space in URL
-    var encodeSearch = function (param, query) {
-        var enQuery = encodeURIComponent(query);
-        var enParams = param + enQuery + '&';
-
-        searchController(enParams);
-    };
-
-    // Renders preloader gif
-    var renderLoader = function (e) {
-        var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
-
-        if (e) {
-            $('#recipes_view').append(loader);
-        } else {
-            $('.preloader').remove();
-        }
     };
 
 
@@ -259,21 +252,35 @@ $(document).ready(function () {
             },
             dismissible: false,
             startingTop: '10%',
-            endingTop: '30%'
+            endingTop: '10%'
         });
 
         instance.open();
 
-    }
+    };
 
 
 
+    // Prevents white space in URL
+    var encodeSearch = function (param, query) {
+        var enQuery = encodeURIComponent(query);
+        var enParams = param + enQuery + '&';
+
+        searchController(enParams);
+    };
+
+    // Renders preloader gif
+    var renderLoader = function (e) {
+        var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+
+        if (e) {
+            $('#recipes_view').append(loader);
+        } else {
+            $('.preloader').remove();
+        }
+    };
 
 
-
-    // var renderFilters = function () {
-    //     var filterTabs = 
-    // }
 
 
 
@@ -305,7 +312,7 @@ $(document).ready(function () {
 
     // Search Keypress Listener
     $('#search_form').keypress((e) => {
-        var query = $('#textarea1');
+        var query = $('#textarea1').val();
         if (e.keyCode === 13 || e.which === 13) {
             e.preventDefault();
             encodeSearch('q=', query);
@@ -315,14 +322,12 @@ $(document).ready(function () {
     });
 
 
-    // Search field Listener for when a user clicks on search field or not, slides filters down or up
+    // Search field listener for when a user clicks on search field or not, slides filters down or up
     $("#textarea1").on({
         focus: function () {
-            // $('#filters').css('display', 'block');
             $('#filters').slideDown('slow');
         },
         blur: function () {
-
             $('#filters').slideUp('slow');
         }
     });
@@ -340,7 +345,7 @@ $(document).ready(function () {
 
 
 
-    
+
 
 
     /****** IDEAS
