@@ -24,6 +24,10 @@ $(document).ready(function () {
         }
     });
 
+    // Initialize side navbar
+    $('.sidenav').sidenav();
+
+
     // Global variables
     var search = {};
     var recipe = {};
@@ -247,8 +251,14 @@ $(document).ready(function () {
 
         var modal = document.querySelector('#recipe_modal');
 
+        // $('.materialboxed').materialbox();
+
         var recipeName = $("<h4>" + name + "</h4>");
-        var recipeImg = $('<img>').attr('src', img);
+        var recipeImg = $('<img>').attr({
+            src: img,
+            alt: name
+        });
+
         var ingredients = $("<p>").text(ing);
 
         recipeName.append(recipeImg).append(ingredients);
@@ -261,8 +271,8 @@ $(document).ready(function () {
                 $('.recipe_content').empty();
             },
             dismissible: false,
-            startingTop: '10%',
-            endingTop: '30%'
+            startingTop: '70%',
+            endingTop: '60%'
         });
 
         instance.open();
@@ -319,22 +329,7 @@ $(document).ready(function () {
         recipeController(id);
     });
 
-    // Sidenav button event listener
-    document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, options);
-    });
 
-    // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
-    // var collapsibleElem = document.querySelector('.collapsible');
-    // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
-
-
-    // Or with jQuery
-
-    $(document).ready(function () {
-        $('.sidenav').sidenav();
-    });
 
     // Search Keypress Listener
     $('#search_form').keypress((e) => {
@@ -383,6 +378,18 @@ $(document).ready(function () {
 
 
 
+
+
+
+    // Sidenav button event listener
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     var elems = document.querySelectorAll('.sidenav');
+    //     var instances = M.Sidenav.init(elems, options);
+    // });
+
+    // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
+    // var collapsibleElem = document.querySelector('.collapsible');
+    // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
 
 
 

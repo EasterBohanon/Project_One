@@ -77,6 +77,11 @@ html {
     animation-timing-function: ease-in;
 }
 
+#diets_tab .row {
+    margin-top: 30px;
+    padding-left: 15px;
+}
+
 
 @keyframes fadeIn {
     0% {
