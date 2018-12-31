@@ -16,8 +16,8 @@ $(document).ready(function () {
 
     // Global variables
     var search = {};
-    var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
-    var appID = '992846dd' // Chris's Yummly API ID
+    var key = '4d7d57aa09b888bc12e36f57b76129bc'; // Chris's Yummly API key
+    var appID = 'fa6a5b04' // Aimes' Yummly API ID
     var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
     // var search;
@@ -75,18 +75,11 @@ $(document).ready(function () {
         // 1) Assign new search object
         search = new Search(query);
 
-<<<<<<< HEAD
         // 2) Prepare UI for recipes
         $('#recipes_view').empty()
-=======
-      //on click of user recipie submit button
-      $(document).ready(function(){
-        $('select').formSelect();
->>>>>>> just pushing code so I can pull new code from test, nothing worth keeping that I coded
 
         // Add preloader gif
 
-<<<<<<< HEAD
         // 3) 
         search.getResult(query)
 
@@ -154,6 +147,7 @@ $(document).ready(function () {
             encodeSearch('q=', query);
         }
         $('#textarea1').val('')
+        console.log(submit);
 
     })
 
@@ -239,19 +233,6 @@ $(document).ready(function () {
     //     },
     //     minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
     // });
-=======
-        console.log("This is the recipie search button");
-        
-
-
-        // //Perform Ajax Call
-        // $.ajax({
-        //     url: "http://api.yummly.com/v1/api/recipes?_app_id=fa6a5b04$_app_key=4d7d57aa09b888bc12e36f57b76129bc&" + input,
-        //     method: "GET"
-        // }).then(function(response){
-
-        //     var results = response.data;
->>>>>>> just pushing code so I can pull new code from test, nothing worth keeping that I coded
 
         // })
 
@@ -277,4 +258,4 @@ $(document).ready(function () {
     //         }
     //     });
     // });
-});
+// });
