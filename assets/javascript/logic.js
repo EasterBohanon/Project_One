@@ -28,6 +28,7 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
 
 
+    // Global Variables
     var search = {};
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
@@ -101,7 +102,6 @@ $(document).ready(function () {
 
 
 
-
     // Class to create an object containing a certain recipe
     class Recipe {
         constructor(id) {
@@ -128,7 +128,7 @@ $(document).ready(function () {
                 this.rating = response.rating;
 
             }.bind(this));
-        }
+        };
     };
 
 
@@ -168,9 +168,7 @@ $(document).ready(function () {
                 renderResults(search.results);
 
 
-
                 // Add a method to create pagination buttons
-                // 
 
             })
 
@@ -181,7 +179,6 @@ $(document).ready(function () {
                 $('#recipes_view').append(tag);
             });
     };
-
 
 
     // Controls all recipe tasks
@@ -208,7 +205,7 @@ $(document).ready(function () {
                     displayNoResults();
 
                     // Remove the search parameter from total search query
-                    searchQuery = searchQuery.replace(newSearch, '');
+                    searchQuery = searchQuery.replace(newQuery, '');
                 });
         }
     };
@@ -221,8 +218,8 @@ $(document).ready(function () {
         // If this filter is a newly added filter
         if (status) {
 
-            // Assign filter to variable newSearch in case search fails
-            newSearch = filter;
+            // Assign filter to variable newQuery in case search fails
+            newQuery = filter;
 
             // Combine with current search query
             searchQuery += filter;
@@ -270,7 +267,6 @@ $(document).ready(function () {
         // Displays total matched recipes
         $('#num_results').text(search.totalMatchCount);
         $('#recipes_view').append(results);
-
     };
 
 
@@ -279,7 +275,6 @@ $(document).ready(function () {
         el = $("<p>Total Suggested Recipes: " + total + "</p>");
         $('.num_results').append(el);
     };
-
 
 
     // Still working on this 
@@ -310,7 +305,6 @@ $(document).ready(function () {
         });
 
         instance.open();
-
     };
 
 
@@ -332,12 +326,12 @@ $(document).ready(function () {
         }
     };
 
-
+    // Displays on UI that no recipe results were found
     var displayNoResults = function () {
         var tag = $('<h4>');
         tag.text('Sorry, no recipes found.');
         $('#recipes_view').append(tag);
-    }
+    };
 
 
 
@@ -410,8 +404,6 @@ $(document).ready(function () {
         };
         document.addEventListener('click', outsideClickListener);
     };
-
-
 
 
     // Check box listener to determine if a certain checkbox is selected or not
