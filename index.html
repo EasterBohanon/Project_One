@@ -17,14 +17,16 @@
 
 <body>
   <!-- Navbar -->
-  <nav>
-    <div class="nav-wrapper teal">
-      <a href="#" class="brand-logo teal">Health App</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down teal">
-        <li><a href="#">Link 1</a></li>
-        <li><a href="#">Link 2</a></li>
-        <li><a href="#">Link 3</a></li>
-      </ul>
+  <nav id="navbar">
+    <div class="nav-wrapper" id="navbar">
+      <a href="#!" class="brand-logo"><i class="material-icons"><img id="ourlogo" src="assets/images/logoMock.png" alt="logo" width="80px" height="80px"></i>Eat
+        without a Fear</a>
+      <a href="#" class="brand-logo teal">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="#">Link 1</a></li>
+          <li><a href="#">Link 2</a></li>
+          <li><a href="#">Link 3</a></li>
+        </ul>
     </div>
   </nav>
   <br>
@@ -54,13 +56,13 @@
 
 
 
-    <div class="row">
+    <div class="row" id="addSearchImage">
       <form class="col s12">
         <div class="row">
           <!-- Search instructions -->
-          <span class="black-text">Search here to find recipes.
+          <span class="black-text" id="searchpictext">Search here to find recipes.
           </span>
-          <div class="input-field col s12">
+          <div class="input-field col s12" id="actualSearchBar">
             <textarea id="textarea1" class="materialize-textarea"></textarea>
             <label for="textarea1">Search</label>
           </div>

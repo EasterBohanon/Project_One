@@ -2,6 +2,25 @@ html {
     box-sizing: border-box;
 }
 
+#navbar {
+    background-color: #112e41;
+
+
+}
+
+#addSearchImage {
+    background-image: url("../images/searchimage1.jpg");
+    background-size: 100%; 
+}
+
+#textarea1 {
+    background-color: white;
+    opacity: .40;
+    
+}
+
+
+
 
 
 
