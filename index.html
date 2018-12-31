@@ -110,13 +110,34 @@
           <li class="tab col s3"><a href="#nutrition_tab">Nutrition</a></li>
         </ul>
       </div>
+
+      <!-- Might not use materialize's search inputs since it causes bugs with the tabs opening and closing-->
       <div id="ingredients_tab" class="col s12 slideUpTab">
         <div class="row">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
-          dicta eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit
-          iusto Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda
-          maxime dolores adipisci quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse
-          fugiat.
+          <div class="col s4 offset-s1">
+            <div class="row">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea"></textarea>
+                    <label for="textarea1">With Ingredients</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col s4 offset-s1">
+            <div class="row">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Without Ingredients</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
 
