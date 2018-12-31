@@ -16,19 +16,41 @@
 </head>
 
 <body>
-  <!-- Jumbotron/Header -->
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-wrapper teal">
+      <a href="#" class="brand-logo teal">Health App</a>
+      <!-- <ul id="nav-mobile" class="right hide-on-med-and-down teal">
+        <li><a href="#">Link 1</a></li>
+        <li><a href="#">Link 2</a></li>
+        <li><a href="#">Link 3</a></li>
+      </ul> -->
+    </div>
+  </nav>
+
+  <ul id="slide-out" class="sidenav">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="">
+        </div>
+        <a href="#user"><img class="circle" src=""></a>
+        <a href="#name"><span class="white-text name">John Doe</span></a>
+        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+      </div>
+    </li>
+    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+    <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+    <li>
+      <div class="divider"></div>
+    </li>
+    <!-- <li><a class="subheader">Subheader</a></li>
+      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
+  </ul>
+  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
 
 
-
-
-
-  <img src="" alt="">
-
-
-
-
-
-
+  <!-- <img src="" alt=""> -->
 
 
 
@@ -37,13 +59,10 @@
   <!-- If you will be changing the class / id / data-value / position / etc, 
   let us know in your code/chat or just change it in logic.js file -->
 
-  <div class="container">
 
-
-
-    <!-- Search Input Field -->
-    <!-- Designed to display autocomplete list of what a user enters into the search -->
-    <div class="row">
+  <!-- Search Input Field -->
+  <!-- Designed to display autocomplete list of what a user enters into the search -->
+  <!-- <div class="row">
       <div class="col s12">
         <div class="row">
           <div class="input-field col s12">
@@ -58,39 +77,193 @@
     </div> 
 
 
+  <div class="container">
 
-    <!-- <div class="row">
-      <form class="col s12">
+    <!-- Search Field -->
+    <div class="row" id="search_row">
+
+      <form class="col s10" id="search_form">
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s10">
+            <i class="material-icons prefix">search</i>
             <textarea id="textarea1" class="materialize-textarea"></textarea>
-            <label for="textarea1">Textarea</label>
+            <label id="search_label" for="textarea1">Search</label>
+          </div>
+
+          <div class="col s2">
+            <button id="submitButton" class="btn waves-effect waves-light submit" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+            </button>
           </div>
         </div>
       </form>
-      <button class="btn waves-effect waves-light submit" type="submit" name="action">Submit
-        <i class="material-icons right">send</i>
-      </button>
-    </div> -->
+    </div>
 
-    <div class="row">
-      <div class="col s12" id="recipes_view">
 
+
+
+    <!-- Tabs for Filters -->
+    <div class="row" id="filters">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#ingredients_tab">Ingredients</a></li>
+          <li class="tab col s3"><a href="#diets_tab">Diets</a></li>
+          <li class="tab col s3"><a href="#allergies_tab">Allergies</a></li>
+          <li class="tab col s3"><a href="#nutrition_tab">Nutrition</a></li>
+        </ul>
+      </div>
+      <div id="ingredients_tab" class="col s12 slideUpTab">
+        <div class="row">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
+          dicta eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit
+          iusto Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda
+          maxime dolores adipisci quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse
+          fugiat.
+        </div>
+      </div>
+
+      <!-- Diet Filters -->
+      <div id="diets_tab" class="col s12 slideUpTab">
+        <div class="row">
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="406^Ketogenic" />
+                <span>Ketogenic</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="388^Lacto vegetarian" />
+                <span>Lacto Vegetarian</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="389^Ovo vegetarian" />
+                <span>Ovo Vegetarian</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="390^Pescetarian" />
+                <span>Pescetarian</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="408^Low FODMAP" />
+                <span>Low FODMAP</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="386^Vegan" />
+                <span>Vegan</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="387^Lacto-ovo vegetarian" />
+                <span>Vegetarian</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="403^Paleo" />
+                <span>Paleo</span>
+              </label>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Allergies Filter -->
+      <div id="allergies_tab" class="col s12 slideUpTab">
+        <div class="row">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
+          dicta
+          eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit iusto
+          Lorem ipsum
+          dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda maxime dolores
+          adipisci
+          quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
+        </div>
+      </div>
+
+      <!-- Nutrition Filter -->
+      <div id="nutrition_tab" class="col s12 slideUpTab">
+        <div class="row">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
+          dicta
+          eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit iusto
+          Lorem ipsum
+          dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda maxime dolores
+          adipisci
+          quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
+        </div>
       </div>
     </div>
 
 
+
+
+    <!-- Total Matched Recipes -->
+    <div class="num_results">
+    </div>
+
+
+
+    <!-- Recipes -->
+    <div class="row">
+      <div class="col s12" id="recipes_view">
+      </div>
+    </div>
+
+
+
+    <!-- Recipe Modal -->
+    <div id="recipe_modal" class="modal bottom-sheet">
+      <div class="modal-content recipe_content">
+        <h4 id="recipeid_name"></h4>
+        <p></p>
+      </div>
+      <div class="modal-header">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+      </div>
+    </div>
+
+
+
+    <!-- Pagination for results -->
+    <div class="row">
+      <div class="col s12">
+        <ul class="pagination center-align">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active teal"><a href="#!">1</a></li>
+          <li class="waves-effect"><a href="#!">2</a></li>
+          <li class="waves-effect"><a href="#!">3</a></li>
+          <li class="waves-effect"><a href="#!">4</a></li>
+          <li class="waves-effect"><a href="#!">5</a></li>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 
 
-
-
-
-  <!-- Materialize JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- JavaScript -->
   <script src="assets/javascript/logic.js"></script>
 </body>
