@@ -37,6 +37,8 @@ $(document).ready(function () {
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/';
     var searchQuery = '';
     var newQuery = '';
+    var newIncIngredient = ''
+    var newExIngredient = ''
 
 
 
@@ -216,17 +218,18 @@ $(document).ready(function () {
             searchQuery += filter;
         } else {
 
+
             // If this filter is a newly added filter
             if (status) {
+                console.log(filter);
+                // Combine with current search query
+                searchQuery += filter;
 
-            // Combine with current search query
-            searchQuery += filter;
-
-            // If user removes filter
+                // If user removes filter
             } else if (!status) {
 
-            // Remove filter from search query
-            searchQuery = searchQuery.replace(filter, '');
+                // Remove filter from search query
+                searchQuery = searchQuery.replace(filter, '');
             }
         }
         // Begin new search
@@ -245,21 +248,24 @@ $(document).ready(function () {
     var renderResults = function (recipes) {
         var results = $("<div class='fadeIn'>");
 
-        recipes.forEach(function (el) {
-            var img;
-            var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+        if (search.totalMatchCount === 0) {
+            displayNoResults();
+        } else {
+            recipes.forEach(function (el) {
+                var img;
+                var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
 
 
-            if (el.hasOwnProperty('smallImageUrls')) {
-                img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
-            } else if (el.hasOwnProperty('imageUrlsBySize')) {
-                img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
-            }
+                if (el.hasOwnProperty('smallImageUrls')) {
+                    img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
+                } else if (el.hasOwnProperty('imageUrlsBySize')) {
+                    img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
+                }
 
-            name.append(img);
-            results.append(name);
-        });
-
+                name.append(img);
+                results.append(name);
+            });
+        }
         // Displays total matched recipes
         $('#num_results').text(search.totalMatchCount);
         $('#recipes_view').append(results);
@@ -307,7 +313,12 @@ $(document).ready(function () {
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
-        filterController(enQuery, param);
+
+        if (param == '&allowedIngredient%5B%5D=' || param == '&excludedIngredient%5B%5D=') {
+            filterController(enQuery, param, true);
+        } else if (param == '&q=') {
+            filterController(enQuery, param);
+        }
     };
 
     // Renders preloader gif
@@ -327,6 +338,10 @@ $(document).ready(function () {
         tag.text('Sorry, no recipes found.');
         $('#recipes_view').append(tag);
     };
+
+    var displayIngredientFilter = function () {
+
+    }
 
 
 
@@ -413,6 +428,36 @@ $(document).ready(function () {
             filterController(filterType, param, false);
         }
     });
+
+
+    // // Kepress listener for included ingredients search field
+    $('.ingredient_inc_form').keypress((e) => {
+        var ingredient = $('.ingredient_inc_field').val().trim();
+        if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            if (newIncIngredient.length > 1) {
+                newIncIngredient = ingredient.toLowerCase();
+                encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
+                $('.ingredient_inc_field').val('');
+            }
+        }
+    });
+
+
+    // Keypress listener for excluded ingredients search field
+    $('.ingredient_ex_form').keypress((e) => {
+        var ingredient = $('.ingredient_ex_field').val().trim();
+        if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            if (newExIngredient.length > 1) {
+                newExIngredient = ingredient.toLowerCase();
+                encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
+                $('.ingredient_ex_field').val('');
+            }
+        }
+    });
+
+
 
 
 
