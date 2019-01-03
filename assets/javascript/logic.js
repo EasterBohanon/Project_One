@@ -37,8 +37,8 @@ $(document).ready(function () {
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/';
     var searchQuery = '';
     var newQuery = '';
-    var newIncIngredient = ''
-    var newExIngredient = ''
+    var newIncIngredient = '';
+    var newExIngredient = '';
 
 
 
@@ -218,7 +218,6 @@ $(document).ready(function () {
             searchQuery += filter;
         } else {
 
-
             // If this filter is a newly added filter
             if (status) {
                 console.log(filter);
@@ -291,7 +290,6 @@ $(document).ready(function () {
         });
 
         var ingredients = $("<p>").text(ing);
-
         recipeName.append(recipeImg).append(ingredients);
 
         var instance = M.Modal.init(modal, {
@@ -315,6 +313,7 @@ $(document).ready(function () {
         var enQuery = encodeURIComponent(query);
 
         if (param == '&allowedIngredient%5B%5D=' || param == '&excludedIngredient%5B%5D=') {
+
             filterController(enQuery, param, true);
         } else if (param == '&q=') {
             filterController(enQuery, param);
@@ -340,8 +339,10 @@ $(document).ready(function () {
         $('#recipes_view').append(tag);
     };
 
-    var displayIngredientFilter = function (type, ingredient) {
-        var html = `<div class="ingredient_tag ingredient_${type}_del">${ingredient}<i class="close material-icons">close</i>`
+    // Displays ingredient filter tag inside ingredients filter
+    var displayIngredientFilter = function (type, ingredient, param) {
+        var enIngredient = encodeURIComponent(ingredient);
+        var html = `<div class="ingredient_tag ingredient_${type}_del" data-ingredient="${enIngredient}" data-ingparam="${param}">${ingredient}<i class="close material-icons ingredient_del">close</i>`
         var selector = `.ingredient_${type}_col`;
 
         $(selector).append(html);
@@ -398,7 +399,7 @@ $(document).ready(function () {
             $('#filters').slideDown('435');
         },
         blur: function () {
-            hideOnClickOutside('#filters')
+            hideOnClickOutside('#filters');
         }
     });
 
@@ -408,8 +409,12 @@ $(document).ready(function () {
         const outsideClickListener = (event) => {
             if (!$(event.target).closest(selector).length) {
                 if ($(selector).is(':visible')) {
-                    $(selector).slideUp('435');
-                    removeClickListener()
+                    if ($(event.target).hasClass('ingredient_del')) {
+                        event.stopPropagation();
+                    } else {
+                        $(selector).slideUp('435');
+                        removeClickListener();
+                    }
                 }
             }
         };
@@ -442,7 +447,7 @@ $(document).ready(function () {
             if (ingredient.length > 1) {
                 newIncIngredient = ingredient.toLowerCase();
                 encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
-                displayIngredientFilter('inc', newIncIngredient);
+                displayIngredientFilter('inc', newIncIngredient, '&allowedIngredient%5B%5D=');
                 $('.ingredient_inc_field').val('');
             }
         }
@@ -457,10 +462,20 @@ $(document).ready(function () {
             if (ingredient.length > 1) {
                 newExIngredient = ingredient.toLowerCase();
                 encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
-                displayIngredientFilter('ex', newExIngredient);
+                displayIngredientFilter('ex', newExIngredient, '&excludedIngredient%5B%5D=');
                 $('.ingredient_ex_field').val('');
             }
         }
+    });
+
+
+    // Click listener for when user removes a filtered ingredient
+    $(document).on('click', '.ingredient_del', function (e) {
+        var parentEl = $(this).parent();
+        var ingredient = parentEl.attr('data-ingredient');
+        var param = parentEl.attr('data-ingparam');
+        filterController(ingredient, param, false);
+        parentEl.remove();
     });
 
 
