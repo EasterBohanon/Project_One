@@ -336,12 +336,16 @@ $(document).ready(function () {
     var displayNoResults = function () {
         var tag = $('<h4>');
         tag.text('Sorry, no recipes found.');
+
         $('#recipes_view').append(tag);
     };
 
-    var displayIngredientFilter = function () {
+    var displayIngredientFilter = function (type, ingredient) {
+        var html = `<div class="ingredient_tag ingredient_${type}_del">${ingredient}<i class="close material-icons">close</i>`
+        var selector = `.ingredient_${type}_col`;
 
-    }
+        $(selector).append(html);
+    };
 
 
 
@@ -435,9 +439,10 @@ $(document).ready(function () {
         var ingredient = $('.ingredient_inc_field').val().trim();
         if (e.keyCode === 13 || e.which === 13) {
             e.preventDefault();
-            if (newIncIngredient.length > 1) {
+            if (ingredient.length > 1) {
                 newIncIngredient = ingredient.toLowerCase();
                 encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
+                displayIngredientFilter('inc', newIncIngredient);
                 $('.ingredient_inc_field').val('');
             }
         }
@@ -449,9 +454,10 @@ $(document).ready(function () {
         var ingredient = $('.ingredient_ex_field').val().trim();
         if (e.keyCode === 13 || e.which === 13) {
             e.preventDefault();
-            if (newExIngredient.length > 1) {
+            if (ingredient.length > 1) {
                 newExIngredient = ingredient.toLowerCase();
                 encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
+                displayIngredientFilter('ex', newExIngredient);
                 $('.ingredient_ex_field').val('');
             }
         }
