@@ -101,7 +101,6 @@ $(document).ready(function () {
 
 
 
-
     // Class to create an object containing a certain recipe
     class Recipe {
         constructor(id) {
@@ -137,13 +136,12 @@ $(document).ready(function () {
 
 
 
-
-
     /******************************* Global APP Controllers *****************************/
 
     // Controls all searching tasks
     const searchController = function (query) {
 
+        console.log(query);
         // 1) Assign new search object
         search = new Search(query);
 
@@ -174,9 +172,7 @@ $(document).ready(function () {
 
             // If API returns error
             .fail(function (error) {
-                var tag = $('<h4>');
-                tag.text('Sorry, something went wrong.');
-                $('#recipes_view').append(tag);
+                displayNoResults();
             });
     };
 
@@ -203,9 +199,6 @@ $(document).ready(function () {
                 // If search fails
                 .fail(function (error) {
                     displayNoResults();
-
-                    // Remove the search parameter from total search query
-                    searchQuery = searchQuery.replace(newQuery, '');
                 });
         }
     };
@@ -215,27 +208,30 @@ $(document).ready(function () {
     const filterController = function (type, param, status) {
         var filter = param + type;
 
-        // If this filter is a newly added filter
-        if (status) {
-
-            // Assign filter to variable newQuery in case search fails
+        if (param === '&q=' && newQuery.length > 0) {
+            searchQuery = searchQuery.replace(newQuery, filter);
             newQuery = filter;
+        } else if (param === '&q=') {
+            newQuery = filter;
+            searchQuery += filter;
+        } else {
+            // If this filter is a newly added filter
+            if (status) {
 
             // Combine with current search query
             searchQuery += filter;
 
             // If user removes filter
-        } else if (!status) {
+            } else if (!status) {
 
             // Remove filter from search query
             searchQuery = searchQuery.replace(filter, '');
+            }
         }
 
         // Begin new search
         searchController(searchQuery);
     };
-
-
 
 
 
@@ -311,8 +307,7 @@ $(document).ready(function () {
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
-        var enParams = '&' + param + enQuery;
-        searchController(enParams);
+        filterController(enQuery, param);
     };
 
     // Renders preloader gif
@@ -349,7 +344,7 @@ $(document).ready(function () {
         var query = $('#textarea1').val().trim();
 
         if (query.length > 1) {
-            encodeSearch('q=', query);
+            encodeSearch('&q=', query);
         }
 
         $('#textarea1').val('');
@@ -370,7 +365,7 @@ $(document).ready(function () {
         if (e.keyCode === 13 || e.which === 13) {
             e.preventDefault();
             if (query.length > 1) {
-                encodeSearch('q=', query);
+                encodeSearch('&q=', query);
                 $('#textarea1').val('');
                 // $('#filters').slideUp();
             }
