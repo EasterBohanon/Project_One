@@ -112,3 +112,63 @@ html {
         transform: translateY(0);
     }
 }
+
+
+/* Ingredient include/exclude search bars */
+.search-container {
+    width: 75%;
+    display: block;
+    margin: 0 auto;
+}
+
+#search-bar {
+    margin: 150px;
+}
+
+input#search-bar {
+    margin: 0 auto;
+    width: 100%;
+    height: 45px;
+    padding: 0 38px;
+    font-size: 1rem;
+    border: 1px solid #D0CFCE;
+    outline: none;
+    border-radius: 7px;
+}
+
+input#search-bar:focus {
+    border: 1px solid #008ABF;
+    transition: 0.35s ease;
+    color: #008ABF;
+}
+
+input#search-bar:focus::-webkit-input-placeholder {
+    transition: opacity 0.45s ease;
+    opacity: 0;
+}
+
+input#search-bar:focus::-moz-placeholder {
+    transition: opacity 0.45s ease;
+    opacity: 0;
+}
+
+input#search-bar:focus:-ms-placeholder {
+    transition: opacity 0.45s ease;
+    opacity: 0;
+}
+
+.add-icon {
+    position: relative;
+    float: right;
+    width: 75px;
+    height: 75px;
+    top: -35px;
+    right: -120px;
+}
+
+.search-icon {
+    position: relative;
+    top: 42px;
+    left: 8px;
+    width: 60px;
+}

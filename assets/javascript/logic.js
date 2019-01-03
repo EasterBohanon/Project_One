@@ -141,7 +141,6 @@ $(document).ready(function () {
     // Controls all searching tasks
     const searchController = function (query) {
 
-        console.log(query);
         // 1) Assign new search object
         search = new Search(query);
 
@@ -208,6 +207,7 @@ $(document).ready(function () {
     const filterController = function (type, param, status) {
         var filter = param + type;
 
+        // If this search is a query parameter search..
         if (param === '&q=' && newQuery.length > 0) {
             searchQuery = searchQuery.replace(newQuery, filter);
             newQuery = filter;
@@ -215,6 +215,7 @@ $(document).ready(function () {
             newQuery = filter;
             searchQuery += filter;
         } else {
+
             // If this filter is a newly added filter
             if (status) {
 
@@ -228,7 +229,6 @@ $(document).ready(function () {
             searchQuery = searchQuery.replace(filter, '');
             }
         }
-
         // Begin new search
         searchController(searchQuery);
     };

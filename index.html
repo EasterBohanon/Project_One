@@ -98,8 +98,6 @@
     </div>
 
 
-
-
     <!-- Tabs for Filters -->
     <div class="row" id="filters">
       <div class="col s12">
@@ -115,28 +113,18 @@
       <div id="ingredients_tab" class="col s12 slideUpTab">
         <div class="row">
           <div class="col s4 offset-s1">
-            <div class="row">
-              <form class="col s12">
-                <div class="row">
-                  <div class="input-field col s12">
-                    <textarea id="textarea1" class="materialize-textarea"></textarea>
-                    <label for="textarea1">With Ingredients</label>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <form class="search-container">
+              <i class="material-icons search-icon">search</i>
+              <input type="text" id="search-bar" placeholder="With Ingredients">
+              <i class="material-icons add-icon">add</i>
+            </form>
           </div>
           <div class="col s4 offset-s1">
-            <div class="row">
-              <form class="col s12">
-                <div class="row">
-                  <div class="input-field col s12">
-                    <textarea id="textarea1" class="materialize-textarea"></textarea>
-                    <label for="textarea1">Without Ingredients</label>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <form class="search-container">
+              <i class="material-icons search-icon">search</i>
+              <input type="text" id="search-bar" placeholder="Without Ingredients">
+              <i class="material-icons add-icon">add</i>
+            </form>
           </div>
         </div>
       </div>
