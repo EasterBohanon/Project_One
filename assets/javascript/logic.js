@@ -28,12 +28,17 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
 
 
+    // Global Variables
     var search = {};
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
     var appID = '992846dd' // Chris's Yummly API ID
     var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23';
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/';
+    var searchQuery = '';
+    var newQuery = '';
+
+
 
 
 
@@ -54,7 +59,7 @@ $(document).ready(function () {
         getResult() {
 
             // returns the GET request
-            return $.get(`${searchURL}&${this.query}requirePictures=true`, function (response) {
+            return $.get(`${searchURL}${this.query}&requirePictures=true`, function (response) {
 
                 var arr = response.matches;
 
@@ -96,13 +101,14 @@ $(document).ready(function () {
 
 
 
+
     // Class to create an object containing a certain recipe
     class Recipe {
         constructor(id) {
             this.id = id;
         }
 
-        // method to get the recipe API request
+        // Method to get the recipe API request
         getRecipe() {
 
             return $.get(`${recipeURL}${this.id}?_app_id=${appID}&_app_key=${key}`, function (response) {
@@ -112,6 +118,7 @@ $(document).ready(function () {
                 this.totalTime = response.totalTime;
                 this.images = response.images;
                 this.name = response.name;
+                this.yield = response.yield;
                 this.source = response.source;
                 this.ingredientLines = response.ingredientLines;
                 this.numberOfServings = response.numberOfServings;
@@ -121,8 +128,11 @@ $(document).ready(function () {
                 this.rating = response.rating;
 
             }.bind(this));
-        }
+        };
     };
+
+
+
 
 
 
@@ -159,7 +169,6 @@ $(document).ready(function () {
 
 
                 // Add a method to create pagination buttons
-                // 
 
             })
 
@@ -170,7 +179,6 @@ $(document).ready(function () {
                 $('#recipes_view').append(tag);
             });
     };
-
 
 
     // Controls all recipe tasks
@@ -192,13 +200,42 @@ $(document).ready(function () {
 
                 })
 
+                // If search fails
                 .fail(function (error) {
-                    var tag = $('<h4>');
-                    tag.text('Sorry, something went wrong.');
-                    $('#recipes_view').append(tag);
+                    displayNoResults();
+
+                    // Remove the search parameter from total search query
+                    searchQuery = searchQuery.replace(newQuery, '');
                 });
         }
     };
+
+
+    // Controls all search filter selections / removals
+    const filterController = function (type, param, status) {
+        var filter = param + type;
+
+        // If this filter is a newly added filter
+        if (status) {
+
+            // Assign filter to variable newQuery in case search fails
+            newQuery = filter;
+
+            // Combine with current search query
+            searchQuery += filter;
+
+            // If user removes filter
+        } else if (!status) {
+
+            // Remove filter from search query
+            searchQuery = searchQuery.replace(filter, '');
+        }
+
+        // Begin new search
+        searchController(searchQuery);
+    };
+
+
 
 
 
@@ -230,7 +267,6 @@ $(document).ready(function () {
         // Displays total matched recipes
         $('#num_results').text(search.totalMatchCount);
         $('#recipes_view').append(results);
-
     };
 
 
@@ -239,7 +275,6 @@ $(document).ready(function () {
         el = $("<p>Total Suggested Recipes: " + total + "</p>");
         $('.num_results').append(el);
     };
-
 
 
     // Still working on this 
@@ -270,14 +305,13 @@ $(document).ready(function () {
         });
 
         instance.open();
-
     };
 
 
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
-        var enParams = param + enQuery + '&';
+        var enParams = '&' + param + enQuery;
         searchController(enParams);
     };
 
@@ -290,6 +324,13 @@ $(document).ready(function () {
         } else {
             $('.preloader').remove();
         }
+    };
+
+    // Displays on UI that no recipe results were found
+    var displayNoResults = function () {
+        var tag = $('<h4>');
+        tag.text('Sorry, no recipes found.');
+        $('#recipes_view').append(tag);
     };
 
 
@@ -305,7 +346,7 @@ $(document).ready(function () {
     // Search submit button listener
     $('.submit').on('click', function (e) {
         e.preventDefault();
-        var query = $('#textarea1').val();
+        var query = $('#textarea1').val().trim();
 
         if (query.length > 1) {
             encodeSearch('q=', query);
@@ -325,10 +366,10 @@ $(document).ready(function () {
 
     // Search Keypress Listener
     $('#search_form').keypress((e) => {
-        var query = $('#textarea1').val();
+        var query = $('#textarea1').val().trim();
         if (e.keyCode === 13 || e.which === 13) {
             e.preventDefault();
-            if (query.length >= 2) {
+            if (query.length > 1) {
                 encodeSearch('q=', query);
                 $('#textarea1').val('');
                 // $('#filters').slideUp();
@@ -345,7 +386,6 @@ $(document).ready(function () {
         blur: function () {
             hideOnClickOutside('#filters')
         }
-
     });
 
 
@@ -360,11 +400,24 @@ $(document).ready(function () {
             }
         };
         const removeClickListener = () => {
-            document.removeEventListener('click', outsideClickListener)
+            document.removeEventListener('click', outsideClickListener);
         };
-        document.addEventListener('click', outsideClickListener)
+        document.addEventListener('click', outsideClickListener);
     };
 
+
+    // Check box listener to determine if a certain checkbox is selected or not
+    $('input[type=checkbox]').on('change', function () {
+        var input = $(this);
+        var filterType = input.attr('data-filter');
+        var param = input.attr('data-param');
+
+        if (input.is(':checked')) {
+            filterController(filterType, param, true);
+        } else {
+            filterController(filterType, param, false);
+        }
+    });
 
 
 
@@ -494,6 +547,7 @@ $(document).ready(function () {
       });
 
       
+
 
     // $(function () {
     //     $.ajax({
