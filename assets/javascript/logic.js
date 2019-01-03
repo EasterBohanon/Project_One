@@ -30,7 +30,6 @@ $(document).ready(function () {
 
     // Global Variables
     var search = {};
-<<<<<<< HEAD
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
     var appID = '992846dd' // Chris's Yummly API ID
@@ -43,13 +42,11 @@ $(document).ready(function () {
 
 
 
-=======
     var key = '4d7d57aa09b888bc12e36f57b76129bc'; // Chris's Yummly API key
     var appID = 'fa6a5b04' // Aimes' Yummly API ID
     var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23'
     // var search;
->>>>>>> Didn't make any changes, just some testing, reverted any changes
 
 
     /********************************** Classes / Dynamic Data ******************************/
@@ -156,33 +153,26 @@ $(document).ready(function () {
         search = new Search(query);
 
         // 2) Prepare UI for recipes
-<<<<<<< HEAD
+
         $('#recipes_view').empty();
         $('.num_results').empty();
-=======
+
         $('#recipes_view').empty()
-<<<<<<< HEAD
-=======
       //on click of user recipie submit button
       $(document).ready(function(){
         $('select').formSelect();
->>>>>>> just pushing code so I can pull new code from test, nothing worth keeping that I coded
->>>>>>> just pushing code so I can pull new code from test, nothing worth keeping that I coded
-=======
->>>>>>> Didn't make any changes, just some testing, reverted any changes
+
+
+
 
         // Render the preloader
         renderLoader(true);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         // 3) Call getResult method to return API response consisting of recipes
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Didn't make any changes, just some testing, reverted any changes
+
         // 3) 
->>>>>>> just pushing code so I can pull new code from test, nothing worth keeping that I coded
+ 
         search.getResult(query)
 
             // If API request successful
@@ -206,7 +196,7 @@ $(document).ready(function () {
                 tag.text('Sorry, something went wrong.');
                 $('#recipes_view').append(tag);
             });
-    };
+    });
 
 
     // Controls all recipe tasks
@@ -379,11 +369,8 @@ $(document).ready(function () {
         if (query.length > 1) {
             encodeSearch('q=', query);
         }
-<<<<<<< HEAD
-=======
         $('#textarea1').val('')
         console.log(submit);
->>>>>>> Didn't make any changes, just some testing, reverted any changes
 
         $('#textarea1').val('');
         // $('#filters').slideUp('slow');
@@ -577,7 +564,7 @@ $(document).ready(function () {
 
         // })
 
-      });
+};
 
       
 
