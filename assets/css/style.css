@@ -52,6 +52,9 @@ body {
     
 }
 
+#submitButton {
+    float: right;
+}
 
 
 
@@ -60,6 +63,9 @@ body {
 
 
 
+#recipe_content {
+    height: 1000px;
+}
 
 
 
@@ -79,6 +85,18 @@ body {
 /* All Below is for testing
 ***************/
 
+
+span.badge.new {
+    position: relative;
+    width: 5px;
+    top: -35px;
+    border-radius: 20px;
+    right: 20px;
+}
+
+span.badge {
+    min-width: 2rem;
+}
 
 #filters {
     display: none;
@@ -157,4 +175,101 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+#ingredients_tab .row .s4 {
+    height: 90px;
+}
+
+#ingredients_tab .row .s5 {
+    margin-left: 9%;
+    width: 40%;
+}
+
+
+/* Ingredient include/exclude search bars */
+.search-container {
+    width: 75%;
+    display: block;
+    margin: 0 auto;
+}
+
+input#search-bar {
+    margin: 0 auto;
+    width: 100%;
+    height: 45px;
+    padding: 0 38px;
+    font-size: 1rem;
+    border: 1px solid #D0CFCE;
+    outline: none;
+    border-radius: 7px;
+}
+
+input#search-bar:focus {
+    border: 1px solid #008ABF;
+    transition: 0.35s ease;
+    color: #008ABF;
+}
+
+input#search-bar:focus::-webkit-input-placeholder {
+    transition: opacity 0.45s ease;
+    opacity: 0;
+}
+
+input#search-bar:focus::-moz-placeholder {
+    transition: opacity 0.45s ease;
+    opacity: 0;
+}
+
+input#search-bar:focus:-ms-placeholder {
+    transition: opacity 0.45s ease;
+    opacity: 0;
+}
+
+.add-icon {
+    position: relative;
+    float: right;
+    width: 75px;
+    height: 75px;
+    top: -35px;
+    right: -120px;
+}
+
+.search-icon {
+    position: relative;
+    top: 42px;
+    left: 8px;
+    width: 60px;
+}
+
+.ingredient_tag {
+    display: inline-block;
+    height: 32px;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    background-color: #e4e4e4;
+    font-weight: 500;
+    font-size: 11.5px;
+    transition: .3s;
+    margin-left: 3px;
+    margin-top: 5px;
+}
+
+.ingredient_tag:hover {
+    background-color: #29c5b6b0;
+}
+
+.ingredient_tag .close {
+    cursor: pointer;
+    float: right;
+    font-size: 14px;
+    line-height: 34px;
+    padding-left: 8px;
+    transition: .3s;
+}
+
+.ingredient_tag .close:hover {
+    color: white;
 }
