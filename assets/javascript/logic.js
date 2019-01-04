@@ -15,6 +15,7 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
 
+
     // Initialize filter tabs
     var filterTabs = document.querySelector('.tabs');
     var instance = M.Tabs.init(filterTabs, {
@@ -37,6 +38,11 @@ $(document).ready(function () {
     var recipeURL = 'http://api.yummly.com/v1/api/recipe/';
     var searchQuery = '';
     var newQuery = '';
+    var newIncIngredient = '';
+    var newExIngredient = '';
+    var currentPage;
+    var page = 10;
+    var ajaxRunning = false;
 
 
 
@@ -101,7 +107,6 @@ $(document).ready(function () {
 
 
 
-
     // Class to create an object containing a certain recipe
     class Recipe {
         constructor(id) {
@@ -137,19 +142,19 @@ $(document).ready(function () {
 
 
 
-
-
     /******************************* Global APP Controllers *****************************/
 
     // Controls all searching tasks
-    const searchController = function (query) {
+    const searchController = function (query, bool) {
 
         // 1) Assign new search object
         search = new Search(query);
 
+        if (!bool) {
+            $('#recipes_view').empty();
+            $('.num_results').empty();
+        }
         // 2) Prepare UI for recipes
-        $('#recipes_view').empty();
-        $('.num_results').empty();
 
         // Render the preloader
         renderLoader(true);
@@ -174,9 +179,7 @@ $(document).ready(function () {
 
             // If API returns error
             .fail(function (error) {
-                var tag = $('<h4>');
-                tag.text('Sorry, something went wrong.');
-                $('#recipes_view').append(tag);
+                displayNoResults();
             });
     };
 
@@ -203,9 +206,6 @@ $(document).ready(function () {
                 // If search fails
                 .fail(function (error) {
                     displayNoResults();
-
-                    // Remove the search parameter from total search query
-                    searchQuery = searchQuery.replace(newQuery, '');
                 });
         }
     };
@@ -214,29 +214,48 @@ $(document).ready(function () {
     // Controls all search filter selections / removals
     const filterController = function (type, param, status) {
         var filter = param + type;
+        page = 10;
 
-        // If this filter is a newly added filter
-        if (status) {
-
-            // Assign filter to variable newQuery in case search fails
-            newQuery = filter;
-
-            // Combine with current search query
-            searchQuery += filter;
-
-            // If user removes filter
-        } else if (!status) {
-
-            // Remove filter from search query
-            searchQuery = searchQuery.replace(filter, '');
+        if (searchQuery.indexOf('&start=') !== -1) {
+            searchQuery = searchQuery.replace('&start=' + currentPage, '');
         }
 
+        // If this search is a query parameter search..
+        if (param === '&q=' && newQuery.length > 0) {
+            searchQuery = searchQuery.replace(newQuery, filter);
+            newQuery = filter;
+        } else if (param === '&q=') {
+            newQuery = filter;
+            searchQuery += filter;
+        } else {
+
+            // If this filter is a newly added filter
+            if (status) {
+                // Combine with current search query
+                searchQuery += filter;
+
+                // If user removes filter
+            } else if (!status) {
+
+                // Remove filter from search query
+                searchQuery = searchQuery.replace(filter, '');
+            }
+        }
         // Begin new search
         searchController(searchQuery);
     };
 
 
-
+    // Closure in order to increment page number by multiples of 10
+    var incrementPage = (function (n) {
+        return function () {
+            if (page === 10) {
+                n = 10;
+            }
+            n += 10;
+            return n;
+        }
+    }(10));
 
 
 
@@ -249,24 +268,31 @@ $(document).ready(function () {
     var renderResults = function (recipes) {
         var results = $("<div class='fadeIn'>");
 
-        recipes.forEach(function (el) {
-            var img;
-            var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+        if (search.totalMatchCount === 0) {
+            displayNoResults();
+        } else {
+            recipes.forEach(function (el) {
+                var img;
+                var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
 
 
-            if (el.hasOwnProperty('smallImageUrls')) {
-                img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
-            } else if (el.hasOwnProperty('imageUrlsBySize')) {
-                img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
-            }
+                if (el.hasOwnProperty('smallImageUrls')) {
+                    img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
+                } else if (el.hasOwnProperty('imageUrlsBySize')) {
+                    img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
+                }
 
-            name.append(img);
-            results.append(name);
-        });
-
+                name.append(img);
+                results.append(name);
+            });
+        }
         // Displays total matched recipes
         $('#num_results').text(search.totalMatchCount);
         $('#recipes_view').append(results);
+
+        // Assign ajaxRunning to false after recipes render in order to 
+        // continue displaying more recipes once user scrolls to bottom
+        ajaxRunning = false;
     };
 
 
@@ -289,7 +315,6 @@ $(document).ready(function () {
         });
 
         var ingredients = $("<p>").text(ing);
-
         recipeName.append(recipeImg).append(ingredients);
 
         var instance = M.Modal.init(modal, {
@@ -311,8 +336,13 @@ $(document).ready(function () {
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
         var enQuery = encodeURIComponent(query);
-        var enParams = '&' + param + enQuery;
-        searchController(enParams);
+
+        if (param == '&allowedIngredient%5B%5D=' || param == '&excludedIngredient%5B%5D=') {
+
+            filterController(enQuery, param, true);
+        } else if (param == '&q=') {
+            filterController(enQuery, param);
+        }
     };
 
     // Renders preloader gif
@@ -330,9 +360,25 @@ $(document).ready(function () {
     var displayNoResults = function () {
         var tag = $('<h4>');
         tag.text('Sorry, no recipes found.');
+
         $('#recipes_view').append(tag);
     };
 
+    // Displays ingredient filter tag inside ingredients filter
+    var displayIngredientFilter = function (type, ingredient, param) {
+        var enIngredient = encodeURIComponent(ingredient);
+        var html = `<div class="ingredient_tag ingredient_${type}_del" data-ingredient="${enIngredient}" data-ingparam="${param}">${ingredient}<i class="close material-icons ingredient_del">close</i>`
+        var selector = `.ingredient_${type}_col`;
+
+        $(selector).append(html);
+    };
+
+    var displayCurrentPage = function (page) {
+        var p = $('<p>');
+        p.text('Current Page: ' + page);
+        $('.current_page').empty();
+        $('.current_page').append(p);
+    };
 
 
 
@@ -349,7 +395,7 @@ $(document).ready(function () {
         var query = $('#textarea1').val().trim();
 
         if (query.length > 1) {
-            encodeSearch('q=', query);
+            encodeSearch('&q=', query);
         }
 
         $('#textarea1').val('');
@@ -370,7 +416,7 @@ $(document).ready(function () {
         if (e.keyCode === 13 || e.which === 13) {
             e.preventDefault();
             if (query.length > 1) {
-                encodeSearch('q=', query);
+                encodeSearch('&q=', query);
                 $('#textarea1').val('');
                 // $('#filters').slideUp();
             }
@@ -384,7 +430,7 @@ $(document).ready(function () {
             $('#filters').slideDown('435');
         },
         blur: function () {
-            hideOnClickOutside('#filters')
+            hideOnClickOutside('#filters');
         }
     });
 
@@ -394,8 +440,12 @@ $(document).ready(function () {
         const outsideClickListener = (event) => {
             if (!$(event.target).closest(selector).length) {
                 if ($(selector).is(':visible')) {
-                    $(selector).slideUp('435');
-                    removeClickListener()
+                    if ($(event.target).hasClass('ingredient_del')) {
+                        event.stopPropagation();
+                    } else {
+                        $(selector).slideUp('435');
+                        removeClickListener();
+                    }
                 }
             }
         };
@@ -418,6 +468,77 @@ $(document).ready(function () {
             filterController(filterType, param, false);
         }
     });
+
+
+    // // Kepress listener for included ingredients search field
+    $('.ingredient_inc_form').keypress((e) => {
+        var ingredient = $('.ingredient_inc_field').val().trim();
+        if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            if (ingredient.length > 1) {
+                newIncIngredient = ingredient.toLowerCase();
+                encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
+                displayIngredientFilter('inc', newIncIngredient, '&allowedIngredient%5B%5D=');
+                $('.ingredient_inc_field').val('');
+            }
+        }
+    });
+
+
+    // Keypress listener for excluded ingredients search field
+    $('.ingredient_ex_form').keypress((e) => {
+        var ingredient = $('.ingredient_ex_field').val().trim();
+        if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            if (ingredient.length > 1) {
+                newExIngredient = ingredient.toLowerCase();
+                encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
+                displayIngredientFilter('ex', newExIngredient, '&excludedIngredient%5B%5D=');
+                $('.ingredient_ex_field').val('');
+            }
+        }
+    });
+
+
+    // Click listener for when user removes a filtered ingredient
+    $(document).on('click', '.ingredient_del', function (e) {
+        var parentEl = $(this).parent();
+        var ingredient = parentEl.attr('data-ingredient');
+        var param = parentEl.attr('data-ingparam');
+        filterController(ingredient, param, false);
+        parentEl.remove();
+    });
+
+
+    // Scroll listener to detect when user scrolls to the bottom of the page
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            if (searchQuery.length > 0) {
+                if (searchQuery.indexOf('&start=') !== -1) {
+                    searchQuery = searchQuery.replace('&start=' + currentPage, '');
+                }
+                if (!ajaxRunning) {
+                    ajaxRunning = true;
+                    currentPage = incrementPage();
+                    page = currentPage;
+                    queryPage = `${searchQuery}&start=${currentPage}`
+                    searchController(queryPage, true);
+                    console.log(page);
+                }
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -449,31 +570,6 @@ $(document).ready(function () {
 
 
 
-
-
-
-    /****** IDEAS
-     * 
-     * Can possibly utilize tags whenever a user selects a filter
-     * 
-     */
-
-
-
-
-    /**
-     * 
-     * On Search API request:
-     * 
-     * maxResult, start = &maxResult=10&start=10
-     *
-     * max 5 page items in pagination (use array)
-     * 
-     * start = page * 10
-     * 
-     * 
-     * 
-     */
 
 
 
@@ -512,60 +608,4 @@ $(document).ready(function () {
      * 
      * 
      */
-
-
-
-
-
-
-
-
-    /*****************  Below are Possible methods for autocomplete 
-     * 
-     * when a user enters in ingredients to include / exclude
-     * 
-     */
-
-
-
-    // jquery search autocomplete reference
-    // https://github.com/devbridge/jQuery-Autocomplete
-
-
-
-    // $('input.autocomplete').autocomplete({
-    //     data: {
-    //         "Apple": null,
-    //         "Microsoft": null,
-    //         "Google": 'https://placehold.it/250x250'
-    //     },
-    //     limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
-    //     onAutocomplete: function (val) { // Callback function when value is autcompleted.
-
-    //     },
-    //     minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    // });
-
-
-
-
-
-    // $(function () {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '',
-    //         success: function (response) {
-    //             var countryArray = response;
-    //             var dataCountry = {};
-    //             for (var i = 0; i < countryArray.length; i++) {
-    //                 //console.log(countryArray[i].name);
-    //                 dataCountry[countryArray[i].name] = countryArray[i].flag; //countryArray[i].flag or null
-    //             }
-    //             $('input.autocomplete').autocomplete({
-    //                 data: dataCountry,
-    //                 limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
-    //             });
-    //         }
-    //     });
-    // });
 });
