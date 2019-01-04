@@ -564,7 +564,7 @@ $(document).ready(function () {
 
         // })
 
-};
+     
 
       
 
