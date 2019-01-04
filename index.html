@@ -79,7 +79,6 @@
 
     <!-- Search Field -->
     <div class="row" id="search_row">
-
       <form class="col s10" id="search_form">
         <div class="row">
           <div class="input-field col s10">
@@ -98,8 +97,6 @@
     </div>
 
 
-
-
     <!-- Tabs for Filters -->
     <div class="row" id="filters">
       <div class="col s12">
@@ -111,32 +108,29 @@
         </ul>
       </div>
 
-      <!-- Might not use materialize's search inputs since it causes bugs with the tabs opening and closing-->
+      <!-- Ingredient Filters -->
       <div id="ingredients_tab" class="col s12 slideUpTab">
         <div class="row">
           <div class="col s4 offset-s1">
-            <div class="row">
-              <form class="col s12">
-                <div class="row">
-                  <div class="input-field col s12">
-                    <textarea id="textarea1" class="materialize-textarea"></textarea>
-                    <label for="textarea1">With Ingredients</label>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <form class="search-container ingredient_inc_form">
+              <i class="material-icons search-icon">search</i>
+              <input type="text" id="search-bar" class="ingredient_inc_field" placeholder="With Ingredients">
+              <i class="material-icons add-icon" id="ingredient_inc_btn">add</i>
+            </form>
           </div>
           <div class="col s4 offset-s1">
-            <div class="row">
-              <form class="col s12">
-                <div class="row">
-                  <div class="input-field col s12">
-                    <textarea id="textarea1" class="materialize-textarea"></textarea>
-                    <label for="textarea1">Without Ingredients</label>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <form class="search-container ingredient_ex_form">
+              <i class="material-icons search-icon">search</i>
+              <input type="text" id="search-bar" class="ingredient_ex_field" placeholder="Without Ingredients">
+              <i class="material-icons add-icon" id="ingredient_ex_btn">add</i>
+            </form>
+          </div>
+        </div>
+        <!-- Row for included/excluded ingredient tags -->
+        <div class="row">
+          <div class="col s4 offset-s1 ingredient_inc_col">
+          </div>
+          <div class="col s5 ingredient_ex_col">
           </div>
         </div>
       </div>
@@ -289,16 +283,16 @@
           quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
         </div>
       </div>
+
     </div>
-
-
-
 
     <!-- Total Matched Recipes -->
     <div class="num_results">
     </div>
+  </div>
 
 
+<div class="container" id="recipe_content">
 
     <!-- Recipes -->
     <div class="row">
@@ -307,6 +301,7 @@
     </div>
 
 
+</div>
 
     <!-- Recipe Modal -->
     <div id="recipe_modal" class="modal bottom-sheet">
@@ -320,23 +315,21 @@
     </div>
 
 
-
     <!-- Pagination for results -->
-    <div class="row">
+    <!-- <div class="row">
       <div class="col s12">
         <ul class="pagination center-align">
-          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active teal"><a href="#!">1</a></li>
-          <li class="waves-effect"><a href="#!">2</a></li>
-          <li class="waves-effect"><a href="#!">3</a></li>
-          <li class="waves-effect"><a href="#!">4</a></li>
-          <li class="waves-effect"><a href="#!">5</a></li>
-          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+          <li class="disabled"><a href="#!" class="page"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active teal"><a href="#!" class="page">1</a></li>
+          <li class="waves-effect"><a href="#!" class="page">2</a></li>
+          <li class="waves-effect"><a href="#!" class="page">3</a></li>
+          <li class="waves-effect"><a href="#!" class="page">4</a></li>
+          <li class="waves-effect"><a href="#!" class="page">5</a></li>
+          <li><a href="#!" class="page">...</a></li>
+          <li class="waves-effect"><a href="#!" class="page"><i class="material-icons">chevron_right</i></a></li>
         </ul>
       </div>
-    </div>
-
-  </div>
+    </div> -->
 
 
   <!-- jQuery -->
@@ -344,6 +337,7 @@
     crossorigin="anonymous"></script>
   <!-- Materialize JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
   <!-- JavaScript -->
   <script src="assets/javascript/logic.js"></script>
 </body>
