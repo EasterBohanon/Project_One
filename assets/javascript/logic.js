@@ -15,6 +15,7 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
 
+
     // Initialize filter tabs
     var filterTabs = document.querySelector('.tabs');
     var instance = M.Tabs.init(filterTabs, {
@@ -39,6 +40,9 @@ $(document).ready(function () {
     var newQuery = '';
     var newIncIngredient = '';
     var newExIngredient = '';
+    var currentPage;
+    var page = 10;
+    var ajaxRunning = false;
 
 
 
@@ -141,14 +145,16 @@ $(document).ready(function () {
     /******************************* Global APP Controllers *****************************/
 
     // Controls all searching tasks
-    const searchController = function (query) {
+    const searchController = function (query, bool) {
 
         // 1) Assign new search object
         search = new Search(query);
 
+        if (!bool) {
+            $('#recipes_view').empty();
+            $('.num_results').empty();
+        }
         // 2) Prepare UI for recipes
-        $('#recipes_view').empty();
-        $('.num_results').empty();
 
         // Render the preloader
         renderLoader(true);
@@ -208,6 +214,11 @@ $(document).ready(function () {
     // Controls all search filter selections / removals
     const filterController = function (type, param, status) {
         var filter = param + type;
+        page = 10;
+
+        if (searchQuery.indexOf('&start=') !== -1) {
+            searchQuery = searchQuery.replace('&start=' + currentPage, '');
+        }
 
         // If this search is a query parameter search..
         if (param === '&q=' && newQuery.length > 0) {
@@ -220,7 +231,6 @@ $(document).ready(function () {
 
             // If this filter is a newly added filter
             if (status) {
-                console.log(filter);
                 // Combine with current search query
                 searchQuery += filter;
 
@@ -235,6 +245,17 @@ $(document).ready(function () {
         searchController(searchQuery);
     };
 
+
+    // Closure in order to increment page number by multiples of 10
+    var incrementPage = (function (n) {
+        return function () {
+            if (page === 10) {
+                n = 10;
+            }
+            n += 10;
+            return n;
+        }
+    }(10));
 
 
 
@@ -268,6 +289,10 @@ $(document).ready(function () {
         // Displays total matched recipes
         $('#num_results').text(search.totalMatchCount);
         $('#recipes_view').append(results);
+
+        // Assign ajaxRunning to false after recipes render in order to 
+        // continue displaying more recipes once user scrolls to bottom
+        ajaxRunning = false;
     };
 
 
@@ -348,6 +373,12 @@ $(document).ready(function () {
         $(selector).append(html);
     };
 
+    var displayCurrentPage = function (page) {
+        var p = $('<p>');
+        p.text('Current Page: ' + page);
+        $('.current_page').empty();
+        $('.current_page').append(p);
+    };
 
 
 
@@ -479,6 +510,35 @@ $(document).ready(function () {
     });
 
 
+    // Scroll listener to detect when user scrolls to the bottom of the page
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            if (searchQuery.length > 0) {
+                if (searchQuery.indexOf('&start=') !== -1) {
+                    searchQuery = searchQuery.replace('&start=' + currentPage, '');
+                }
+                if (!ajaxRunning) {
+                    ajaxRunning = true;
+                    currentPage = incrementPage();
+                    page = currentPage;
+                    queryPage = `${searchQuery}&start=${currentPage}`
+                    searchController(queryPage, true);
+                    console.log(page);
+                }
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -506,31 +566,6 @@ $(document).ready(function () {
 
 
 
-
-
-
-    /****** IDEAS
-     * 
-     * Can possibly utilize tags whenever a user selects a filter
-     * 
-     */
-
-
-
-
-    /**
-     * 
-     * On Search API request:
-     * 
-     * maxResult, start = &maxResult=10&start=10
-     *
-     * max 5 page items in pagination (use array)
-     * 
-     * start = page * 10
-     * 
-     * 
-     * 
-     */
 
 
 
@@ -569,60 +604,4 @@ $(document).ready(function () {
      * 
      * 
      */
-
-
-
-
-
-
-
-
-    /*****************  Below are Possible methods for autocomplete 
-     * 
-     * when a user enters in ingredients to include / exclude
-     * 
-     */
-
-
-
-    // jquery search autocomplete reference
-    // https://github.com/devbridge/jQuery-Autocomplete
-
-
-
-    // $('input.autocomplete').autocomplete({
-    //     data: {
-    //         "Apple": null,
-    //         "Microsoft": null,
-    //         "Google": 'https://placehold.it/250x250'
-    //     },
-    //     limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
-    //     onAutocomplete: function (val) { // Callback function when value is autcompleted.
-
-    //     },
-    //     minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    // });
-
-
-
-
-
-    // $(function () {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '',
-    //         success: function (response) {
-    //             var countryArray = response;
-    //             var dataCountry = {};
-    //             for (var i = 0; i < countryArray.length; i++) {
-    //                 //console.log(countryArray[i].name);
-    //                 dataCountry[countryArray[i].name] = countryArray[i].flag; //countryArray[i].flag or null
-    //             }
-    //             $('input.autocomplete').autocomplete({
-    //                 data: dataCountry,
-    //                 limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
-    //             });
-    //         }
-    //     });
-    // });
 });
