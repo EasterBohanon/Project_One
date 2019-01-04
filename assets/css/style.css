@@ -1,25 +1,56 @@
+
+/* general */
 html {
     box-sizing: border-box;
 }
-
-#navbar {
-    background-color: #112e41;
-
+body {
+    background-color: #f2f5f1;
 
 }
+/* Nav Bar */
+/* getting that logo in aswell as the prespecified diets */
+#navbar {
+    background-color: #f2b246;
+   
+    
+}
+.logo-image{
+   
+    border-radius: 50%; 
+   
+}
+
+#ourlogo {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    margin-top: -30px; 
+}
+
+
+/* main container the image with search bar */
+
+#imagetron{
+    width: 100%;
+    
+}
+
 
 #addSearchImage {
     background-image: url("../images/searchimage1.jpg");
-    background-size: 100%; 
+    background-size: 90%; 
 }
-
 #textarea1 {
     background-color: white;
     opacity: .40;
     
 }
 
-
+#submitButton {
+    float: right;
+    background-color: #f2b246;
+    
+}
 
 
 
@@ -49,6 +80,9 @@ html {
 ***************/
 
 
+#filters {
+    display: none;
+}
 
 #recipes_view {
     text-align: center;
@@ -60,7 +94,6 @@ html {
 }
 
 .recipe_result {
-
     margin: auto;
     display: inline-block;
 }
@@ -71,7 +104,6 @@ html {
     margin: auto;
     display: inline-block;
     cursor: pointer;
-
 }
 
 .preloader {
@@ -85,6 +117,24 @@ html {
     animation-timing-function: ease-in;
 }
 
+#filters {
+    margin-bottom: 40px;
+}
+
+.slideUpTab {
+    animation-name: tabSlideUp;
+    animation-duration: .35s;
+    animation-timing-function: ease-in;
+}
+
+#diets_tab .row,
+#nutrition_tab .row,
+#allergies_tab .row,
+#ingredients_tab .row {
+    margin-top: 30px;
+    padding-left: 15px;
+}
+
 
 @keyframes fadeIn {
     0% {
@@ -93,5 +143,18 @@ html {
 
     100% {
         opacity: 1;
+    }
+}
+
+
+@keyframes tabSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
