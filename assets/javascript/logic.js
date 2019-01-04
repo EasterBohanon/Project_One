@@ -214,8 +214,11 @@ $(document).ready(function () {
     // Controls all search filter selections / removals
     const filterController = function (type, param, status) {
         var filter = param + type;
+
+        // Reassign page variable to 10 in order to reset page start parameter
         page = 10;
 
+        // If page start parameter is present in query, remove it
         if (searchQuery.indexOf('&start=') !== -1) {
             searchQuery = searchQuery.replace('&start=' + currentPage, '');
         }
@@ -373,13 +376,6 @@ $(document).ready(function () {
         $(selector).append(html);
     };
 
-    var displayCurrentPage = function (page) {
-        var p = $('<p>');
-        p.text('Current Page: ' + page);
-        $('.current_page').empty();
-        $('.current_page').append(p);
-    };
-
 
 
 
@@ -470,7 +466,7 @@ $(document).ready(function () {
     });
 
 
-    // // Kepress listener for included ingredients search field
+    // // Keypress listener for included ingredients search field
     $('.ingredient_inc_form').keypress((e) => {
         var ingredient = $('.ingredient_inc_field').val().trim();
         if (e.keyCode === 13 || e.which === 13) {
@@ -521,7 +517,7 @@ $(document).ready(function () {
                     ajaxRunning = true;
                     currentPage = incrementPage();
                     page = currentPage;
-                    queryPage = `${searchQuery}&start=${currentPage}`
+                    queryPage = `${searchQuery}&start=${currentPage}`;
                     searchController(queryPage, true);
                     console.log(page);
                 }

@@ -223,3 +223,19 @@ input#search-bar:focus:-ms-placeholder {
 .ingredient_tag .close:hover {
     color: white;
 }
+
+.modal.bottom-sheet {
+    max-height: 70%;
+}
+
+
+ /* Close modal button */
+.modal .modal-close {
+    float: right;
+    font-size: 45px;
+    color: rgba(0, 0, 0, 0.616);
+}
+
+.modal .modal-close:hover {
+    color: rgba(0, 0, 0, 0.226);
+}
