@@ -150,16 +150,30 @@ $(document).ready(function () {
         // 1) Assign new search object
         search = new Search(query);
 
+
         if (!bool) {
             $('#recipes_view').empty();
             $('.num_results').empty();
         }
         // 2) Prepare UI for recipes
 
+
+        // 2) Prepare UI for recipes
+        $('#recipes_view').empty()
+
+      //on click of user recipie submit button
+      $(document).ready(function(){
+        $('select').formSelect();
+
+
         // Render the preloader
         renderLoader(true);
 
+
         // 3) Call getResult method to return API response consisting of recipes
+
+        // 3) 
+
         search.getResult(query)
 
             // If API request successful
@@ -181,7 +195,7 @@ $(document).ready(function () {
             .fail(function (error) {
                 displayNoResults();
             });
-    };
+    });
 
 
     // Controls all recipe tasks
@@ -604,4 +618,77 @@ $(document).ready(function () {
      * 
      * 
      */
+
+
+
+
+
+
+
+
+
+    /*****************  Below are Possible methods for autocomplete 
+     * 
+     * when a user enters in ingredients to include / exclude
+     * 
+     */
+
+
+
+    // jquery search autocomplete reference
+    // https://github.com/devbridge/jQuery-Autocomplete
+
+
+
+    // $('input.autocomplete').autocomplete({
+    //     data: {
+    //         "Apple": null,
+    //         "Microsoft": null,
+    //         "Google": 'https://placehold.it/250x250'
+    //     },
+    //     limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+    //     onAutocomplete: function (val) { // Callback function when value is autcompleted.
+
+    //     },
+    //     minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+    // });
+
+        console.log("This is the recipie search button");
+        
+
+
+        // //Perform Ajax Call
+        // $.ajax({
+        //     url: "http://api.yummly.com/v1/api/recipes?_app_id=fa6a5b04$_app_key=4d7d57aa09b888bc12e36f57b76129bc&" + input,
+        //     method: "GET"
+        // }).then(function(response){
+
+        //     var results = response.data;
+
+
+        // })
+
+      };
+
+      
+
+    // $(function () {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '',
+    //         success: function (response) {
+    //             var countryArray = response;
+    //             var dataCountry = {};
+    //             for (var i = 0; i < countryArray.length; i++) {
+    //                 //console.log(countryArray[i].name);
+    //                 dataCountry[countryArray[i].name] = countryArray[i].flag; //countryArray[i].flag or null
+    //             }
+    //             $('input.autocomplete').autocomplete({
+    //                 data: dataCountry,
+    //                 limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
+    //             });
+    //         }
+    //     });
+    // });
+
 });
