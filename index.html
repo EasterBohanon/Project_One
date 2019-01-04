@@ -1,22 +1,5 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Health App</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!-- jQuery -->
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-  </head>
 
 <head>
   <meta charset="UTF-8">
@@ -33,7 +16,6 @@
 </head>
 
 <body>
-
   <!-- Navbar -->
   <nav>
     <div class="nav-wrapper teal">
@@ -46,19 +28,6 @@
     </div>
   </nav>
 
-  <!-- Jumbotron/Header -->
-
-
-
-
-
-
-  <img src="" alt="">
-
-
-
-
-
   <ul id="slide-out" class="sidenav">
     <li>
       <div class="user-view">
@@ -70,7 +39,8 @@
         <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
       </div>
     </li>
-    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+    <li><a href="../Project_One/login.html"><i class="material-icons">account_circle</i>Sign In</a></li>
+    <li><a href="../Project_One/favorites.html"><i class="material-icons">star</i>Favorite Recipes</a></li>
     <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
     <li>
       <div class="divider"></div>
@@ -341,6 +311,7 @@
         <p></p>
       </div>
       <div class="modal-header">
+          <div class="favButton waves-effect waves-green btn-flat">Love</div>
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
       </div>
     </div>
@@ -372,24 +343,5 @@
   <!-- JavaScript -->
   <script src="assets/javascript/logic.js"></script>
 </body>
-
-=======
-  <!-- Search -->
-  <div class="input-field col s12">
-    <select multiple>
-      <option value="" disabled selected>Choose your option</option>
-      <option value="1">Glutin Free</option>
-      <option value="2">Cilliac</option>
-      <option value="3">Diabities</option>
-    </select>
-    <label>Recipie Finder</label>
-  </div>
-
-
-  <button class="btn waves-effect waves-light" type="submit" name="action">
-    <i class="material-icons right">Glutin Free</i>
-  </button>
-  <script src="assets/javascript/logic.js"></script>
-  </body>
 
 </html>
