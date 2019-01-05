@@ -308,34 +308,36 @@ $(document).ready(function () {
 
         var modal = document.querySelector('#recipe_modal');
 
+        var modalTitle = $("<div " + "class='row'" + ">");
+        var modalPic = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
+        var modalIngred = $("<div " + "class='col s5'" + "id='recipe_ingredients'" + ">");
         var recipeName = $("<h4>" + name + "</h4>");
         var divider = $('<div>').attr({
             class: divider,
         });
         var recipeImg = $("<img>").attr({
             src: img,
-            alt: name
+            alt: name,
         });
 
-        var ingredients = $("<p " + "id='recipe_ingredients'" + ">").text(ing);
+        var ingredients = $("<p>").text(ing);
 
-        // var ingredients = $("<ul " + "id='recipe_ingredients'" + ">").text(
-        //     $("<li>").each(ing, function(index, listItem));
-        // );
+        modalTitle.append(recipeName);
+        modalPic.append(recipeImg);
+        modalIngred.append(ingredients);
 
-        // recipeName.append(recipeImg).append(ingredients);
-        
+        $(modalPic).appendTo(modalTitle);
+        $(modalIngred).appendTo(modalTitle);
+
 
         var instance = M.Modal.init(modal, {
             onOpenStart: function () {
-                $('.recipe_content').append(recipeName).append(recipeImg).append(ingredients);
+                $('.recipe_content').append(modalTitle);
             },
             onCloseEnd: function () {
                 $('.recipe_content').empty();
             },
-            dismissible: false,
-            // startingTop: '70%',
-            // endingTop: '60%'
+            dismissible: true,
         });
 
         instance.open();
