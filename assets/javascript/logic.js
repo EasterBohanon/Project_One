@@ -555,6 +555,10 @@ $(document).ready(function () {
     // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
     // var collapsibleElem = document.querySelector('.collapsible');
     // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+    // Sidenav event listener
+    $(document).ready(function () {
+        $('.sidenav').sidenav();
+    });
 
 
 

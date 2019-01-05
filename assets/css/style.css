@@ -7,10 +7,13 @@ body {
     background-color: #f2f5f1;
 
 }
+p {
+    color: black;
+}
 /* Nav Bar */
 /* getting that logo in aswell as the prespecified diets */
 #navbar {
-    background-color: #f2b246;
+    background-color: #e1d6cc;
    
     
 }
@@ -31,15 +34,25 @@ body {
 /* main container the image with search bar */
 
 #imagetron{
-    width: 100%;
-    
-}
-
-
-#addSearchImage {
     background-image: url("../images/searchimage1.jpg");
-    background-size: 90%; 
+    background-size: 100%; 
+    width: 100%;
+    background-repeat: no-repeat;
 }
+
+#info-blurb {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+
+}
+h1{
+    font-family: 'Anton', sans-serif;
+
+}
+
+/* #search_row{
+    background: white;
+} */
 #textarea1 {
     background-color: white;
     opacity: .40;
@@ -48,7 +61,7 @@ body {
 
 #submitButton {
     float: right;
-    background-color: #f2b246;
+    background-color:#e1d6cc;
     
 }
 
@@ -75,7 +88,9 @@ body {
 
 
 
-
+.modal.bottom-sheet{
+    max-height: 80%;
+}
 
 
 
@@ -104,6 +119,7 @@ span.badge {
 
 #recipes_view {
     text-align: center;
+    background-color: #f2f5f1;
     /* float: left; */
 }
 
@@ -137,6 +153,7 @@ span.badge {
 
 #filters {
     margin-bottom: 40px;
+    background-color: white;
 }
 
 .slideUpTab {
