@@ -251,7 +251,8 @@ $(document).ready(function () {
 
         recipes.forEach(function (el) {
             var img;
-            var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+            // var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+            var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + "<h5>" + el.recipeName + "</h5>" + "<br></div>");
 
 
             if (el.hasOwnProperty('smallImageUrls')) {
@@ -283,25 +284,33 @@ $(document).ready(function () {
         var modal = document.querySelector('#recipe_modal');
 
         var recipeName = $("<h4>" + name + "</h4>");
-        var recipeImg = $('<img>').attr({
+        var divider = $('<div>').attr({
+            class: divider,
+        });
+        var recipeImg = $("<img>").attr({
             src: img,
             alt: name
         });
 
-        var ingredients = $("<p>").text(ing);
+        var ingredients = $("<p " + "id='recipe_ingredients'" + ">").text(ing);
 
-        recipeName.append(recipeImg).append(ingredients);
+        // var ingredients = $("<ul " + "id='recipe_ingredients'" + ">").text(
+        //     $("<li>").each(ing, function(index, listItem));
+        // );
+
+        // recipeName.append(recipeImg).append(ingredients);
+        
 
         var instance = M.Modal.init(modal, {
             onOpenStart: function () {
-                $('.recipe_content').append(recipeName);
+                $('.recipe_content').append(recipeName).append(recipeImg).append(ingredients);
             },
             onCloseEnd: function () {
                 $('.recipe_content').empty();
             },
             dismissible: false,
-            startingTop: '70%',
-            endingTop: '60%'
+            // startingTop: '70%',
+            // endingTop: '60%'
         });
 
         instance.open();
