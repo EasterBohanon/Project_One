@@ -12,7 +12,6 @@ html {
 
 
 
-
 #recipe_content {
     height: 1000px;
 }
@@ -224,6 +223,7 @@ input#search-bar:focus:-ms-placeholder {
     color: white;
 }
 
+<<<<<<< HEAD
 .modal.bottom-sheet {
     max-height: 70%;
 }
@@ -238,4 +238,16 @@ input#search-bar:focus:-ms-placeholder {
 
 .modal .modal-close:hover {
     color: rgba(0, 0, 0, 0.226);
+=======
+/* Modal Positioning */
+.modal {
+    display: flex;
+    position: fixed;
+    width: auto;
+  }
+
+#starIcon {
+    position: relative;
+    top: 7px;
+>>>>>>> f74447e55a06c47a4afe29aa46d9f506b852e015
 }
