@@ -186,7 +186,7 @@ $(document).ready(function () {
 
 
     // Controls all recipe tasks
-    const recipeController = function (id) {
+    const recipeController = function (id, fav) {
 
         if (id) {
 
@@ -202,6 +202,10 @@ $(document).ready(function () {
                     // Render recipe and open modal
                     renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
 
+                    if (fav){
+
+                        favorite = myRecipe(recipe.images[0].hostedLargeUrl, recipe.name, )
+                    }
                 })
 
                 // If search fails
@@ -413,11 +417,12 @@ $(document).ready(function () {
     // favorite recipe button 
     $(document).on('click', '.favButton', function () {
         var id = $(this).attr('data-recipeName');
-        recipeController(id);
+        recipeController(id, fav);
         // recipe.getRecipe()
         favorite.push(recipe.name);
         for(i = 0; i < favorite.length; i++){
         var favRecipe = recipe.name;
+        recipeController(id, fav);
         
         // favRecipe.attr("data-recipeName", favorite[i]);
         // favRecipe.text("#favRecipe");
