@@ -228,6 +228,7 @@ input#search-bar:focus:-ms-placeholder {
     display: flex;
     position: fixed;
     width: auto;
+    height: 1000px;
   }
 
 #starIcon {

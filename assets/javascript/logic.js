@@ -25,6 +25,8 @@ $(document).ready(function () {
         }
     });
 
+
+
     // Initialize side navbar
     $('.sidenav').sidenav();
 
@@ -61,7 +63,6 @@ $(document).ready(function () {
         showAddedSugars: false,
         showLegacyVersion: false,
     }
-
 
 
     /********************************** Classes / Dynamic Data ******************************/
@@ -258,23 +259,23 @@ $(document).ready(function () {
                                 var vitaminD = ['valueVitaminD'];
                                 var iron = ['valueIron'];
 
-                                if (preArray[j][1][12] !== -1) {
-                                    calcium[1] = preArray[j][1][12].value;
-                                    filterArray.push(calcium);
-                                    calciumRecipe += calcium[1];
-                                }
+                                // if (preArray[j][1][12] !== -1) {
+                                //     calcium[1] = preArray[j][1][12].value;
+                                //     filterArray.push(calcium);
+                                //     calciumRecipe += calcium[1];
+                                // }
 
                                 if (preArray[j][1][24] !== -1) {
-                                    vitaminD[1] = preArray[j][1][24].value;
-                                    filterArray.push(vitaminD);
-                                    vD += vitaminD[1];
+                                    // vitaminD[1] = preArray[j][1][24].value;
+                                    // filterArray.push(vitaminD);
+                                    // vD += vitaminD[1];
                                 }
 
-                                if (preArray[j][1][20] !== -1) {
-                                    iron[1] = preArray[j][1][20].value;
-                                    filterArray.push(iron);
-                                    ironRecipe += iron[1];
-                                }
+                                // if (preArray[j][1][20] !== -1) {
+                                //     iron[1] = preArray[j][1][20].value;
+                                //     filterArray.push(iron);
+                                //     ironRecipe += iron[1];
+                                // }
                             }
 
                             if (j > 4) {
@@ -382,15 +383,17 @@ $(document).ready(function () {
                 .done(function () {
 
                     // After recipe object returns, get nutrition facts for recipe and ingredients
-                    recipe.getNutrition().done(function () {
+                    // recipe.getNutrition().done(function () {
 
                         // Combine the nutrition label template with the recipe nutrition data
-                        var recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                        // recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
 
-                        console.log(recipeNutrLabel);
-                    }).done(function () {
-                        $('#nutrition_label').nutritionLabel(recipeNutrLabel);
-                    })
+                        // console.log(recipeNutrLabel);
+                    // }).done(function () {
+
+                        // renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+
+                    // })
                 })
                 // If search fails
                 .fail(function (error) {
@@ -520,6 +523,7 @@ $(document).ready(function () {
 
         $(modalPic).appendTo(modalTitle);
         $(modalIngred).appendTo(modalTitle);
+        // $('#recipe_ingredients').nutritionLabel(recipeNutrLabel);
 
 
         var instance = M.Modal.init(modal, {

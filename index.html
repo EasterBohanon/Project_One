@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Health App</title>
 
   <!-- Materialize CSS -->
@@ -12,7 +14,7 @@
   <!-- Font Family for Nutrition Label -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Archivo+Black" />
   <!-- CSS For Nutrition Label -->
-  <link rel="stylesheet" type="text/css" href="assets/node_modules/nutrition-label-jquery-plugin/dist/css/nutritionLabel-min.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/nutrition-label-jquery-plugin/dist/css/nutritionLabel-min.css">
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/style.css" type="text/css">
   <!-- Firebase -->
@@ -319,7 +321,7 @@
       </a>
     </div>
     <div class="modal-content recipe_content">
-      <div class="row">
+      <!-- <div class="row">
         <h4 id="recipeid_name"></h4>
         <div class="col">
           <img src="" alt="">
@@ -327,12 +329,7 @@
         <div class="col">
           <p id="recipe_ingredients"></p>
         </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div id="nutrition_label"></div>
-        </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -347,7 +344,7 @@
   <!-- Materialize JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- JavaScript -->
-  <script type="text/javascript" src="assets/node_modules/nutrition-label-jquery-plugin/dist/js/nutritionLabel-min.js"></script>
+  <script type="text/javascript" src="bower_components/nutrition-label-jquery-plugin/dist/js/nutritionLabel-min.js"></script>
   <script src="assets/javascript/logic.js"></script>
 </body>
 
