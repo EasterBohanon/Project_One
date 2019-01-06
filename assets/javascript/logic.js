@@ -136,7 +136,7 @@ $(document).ready(function () {
         };
 
         getNutrition() {
-
+            console.log(this.ingredientLines)
             var ingredientsQuery = this.ingredientLines.join(', ');
             console.log(ingredientsQuery);
 
