@@ -165,7 +165,7 @@ $(document).ready(function () {
         $('#recipes_view').empty();
         $('.num_results').empty();
 
-        $('#recipes_view').empty()
+        $('#recipes_view').empty();
         //on click of user recipie submit button
         $(document).ready(function () {
             $('select').formSelect();
@@ -179,124 +179,127 @@ $(document).ready(function () {
 
             // 3) Call getResult method to return API response consisting of recipes
 
-    // Controls all recipe tasks
-    const recipeController = function (id, fav) {
+            // Controls all recipe tasks
+            const recipeController = function (id, fav) {
 
-            search.getResult(query)
+                search.getResult(query)
 
-                // If API request successful
-                .done(function () {
-                    console.log(search);
-                    console.log(search.results);
-
-                    // 4) Render results to UI
-                    renderLoader(false);
-                    renderTotalMatches(search.totalMatchCount);
-                    renderResults(search.results);
-
-
-                    // Add a method to create pagination buttons
-
-                    if (fav){
-
-                        recipe = new Recipe(id,fav);
-                        
-                        myRecipe(recipe.images[0].hostedLargeUrl, recipe.name)
-
-                        $('#favDisplay').appendTo(recipe);
-                    }
-                })
-
-                // If API returns error
-                .fail(function (error) {
-                    displayNoResults();
-                });
-        });
-
-
-        // Controls all recipe tasks
-        const recipeController = function (id) {
-
-            if (id) {
-
-                // Create new Recipe object
-                recipe = new Recipe(id);
-                $('.recipe_content').empty();
-
-                // Call getRecipe method to call API request
-                recipe.getRecipe()
-
+                    // If API request successful
                     .done(function () {
+                        console.log(search);
+                        console.log(search.results);
 
-                        // Render recipe and open modal
-                        renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+                        // 4) Render results to UI
+                        renderLoader(false);
+                        renderTotalMatches(search.totalMatchCount);
+                        renderResults(search.results);
 
+
+                        // Add a method to create pagination buttons
+
+                        if (fav) {
+
+                            recipe = new Recipe(id, fav);
+
+                            myRecipe(recipe.images[0].hostedLargeUrl, recipe.name);
+
+                            $('#favDisplay').appendTo(recipe);
+                        }
                     })
 
-                    // If search fails
+                    // If API returns error
                     .fail(function (error) {
                         displayNoResults();
                     });
             }
-        };
+        });
+    }
 
 
-        // Controls all search filter selections / removals
-        const filterController = function (type, param, status) {
-            var filter = param + type;
-            page = 10;
 
-            if (searchQuery.indexOf('&start=') !== -1) {
-                searchQuery = searchQuery.replace('&start=' + currentPage, '');
-            }
+    // Controls all recipe tasks
+    const recipeController = function (id) {
 
-            // If this search is a query parameter search..
-            if (param === '&q=' && newQuery.length > 0) {
-                searchQuery = searchQuery.replace(newQuery, filter);
-                newQuery = filter;
-            } else if (param === '&q=') {
-                newQuery = filter;
+        if (id) {
+
+            // Create new Recipe object
+            recipe = new Recipe(id);
+            $('.recipe_content').empty();
+
+            // Call getRecipe method to call API request
+            recipe.getRecipe()
+
+                .done(function () {
+
+                    // Render recipe and open modal
+                    renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+
+                })
+
+                // If search fails
+                .fail(function (error) {
+                    displayNoResults();
+                });
+        }
+    };
+
+
+    // Controls all search filter selections / removals
+    const filterController = function (type, param, status) {
+        var filter = param + type;
+        page = 10;
+
+        if (searchQuery.indexOf('&start=') !== -1) {
+            searchQuery = searchQuery.replace('&start=' + currentPage, '');
+        }
+
+        // If this search is a query parameter search..
+        if (param === '&q=' && newQuery.length > 0) {
+            searchQuery = searchQuery.replace(newQuery, filter);
+            newQuery = filter;
+        } else if (param === '&q=') {
+            newQuery = filter;
+            searchQuery += filter;
+        } else {
+
+            // If this filter is a newly added filter
+            if (status) {
+                // Combine with current search query
                 searchQuery += filter;
-            } else {
 
-                // If this filter is a newly added filter
-                if (status) {
-                    // Combine with current search query
-                    searchQuery += filter;
+                // If user removes filter
+            } else if (!status) {
 
-                    // If user removes filter
-                } else if (!status) {
-
-                    // Remove filter from search query
-                    searchQuery = searchQuery.replace(filter, '');
-                }
+                // Remove filter from search query
+                searchQuery = searchQuery.replace(filter, '');
             }
-            // Begin new search
-            searchController(searchQuery);
-        };
+        }
+        // Begin new search
+        searchController(searchQuery);
+    };
 
 
-        // Closure in order to increment page number by multiples of 10
-        var incrementPage = (function (n) {
-            return function () {
-                if (page === 10) {
-                    n = 10;
-                }
-                n += 10;
-                return n;
+    // Closure in order to increment page number by multiples of 10
+    var incrementPage = (function (n) {
+        return function () {
+            if (page === 10) {
+                n = 10;
             }
-        }(10));
+            n += 10;
+            return n;
+        }
+    }(10));
 
 
 
 
 
 
-        /********************************** UI / View Functions ******************************/
+    /********************************** UI / View Functions ******************************/
 
-        // Renders results and appends to recipes class in DOM
-        var renderResults = function (recipes) {
-            var results = $("<div class='fadeIn'>");
+    // Renders results and appends to recipes class in DOM
+    var renderResults = function (recipes) {
+        var results = $("<div class='fadeIn'>");
 
         var modalTitle = $("<div " + "class='row'" + ">");
         var modalPic = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
@@ -330,293 +333,294 @@ $(document).ready(function () {
             dismissible: true,
         });
 
-                    name.append(img);
-                    results.append(name);
-                });
-            }
-            // Displays total matched recipes
-            $('#num_results').text(search.totalMatchCount);
-            $('#recipes_view').append(results);
+        name.append(img);
+        results.append(name);
+    }
+});
 
-            // Assign ajaxRunning to false after recipes render in order to 
-            // continue displaying more recipes once user scrolls to bottom
-            ajaxRunning = false;
-        };
+// Displays total matched recipes
+$('#num_results').text(search.totalMatchCount);
+$('#recipes_view').append(results);
 
-        var myRecipe = function (id, fav){
-
-            var like = $("<h4>" + fav + "</h4>");
-
-            // var recipeImg = $("<img>").attr({
-            //     src: img,
-            //     alt: name,
-            // });
-            
-            $('#favDisplay').append(like);
-
-        }
-
-        // Renders total amount of matches depending on search
-        var renderTotalMatches = function (total) {
-            el = $("<p>Total Suggested Recipes: " + total + "</p>");
-            $('.num_results').append(el);
-        };
+// Assign ajaxRunning to false after recipes render in order to 
+// continue displaying more recipes once user scrolls to bottom
+ajaxRunning = false;
 
 
-        // Still working on this 
-        var renderRecipeModal = function (img, name, ing) {
+var myRecipe = function (id, fav) {
 
-            var modal = document.querySelector('#recipe_modal');
+    var like = $("<h4>" + fav + "</h4>");
 
-            var recipeName = $("<h4>" + name + "</h4>");
-            var recipeImg = $('<img>').attr({
-                src: img,
-                alt: name
-            });
+    // var recipeImg = $("<img>").attr({
+    //     src: img,
+    //     alt: name,
+    // });
 
-            var ingredients = $("<p>").text(ing);
-            recipeName.append(recipeImg).append(ingredients);
+    $('#favDisplay').append(like);
 
-            var instance = M.Modal.init(modal, {
-                onOpenStart: function () {
-                    $('.recipe_content').append(recipeName);
-                },
-                onCloseEnd: function () {
-                    $('.recipe_content').empty();
-                },
-                dismissible: false,
-                startingTop: '70%',
-                endingTop: '60%'
-            });
+}
 
-            instance.open();
-        };
+// Renders total amount of matches depending on search
+var renderTotalMatches = function (total) {
+    el = $("<p>Total Suggested Recipes: " + total + "</p>");
+    $('.num_results').append(el);
+};
 
 
-        // Prevents white space in URL
-        var encodeSearch = function (param, query) {
-            var enQuery = encodeURIComponent(query);
+// Still working on this 
+var renderRecipeModal = function (img, name, ing) {
 
-            if (param == '&allowedIngredient%5B%5D=' || param == '&excludedIngredient%5B%5D=') {
+    var modal = document.querySelector('#recipe_modal');
 
-                filterController(enQuery, param, true);
-            } else if (param == '&q=') {
-                filterController(enQuery, param);
-            }
-        };
+    var recipeName = $("<h4>" + name + "</h4>");
+    var recipeImg = $('<img>').attr({
+        src: img,
+        alt: name
+    });
 
-        // Renders preloader gif
-        var renderLoader = function (e) {
-            var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+    var ingredients = $("<p>").text(ing);
+    recipeName.append(recipeImg).append(ingredients);
 
-            if (e) {
-                $('#recipes_view').append(loader);
-            } else {
-                $('.preloader').remove();
-            }
-        };
+    var instance = M.Modal.init(modal, {
+        onOpenStart: function () {
+            $('.recipe_content').append(recipeName);
+        },
+        onCloseEnd: function () {
+            $('.recipe_content').empty();
+        },
+        dismissible: false,
+        startingTop: '70%',
+        endingTop: '60%'
+    });
 
-        // Displays on UI that no recipe results were found
-        var displayNoResults = function () {
-            var tag = $('<h4>');
-            tag.text('Sorry, no recipes found.');
-
-            $('#recipes_view').append(tag);
-        };
-
-        // Displays ingredient filter tag inside ingredients filter
-        var displayIngredientFilter = function (type, ingredient, param) {
-            var enIngredient = encodeURIComponent(ingredient);
-            var html = `<div class="ingredient_tag ingredient_${type}_del" data-ingredient="${enIngredient}" data-ingparam="${param}">${ingredient}<i class="close material-icons ingredient_del">close</i>`
-            var selector = `.ingredient_${type}_col`;
-
-            $(selector).append(html);
-        };
-
-        var displayCurrentPage = function (page) {
-            var p = $('<p>');
-            p.text('Current Page: ' + page);
-            $('.current_page').empty();
-            $('.current_page').append(p);
-        };
+    instance.open();
+};
 
 
+// Prevents white space in URL
+var encodeSearch = function (param, query) {
+    var enQuery = encodeURIComponent(query);
 
+    if (param == '&allowedIngredient%5B%5D=' || param == '&excludedIngredient%5B%5D=') {
+
+        filterController(enQuery, param, true);
+    } else if (param == '&q=') {
+        filterController(enQuery, param);
+    }
+};
+
+// Renders preloader gif
+var renderLoader = function (e) {
+    var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+
+    if (e) {
+        $('#recipes_view').append(loader);
+    } else {
+        $('.preloader').remove();
+    }
+};
+
+// Displays on UI that no recipe results were found
+var displayNoResults = function () {
+    var tag = $('<h4>');
+    tag.text('Sorry, no recipes found.');
+
+    $('#recipes_view').append(tag);
+};
+
+// Displays ingredient filter tag inside ingredients filter
+var displayIngredientFilter = function (type, ingredient, param) {
+    var enIngredient = encodeURIComponent(ingredient);
+    var html = `<div class="ingredient_tag ingredient_${type}_del" data-ingredient="${enIngredient}" data-ingparam="${param}">${ingredient}<i class="close material-icons ingredient_del">close</i>`
+    var selector = `.ingredient_${type}_col`;
+
+    $(selector).append(html);
+};
+
+var displayCurrentPage = function (page) {
+    var p = $('<p>');
+    p.text('Current Page: ' + page);
+    $('.current_page').empty();
+    $('.current_page').append(p);
+};
 
 
 
 
-    // Click Listener for when a user clicks a recipe image to display recipe details
-    $(document).on('click', '.recipe_result', function () {
-        var id = $(this).attr('data-recipeid');
-        recipeController(id);
-    }); 
-    
-    // favorite recipe button 
-    $(document).on('click', '#starIcon', function () {
-        var id = $(this).attr('data-recipeName');
-        var image = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
-        recipeController(id);
-        // recipe.getRecipe()
-        favorite.push(recipe.name, recipe.images[0].hostedLargeUrl);
-        for(i = 0; i < favorite.length; i++){
+
+
+
+// Click Listener for when a user clicks a recipe image to display recipe details
+$(document).on('click', '.recipe_result', function () {
+    var id = $(this).attr('data-recipeid');
+    recipeController(id);
+});
+
+// favorite recipe button 
+$(document).on('click', '#starIcon', function () {
+    var id = $(this).attr('data-recipeName');
+    var image = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
+    recipeController(id);
+    // recipe.getRecipe()
+    favorite.push(recipe.name, recipe.images[0].hostedLargeUrl);
+    for (i = 0; i < favorite.length; i++) {
         var favRecipe = recipe.name;
         recipeController(id);
-        
+
         // favRecipe.attr("data-recipeName", favorite[i]);
         // favRecipe.text("#favRecipe");
         $("#favDisplay").append(myRecipe());
     }
-        // favorite.push(recipe.name);
+    // favorite.push(recipe.name);
 
-        console.log(favorite);
-    });
+    console.log(favorite);
+});
 
-    // Search Keypress Listener
-    $('#search_form').keypress((e) => {
+// Search Keypress Listener
+$('#search_form').keypress((e) => {
+    var query = $('#textarea1').val().trim();
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
         var query = $('#textarea1').val().trim();
-        if (e.keyCode === 13 || e.which === 13) {
-            e.preventDefault();
-            var query = $('#textarea1').val().trim();
 
-            if (query.length > 1) {
-                encodeSearch('&q=', query);
-            }
-            $('#textarea1').val('')
-            console.log(submit);
+        if (query.length > 1) {
+            encodeSearch('&q=', query);
+        }
+        $('#textarea1').val('')
+        console.log(submit);
 
-            $('#textarea1').val('');
-            // $('#filters').slideUp('slow');
-        });
-
-
-        // Click Listener for when a user clicks a recipe image to display recipe details
-        $(document).on('click', '.recipe_result', function () {
-            var id = $(this).attr('data-recipeid');
-            recipeController(id);
-        });
-
-
-        // Search Keypress Listener
-        $('#search_form').keypress((e) => {
-            var query = $('#textarea1').val().trim();
-            if (e.keyCode === 13 || e.which === 13) {
-                e.preventDefault();
-                if (query.length > 1) {
-                    encodeSearch('&q=', query);
-                    $('#textarea1').val('');
-                    // $('#filters').slideUp();
-                }
-            }
-        });
-
-
-        // Search field listener for when a user clicks on search field or not, slides filters down
-        $("#textarea1").on({
-            focus: function () {
-                $('#filters').slideDown('435');
-            },
-            blur: function () {
-                hideOnClickOutside('#filters');
-            }
-        });
-
-
-        // Function adds/removes click listener depending on if user clicks inside or outside filter area
-        var hideOnClickOutside = function (selector) {
-            const outsideClickListener = (event) => {
-                if (!$(event.target).closest(selector).length) {
-                    if ($(selector).is(':visible')) {
-                        if ($(event.target).hasClass('ingredient_del')) {
-                            event.stopPropagation();
-                        } else {
-                            $(selector).slideUp('435');
-                            removeClickListener();
-                        }
-                    }
-                }
-            };
-            const removeClickListener = () => {
-                document.removeEventListener('click', outsideClickListener);
-            };
-            document.addEventListener('click', outsideClickListener);
-        };
-
-
-        // Check box listener to determine if a certain checkbox is selected or not
-        $('input[type=checkbox]').on('change', function () {
-            var input = $(this);
-            var filterType = input.attr('data-filter');
-            var param = input.attr('data-param');
-
-            if (input.is(':checked')) {
-                filterController(filterType, param, true);
-            } else {
-                filterController(filterType, param, false);
-            }
-        });
-
-
-        // // Kepress listener for included ingredients search field
-        $('.ingredient_inc_form').keypress((e) => {
-            var ingredient = $('.ingredient_inc_field').val().trim();
-            if (e.keyCode === 13 || e.which === 13) {
-                e.preventDefault();
-                if (ingredient.length > 1) {
-                    newIncIngredient = ingredient.toLowerCase();
-                    encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
-                    displayIngredientFilter('inc', newIncIngredient, '&allowedIngredient%5B%5D=');
-                    $('.ingredient_inc_field').val('');
-                }
-            }
-        });
-
-
-        // Keypress listener for excluded ingredients search field
-        $('.ingredient_ex_form').keypress((e) => {
-            var ingredient = $('.ingredient_ex_field').val().trim();
-            if (e.keyCode === 13 || e.which === 13) {
-                e.preventDefault();
-                if (ingredient.length > 1) {
-                    newExIngredient = ingredient.toLowerCase();
-                    encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
-                    displayIngredientFilter('ex', newExIngredient, '&excludedIngredient%5B%5D=');
-                    $('.ingredient_ex_field').val('');
-                }
-            }
-        });
-
-
-        // Click listener for when user removes a filtered ingredient
-        $(document).on('click', '.ingredient_del', function (e) {
-            var parentEl = $(this).parent();
-            var ingredient = parentEl.attr('data-ingredient');
-            var param = parentEl.attr('data-ingparam');
-            filterController(ingredient, param, false);
-            parentEl.remove();
-        });
-
-
-        // Scroll listener to detect when user scrolls to the bottom of the page
-        $(window).scroll(function () {
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                if (searchQuery.length > 0) {
-                    if (searchQuery.indexOf('&start=') !== -1) {
-                        searchQuery = searchQuery.replace('&start=' + currentPage, '');
-                    }
-                    if (!ajaxRunning) {
-                        ajaxRunning = true;
-                        currentPage = incrementPage();
-                        page = currentPage;
-                        queryPage = `${searchQuery}&start=${currentPage}`
-                        searchController(queryPage, true);
-                        console.log(page);
-                    }
-                }
-            }
-        });
+        $('#textarea1').val('');
+        // $('#filters').slideUp('slow');
     }
-})
+});
+
+
+// Click Listener for when a user clicks a recipe image to display recipe details
+$(document).on('click', '.recipe_result', function () {
+    var id = $(this).attr('data-recipeid');
+    recipeController(id);
+});
+
+
+// Search Keypress Listener
+$('#search_form').keypress((e) => {
+    var query = $('#textarea1').val().trim();
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        if (query.length > 1) {
+            encodeSearch('&q=', query);
+            $('#textarea1').val('');
+            // $('#filters').slideUp();
+        }
+    }
+});
+
+
+// Search field listener for when a user clicks on search field or not, slides filters down
+$("#textarea1").on({
+    focus: function () {
+        $('#filters').slideDown('435');
+    },
+    blur: function () {
+        hideOnClickOutside('#filters');
+    }
+});
+
+
+// Function adds/removes click listener depending on if user clicks inside or outside filter area
+var hideOnClickOutside = function (selector) {
+    const outsideClickListener = (event) => {
+        if (!$(event.target).closest(selector).length) {
+            if ($(selector).is(':visible')) {
+                if ($(event.target).hasClass('ingredient_del')) {
+                    event.stopPropagation();
+                } else {
+                    $(selector).slideUp('435');
+                    removeClickListener();
+                }
+            }
+        }
+    };
+    const removeClickListener = () => {
+        document.removeEventListener('click', outsideClickListener);
+    };
+    document.addEventListener('click', outsideClickListener);
+};
+
+
+// Check box listener to determine if a certain checkbox is selected or not
+$('input[type=checkbox]').on('change', function () {
+    var input = $(this);
+    var filterType = input.attr('data-filter');
+    var param = input.attr('data-param');
+
+    if (input.is(':checked')) {
+        filterController(filterType, param, true);
+    } else {
+        filterController(filterType, param, false);
+    }
+});
+
+
+// // Kepress listener for included ingredients search field
+$('.ingredient_inc_form').keypress((e) => {
+    var ingredient = $('.ingredient_inc_field').val().trim();
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        if (ingredient.length > 1) {
+            newIncIngredient = ingredient.toLowerCase();
+            encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
+            displayIngredientFilter('inc', newIncIngredient, '&allowedIngredient%5B%5D=');
+            $('.ingredient_inc_field').val('');
+        }
+    }
+});
+
+
+// Keypress listener for excluded ingredients search field
+$('.ingredient_ex_form').keypress((e) => {
+    var ingredient = $('.ingredient_ex_field').val().trim();
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        if (ingredient.length > 1) {
+            newExIngredient = ingredient.toLowerCase();
+            encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
+            displayIngredientFilter('ex', newExIngredient, '&excludedIngredient%5B%5D=');
+            $('.ingredient_ex_field').val('');
+        }
+    }
+});
+
+
+// Click listener for when user removes a filtered ingredient
+$(document).on('click', '.ingredient_del', function (e) {
+    var parentEl = $(this).parent();
+    var ingredient = parentEl.attr('data-ingredient');
+    var param = parentEl.attr('data-ingparam');
+    filterController(ingredient, param, false);
+    parentEl.remove();
+});
+
+
+// Scroll listener to detect when user scrolls to the bottom of the page
+$(window).scroll(function () {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        if (searchQuery.length > 0) {
+            if (searchQuery.indexOf('&start=') !== -1) {
+                searchQuery = searchQuery.replace('&start=' + currentPage, '');
+            }
+            if (!ajaxRunning) {
+                ajaxRunning = true;
+                currentPage = incrementPage();
+                page = currentPage;
+                queryPage = `${searchQuery}&start=${currentPage}`
+                searchController(queryPage, true);
+                console.log(page);
+            }
+        }
+    }
+});
+
 
 
 
