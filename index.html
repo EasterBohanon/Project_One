@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <!-- Marialize Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- include the needed font from google api -->
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Archivo+Black" />
-  <!-- include the nutrition label plugin css file -->
-  <link rel="stylesheet" type="text/css" href="/bower_components/nutrition-label-jquery-plugin/dist/css/nutritionLabel-min.css">
+  <!-- Font Family for Nutrition Label -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Archivo+Black" />
+  <!-- CSS For Nutrition Label -->
+  <link rel="stylesheet" type="text/css" href="assets/node_modules/nutrition-label-jquery-plugin/dist/css/nutritionLabel-min.css">
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/style.css" type="text/css">
   <!-- Firebase -->
@@ -308,40 +308,32 @@
 
   <!-- </div> -->
 
-<<<<<<< HEAD
   <!-- Recipe Modal -->
-  <div id="recipe_modal" class="modal bottom-sheet">
+  <div id="recipe_modal" class="modal">
     <div class="modal-header">
-      <!-- <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a> -->
-      <i class="material-icons modal-close waves-effect waves-green">close</i>
-=======
-    <!-- Recipe Modal -->
-    <div id="recipe_modal" class="modal">
-        <div class="modal-header">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">
-              <i class="material-icons">close</i>
-            </a>
-            <a href="#" onclick="return false;">
-              <i class="material-icons" id="starIcon">star_border</i>
-            </a>
-          </div>
-      <div class="modal-content recipe_content">
-        <div class="row">
-            <h4 id="recipeid_name"></h4>
-            <div class="col">
-              <img src="" alt="">
-            </div>
-            <div class="col">
-                <p id="recipe_ingredients"></p>
-            </div>
-        </div>
-      </div>
->>>>>>> f74447e55a06c47a4afe29aa46d9f506b852e015
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+        <i class="material-icons">close</i>
+      </a>
+      <a href="#" onclick="return false;">
+        <i class="material-icons" id="starIcon">star_border</i>
+      </a>
     </div>
     <div class="modal-content recipe_content">
-      <h4 id="recipeid_name"></h4>
-      <p></p>
+      <div class="row">
+        <h4 id="recipeid_name"></h4>
+        <div class="col">
+          <img src="" alt="">
+        </div>
+        <div class="col">
+          <p id="recipe_ingredients"></p>
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="modal-content recipe_content">
+    <h4 id="recipeid_name"></h4>
+    <p></p>
+  </div>
 
   </div>
 
@@ -354,7 +346,7 @@
   <!-- Materialize JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- JavaScript -->
-  <script type="text/javascript" src="/bower_components/nutrition-label-jquery-plugin/dist/js/nutritionLabel-min.js"></script>
+  <script type="text/javascript" src="assets/node_modules/nutrition-label-jquery-plugin/dist/js/nutritionLabel-min.js"></script>
   <script src="assets/javascript/logic.js"></script>
 </body>
 

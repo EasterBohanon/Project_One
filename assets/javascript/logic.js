@@ -140,62 +140,71 @@ $(document).ready(function () {
             var ingredientsQuery = this.ingredientLines.join(', ');
             console.log(ingredientsQuery);
 
-            return $.ajax({
-                    url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
-                    method: 'POST',
-                    data: JSON.stringify({
-                        "query": ingredientsQuery
-                    }),
-                    headers: {
-                        'x-app-id': '2d50c081',
-                        'x-app-key': '761211a498e0c9546a3d13704ab339b6',
-                        'x-remote-user-id': '0'
-                    },
-                    contentType: 'application/json',
-                    cache: false,
-                    dataType: 'json',
-                })
-                .done(function (response) {
-                    var ingredient = response.foods
-                    console.log(ingredient);
+            // return $.ajax({
+            //         url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
+            //         method: 'POST',
+            //         data: JSON.stringify({
+            //             "query": ingredientsQuery
+            //         }),
+            //         headers: {
+            //             'x-app-id': '2d50c081',
+            //             'x-app-key': '761211a498e0c9546a3d13704ab339b6',
+            //             'x-remote-user-id': '0'
+            //         },
+            //         contentType: 'application/json',
+            //         cache: false,
+            //         dataType: 'json',
+            //     })
+            //     .done(function (response) {
+            //         var ingredient = response.foods
+            //         console.log(ingredient);
 
-                    for (var i = 0; i < ingredient.length; i++) {
+            //         for (var i = 0; i < ingredient.length; i++) {
 
-                        var preArray = Object.entries(ingredient[i])
-                        console.log(preArray);
-                        var filterArray = [];
+            //             var preArray = Object.entries(ingredient[i])
+            //             console.log(preArray);
+            //             var filterArray = [];
 
-                        for (var j = 5; j < 17; j++) {
+            //             for (var j = 0; j < 17; j++) {
 
-                            if (j === 16) {
+            //                 if (j === 16) {
 
-                                var calcium = ['valueCalcium'];
-                                var vitaminD = ['valueVitaminD'];
-                                var vitaminA = ['valueVitaminA'];
-                                var vitaminK = ['valueVitaminK'];
+            //                     var calcium = ['valueCalcium'];
+            //                     var vitaminD = ['valueVitaminD'];
+            //                     var vitaminA = ['valueVitaminA'];
+            //                     var iron = ['valueIron'];
 
-                                // Find a way to see if code can determine if full nutrients array exists or not before assigning the value to prevent error
-                                calcium[1] = preArray[j][1][12].value
-                                vitaminD[1] = preArray[j][1][24].value
-                                vitaminA[1] = preArray[j][1][22].value
-                                vitaminK[1] = preArray[j][1][51].value
+            //                     if (preArray[j][1][12] !== -1) {
+            //                         calcium[1] = preArray[j][1][12].value;
+            //                         filterArray.push(calcium);
+            //                     }
 
-                                filterArray.push(calcium);
-                                filterArray.push(vitaminD);
-                                filterArray.push(vitaminA);
-                                filterArray.push(vitaminK);
-                            }
-                            filterArray.push(preArray[j]);
-                        }
-                        console.log(filterArray);
-                        var obj = Object.assign(...filterArray.map(d => ({
-                            [d[0]]: d[1]
-                        })));
-                        console.log(obj);
+            //                     if (preArray[j][1][24] !== -1) {
+            //                         vitaminD[1] = preArray[j][1][24].value;
+            //                         filterArray.push(vitaminD);
+            //                     }
 
-                        // obj will return object of all the "nf_" properties for each ingredient in the recipe
-                    }
-                })
+            //                     if (preArray[j][1][22] !== -1) {
+            //                         vitaminD[1] = preArray[j][1][22].value;
+            //                         filterArray.push(vitaminA);
+            //                     }
+
+            //                     if (preArray[j][1][20] !== -1) {
+            //                         iron[1] = preArray[j][1][20].value;
+            //                         filterArray.push(iron);
+            //                     }
+            //                 }
+            //                 filterArray.push(preArray[j]);
+            //             }
+            //             console.log(filterArray);
+            //             var obj = Object.assign(...filterArray.map(ing => ({
+            //                 [ing[0]]: ing[1]
+            //             })));
+            //             console.log(obj);
+
+            //             // obj will return object of all the "nf_" properties for each ingredient in the recipe
+            //         }
+            //     })
         }
     };
 
@@ -257,7 +266,7 @@ $(document).ready(function () {
 
             // Call getRecipe method to call API request
             recipe.getRecipe()
-            
+
 
                 .done(function () {
 

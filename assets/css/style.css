@@ -223,22 +223,6 @@ input#search-bar:focus:-ms-placeholder {
     color: white;
 }
 
-<<<<<<< HEAD
-.modal.bottom-sheet {
-    max-height: 70%;
-}
-
-
- /* Close modal button */
-.modal .modal-close {
-    float: right;
-    font-size: 45px;
-    color: rgba(0, 0, 0, 0.616);
-}
-
-.modal .modal-close:hover {
-    color: rgba(0, 0, 0, 0.226);
-=======
 /* Modal Positioning */
 .modal {
     display: flex;
@@ -249,5 +233,4 @@ input#search-bar:focus:-ms-placeholder {
 #starIcon {
     position: relative;
     top: 7px;
->>>>>>> f74447e55a06c47a4afe29aa46d9f506b852e015
 }
