@@ -204,7 +204,11 @@ $(document).ready(function () {
 
                     if (fav){
 
-                        favorite = myRecipe(recipe.images[0].hostedLargeUrl, recipe.name, )
+                        recipe = new Recipe(id,fav);
+                        
+                        myRecipe(recipe.images[0].hostedLargeUrl, recipe.name)
+
+                        $('#favDisplay').appendTo(recipe);
                     }
                 })
 
@@ -348,6 +352,18 @@ $(document).ready(function () {
         instance.open();
     };
 
+        var myRecipe = function (id, fav){
+
+            var like = $("<h4>" + fav + "</h4>");
+
+            // var recipeImg = $("<img>").attr({
+            //     src: img,
+            //     alt: name,
+            // });
+            
+            $('#favDisplay').append(like);
+
+        }
 
     // Prevents white space in URL
     var encodeSearch = function (param, query) {
@@ -426,18 +442,19 @@ $(document).ready(function () {
     }); 
     
     // favorite recipe button 
-    $(document).on('click', '.favButton', function () {
+    $(document).on('click', '#starIcon', function () {
         var id = $(this).attr('data-recipeName');
-        recipeController(id, fav);
+        var image = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
+        recipeController(id);
         // recipe.getRecipe()
-        favorite.push(recipe.name);
+        favorite.push(recipe.name, recipe.images[0].hostedLargeUrl);
         for(i = 0; i < favorite.length; i++){
         var favRecipe = recipe.name;
-        recipeController(id, fav);
+        recipeController(id);
         
         // favRecipe.attr("data-recipeName", favorite[i]);
         // favRecipe.text("#favRecipe");
-        $("#favDisplay").append(favRecipe);
+        $("#favDisplay").append(myRecipe());
     }
         // favorite.push(recipe.name);
 
