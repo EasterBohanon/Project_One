@@ -387,11 +387,10 @@ $(document).ready(function () {
                     })
                 })
 
-
                 // If search fails
                 .fail(function (error) {
                     displayNoResults();
-                });
+                })
         }
     };
 
@@ -517,6 +516,7 @@ $(document).ready(function () {
 
         $(modalPic).appendTo(modalTitle);
         $(modalIngred).appendTo(modalTitle);
+        // $('#recipe_ingredients').nutritionLabel(recipeNutrLabel);
 
 
         var instance = M.Modal.init(modal, {
