@@ -466,7 +466,7 @@ $(document).ready(function () {
                 var star = $('<i class="material-icons">star</i>');
 
                 var imgDiv = $('<div class="recipe_card_img recipe_result" data-recipeid="' + el.id + '">');
-                var name = $('<h4 class="recipe_card_name recipe_result" data-recipeid="' + el.id + '">' + el.recipeName + '</div>"');
+                var name = $('<h4 class="recipe_card_name recipe_result" data-recipeid="' + el.id + '">' + limitRecipeTitle(el.recipeName) + '</div>"');
 
 
                 if (el.hasOwnProperty('smallImageUrls')) {
@@ -477,7 +477,7 @@ $(document).ready(function () {
 
                 imgDiv.append(img);
                 card.append(imgDiv);
-                
+
 
                 if (el.hasOwnProperty('rating')) {
 
@@ -596,6 +596,22 @@ $(document).ready(function () {
 
 
 
+    const limitRecipeTitle = (title) => {
+        var limit = 25
+        const newTitle = [];
+        if (title.length > limit) {
+            title.split(' ').reduce((acc, cur) => {
+                if (acc + cur.length <= limit) {
+                    newTitle.push(cur);
+                }
+                return acc + cur.length;
+            }, 0);
+
+            // return the result
+            return `${newTitle.join(' ')} ...`;
+        }
+        return title;
+    }
 
 
 
