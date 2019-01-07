@@ -458,13 +458,12 @@ $(document).ready(function () {
             displayNoResults();
         } else {
             recipes.forEach(function (el) {
-                var img, sourceText, rating
+                var img, sourceText
                 totalStars = []
                 var card = $('<div class="fadeIn recipe_card">');
                 var contentDiv = $('<div class="recipe_card_content">');
                 var source = $('<p class="recipe_card_source">');
                 var ratingP = $('<p class="recipe_card_rating">');
-                var star;
 
                 var imgDiv = $('<div class="recipe_card_img recipe_result" data-recipeid="' + el.id + '">');
                 var name = $('<h4 class="recipe_card_name recipe_result" data-recipeid="' + el.id + '">' + limitRecipeTitle(el.recipeName) + '</div>"');
@@ -552,7 +551,7 @@ $(document).ready(function () {
         });
 
         instance.open();
-        $('#recipe_ingredients').nutritionLabel(recipeNutrLabel);
+        $('#recipe_nutr_label').nutritionLabel(recipeNutrLabel);
     };
 
 
