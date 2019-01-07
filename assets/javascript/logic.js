@@ -458,12 +458,13 @@ $(document).ready(function () {
             displayNoResults();
         } else {
             recipes.forEach(function (el) {
-                var img, sourceText, rating;
+                var img, sourceText, rating
+                totalStars = []
                 var card = $('<div class="fadeIn recipe_card">');
                 var contentDiv = $('<div class="recipe_card_content">');
                 var source = $('<p class="recipe_card_source">');
                 var ratingP = $('<p class="recipe_card_rating">');
-                var star = $('<i class="material-icons">star</i>');
+                var star;
 
                 var imgDiv = $('<div class="recipe_card_img recipe_result" data-recipeid="' + el.id + '">');
                 var name = $('<h4 class="recipe_card_name recipe_result" data-recipeid="' + el.id + '">' + limitRecipeTitle(el.recipeName) + '</div>"');
@@ -482,7 +483,7 @@ $(document).ready(function () {
                 if (el.hasOwnProperty('rating')) {
 
                     for (var i = 0; i < el.rating + 1; i++) {
-                        ratingP.append(star);
+                        totalStars.push('<i class="material-icons">star</i>');
                     }
                 }
 
@@ -490,7 +491,9 @@ $(document).ready(function () {
                 source.append(sourceText);
                 contentDiv.append(name).append(source).append(ratingP);
                 card.append(contentDiv);
+                ratingP.html(totalStars.join(''));
                 $('#recipes_view').append(card);
+                
             });
         }
         // Displays total matched recipes
