@@ -409,6 +409,12 @@ $(document).ready(function () {
         recipeController(id);
     });
 
+    //Add recipe to favorites page
+    $(document).on('click', '.recipe_result', function () {
+        var id = $(this).attr('data-recipeid');
+        recipeController(id);
+    });
+
 
     // Search Keypress Listener
     $('#search_form').keypress((e) => {
