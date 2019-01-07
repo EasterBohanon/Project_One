@@ -1,5 +1,68 @@
+
+/* general */
 html {
     box-sizing: border-box;
+}
+body {
+    background-color: #f2f5f1;
+
+}
+p {
+    color: black;
+}
+/* Nav Bar */
+/* getting that logo in aswell as the prespecified diets */
+#navbar {
+    background-color: #e1d6cc;
+   
+    
+}
+.logo-image{
+   
+    border-radius: 50%; 
+   
+}
+
+#ourlogo {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    margin-top: -30px; 
+}
+
+
+/* main container the image with search bar */
+
+#imagetron{
+    background-image: url("../images/searchimage1.jpg");
+    background-size: 100%; 
+    width: 100%;
+    background-repeat: no-repeat;
+}
+
+#info-blurb {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+
+}
+h1{
+    font-family: 'Anton', sans-serif;
+
+}
+
+/* #search_row{
+    background: white;
+} */
+#textarea1 {
+    background-color: white;
+    opacity: .40;
+    
+}
+
+#submitButton {
+    float: right;
+    background-color:#e1d6cc;
+    
 }
 
 #submitButton {
@@ -22,11 +85,28 @@ html {
 
 
 
+/* Messing with the Modal */
 
+#recipe_modal{
+    max-height: 80%;
+}
 
+h4 img{
+    display: block;
+    /* margin-left: auto;
+    margin-right: auto; */
+    right: 300px;
+    width: 300px;
+    /* position: absolute; */
+  /* right: 0px;
+  width: 300px; */
+  border: 3px solid rgb(243, 137, 16);
+  padding: 0px;
+}
 
-
-
+i.medium {
+    color:darkgreen;
+}
 
 
 
@@ -53,6 +133,7 @@ span.badge {
 
 #recipes_view {
     text-align: center;
+    background-color: #f2f5f1;
     /* float: left; */
 }
 
@@ -86,6 +167,7 @@ span.badge {
 
 #filters {
     margin-bottom: 40px;
+    background-color: white;
 }
 
 .slideUpTab {
@@ -96,10 +178,10 @@ span.badge {
 
 #diets_tab .row,
 #nutrition_tab .row,
-#allergies_tab .row {
+#allergies_tab .row,
+#ingredients_tab .row {
     margin-top: 30px;
-    padding-left: 35px;
-    /* margin-bottom: 30px; */
+    padding-left: 15px;
 }
 
 

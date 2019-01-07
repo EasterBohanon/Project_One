@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <!-- Marialize Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/style.css" type="text/css">
   <!-- Firebase -->
@@ -17,35 +19,45 @@
 
 <body>
   <!-- Navbar -->
-  <nav>
-    <div class="nav-wrapper teal">
-      <a href="#" class="brand-logo teal">Health App</a>
-    </div>
+  <nav id="navbar">
+
+    <div class="nav-wrapper" id="navbar">
+      <a href="#" class="brand-logo">
+        <div class="logo-image">
+          <img id="ourlogo" src="assets/images/NewLogoConcept2.png">
+        </div>
+      </a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html"><img id="glutenfreeLogo" src="assets/images/glutenfreeGreen.png" width="50px" height="50px"></a></li>
+        <li><a href="badges.html"><img id="veganLogo" src="assets/images/veganGreen.png" width="50px" height="50px"></a></li>
+        <li><a href="collapsible.html"><img id="paleoLogo" src="assets/images/Paleo_green.png" width="50px" height="50px"></a></li>
+      </ul>
+
+
+
   </nav>
 
   <ul id="slide-out" class="sidenav">
-    <li>
-      <div class="user-view">
-        <div class="background">
-          <img src="">
+      <li>
+        <div class="user-view">
+          <div class="background">
+            <img src="">
+          </div>
+          <a href="#user"><img class="circle" src=""></a>
+          <a href="#name"><span class="white-text name">John Doe</span></a>
+          <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
         </div>
-        <a href="#user"><img class="circle" src=""></a>
-        <a href="#name"><span class="white-text name">John Doe</span></a>
-        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-      </div>
-    </li>
-    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
-    <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
-    <li>
-      <div class="divider"></div>
-    </li>
-    <!-- <li><a class="subheader">Subheader</a></li>
-      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
-  </ul>
-  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
-
-  <!-- <img src="" alt=""> -->
-
+      </li>
+      <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+      <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <!-- <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
+    </ul>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
+  
 
 
   <!-- All the below HTML are for just testing functionality with HTML inputs and AJAX calls -->
@@ -54,51 +66,44 @@
   let us know in your code/chat or just change it in logic.js file -->
 
 
-  <!-- Search Input Field -->
-  <!-- Designed to display autocomplete list of what a user enters into the search -->
-  <!-- <div class="row">
-      <div class="col s12">
-        <div class="row">
-          <div class="input-field col s12">
-            <i class="material-icons prefix">textsms</i>
-            <input type="text" id="autocomplete-input" class="autocomplete">
-            <label for="autocomplete-input">Autocomplete</label>
-          </div>
+
+
+
+  <div class="container" id="imagetron">
+    <div class="container">
+      <div class="row">
+        <div class="col s8" id="info-blurb">
+          <!-- changed it to h1 because it is intervening with the text in the Modal -->
+          <h1>Specialized Nutrition, Made Easy </h1>
+          <h6>Restrictive diets can be tough, but now you've got options.</h6>
+          <h6>Select from the filters below and get recipes tailored to your specific dietary needs.</h6>
         </div>
       </div>
-    </div> -->
 
-
-  <div class="container">
-    <div class="row">
-      <div class="col s8" id="info-blurb">
-        <h4>Specialized Nutrition, Made Easy </h4>
-        <h6>Restrictive diets can be tough, but now you've got options.</h6>
-        <h6>Select from the filters below and get recipes tailored to your specific dietary needs.</h6>
+      <div class="row" id="search_row">
+        <form class="col s12" id="search_form">
+          <div class="row">
+            <!-- Search instructions -->
+            <span class="white-text" id="searchpictext">Search Here to Find recipes.
+            </span>
+            <div class="input-field col s12" id="actualSearchBar">
+              <textarea id="textarea1" class="materialize-textarea"></textarea>
+              <label id="search_label" for="textarea1">Search</label>
+            </div>
+            <div class="col s2">
+              <button id="submitButton" class="btn waves-effect waves-light submit" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+        </form>
       </div>
-    </div>
-
-    <!-- Search Field -->
-    <div class="row" id="search_row">
-      <form class="col s10" id="search_form">
-        <div class="row">
-          <div class="input-field col s10">
-            <i class="material-icons prefix">search</i>
-            <textarea id="textarea1" class="materialize-textarea"></textarea>
-            <label id="search_label" for="textarea1">Search</label>
-          </div>
-          <div class="col s2">
-            <button id="submitButton" class="btn waves-effect waves-light submit" type="submit" name="action">Submit
-              <i class="material-icons right">send</i>
-            </button>
-          </div>
-      </form>
     </div>
   </div>
 
 
-    <!-- Tabs for Filters -->
-    <div class="row" id="filters">
+
+   <!-- Tabs for Filters -->
+   <div class="row" id="filters">
       <div class="col s12">
         <ul class="tabs">
           <li class="tab col s3"><a href="#ingredients_tab">Ingredients</a></li>
@@ -107,7 +112,7 @@
           <li class="tab col s3"><a href="#nutrition_tab">Nutrition</a></li>
         </ul>
       </div>
-
+  
       <!-- Ingredient Filters -->
       <div id="ingredients_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -134,7 +139,7 @@
           </div>
         </div>
       </div>
-
+  
       <!-- Diet Filters -->
       <div id="diets_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -196,7 +201,7 @@
           </div>
         </div>
       </div>
-
+  
       <!-- Allergies Filter -->
       <div id="allergies_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -270,7 +275,7 @@
           </div>
         </div>
       </div>
-
+  
       <!-- Nutrition Filter -->
       <div id="nutrition_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -283,26 +288,25 @@
           quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
         </div>
       </div>
-
+  
     </div>
 
-    <!-- Total Matched Recipes -->
-    <div class="num_results">
+
+
+
+  <!-- Total Matched Recipes -->
+  <div class="num_results">
+  </div>
+
+
+
+  <!-- Recipes -->
+  <div class="row">
+    <div class="col s12" id="recipes_view">
     </div>
   </div>
 
 
-<div class="container" id="recipe_content">
-
-    <!-- Recipes -->
-    <div class="row">
-      <div class="col s12" id="recipes_view">
-      </div>
-    </div>
-  </div>
-
-
-</div>
 
     <!-- Recipe Modal -->
     <div id="recipe_modal" class="modal">
@@ -327,23 +331,26 @@
       </div>
     </div>
   </div>
+  </div>
 
 
-    <!-- Pagination for results -->
-    <!-- <div class="row">
-      <div class="col s12">
-        <ul class="pagination center-align">
-          <li class="disabled"><a href="#!" class="page"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active teal"><a href="#!" class="page">1</a></li>
-          <li class="waves-effect"><a href="#!" class="page">2</a></li>
-          <li class="waves-effect"><a href="#!" class="page">3</a></li>
-          <li class="waves-effect"><a href="#!" class="page">4</a></li>
-          <li class="waves-effect"><a href="#!" class="page">5</a></li>
-          <li><a href="#!" class="page">...</a></li>
-          <li class="waves-effect"><a href="#!" class="page"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
-      </div>
-    </div> -->
+
+  <!-- Pagination for results -->
+  <div class="row">
+    <div class="col s12">
+      <ul class="pagination center-align">
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        <li class="active teal"><a href="#!">1</a></li>
+        <li class="waves-effect"><a href="#!">2</a></li>
+        <li class="waves-effect"><a href="#!">3</a></li>
+        <li class="waves-effect"><a href="#!">4</a></li>
+        <li class="waves-effect"><a href="#!">5</a></li>
+        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+      </ul>
+    </div>
+  </div>
+
+  </div>
 
 
   <!-- jQuery -->
@@ -351,7 +358,6 @@
     crossorigin="anonymous"></script>
   <!-- Materialize JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
   <!-- JavaScript -->
   <script src="assets/javascript/logic.js"></script>
 </body>
