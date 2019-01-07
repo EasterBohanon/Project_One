@@ -49,7 +49,7 @@ h1 {
     font-family: 'Anton', sans-serif;
 }
 
-#search_row{
+#search_row {
     margin-bottom: 0;
 }
 
@@ -75,9 +75,10 @@ h1 {
 
 
 
-#recipe_content {
+/* #recipe_content {
     height: 1000px;
-}
+    margin-top: 70px;
+} */
 
 
 #actualSearchBar {
@@ -94,10 +95,6 @@ h1 {
 }
 
 
-
-#filters {
-    background-color: 
-}
 /* Messing with the Modal */
 
 #recipe_modal {
@@ -142,26 +139,90 @@ span.badge {
 
 #filters {
     display: none;
+    border-radius: 0px 0px 25px 25px;
+    background-color: rgba(255, 255, 255, 0.418);
+    margin-bottom: 40px;
+}
+
+#filters .s12 {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+#filter_tabs {
+    background-color: rgba(255, 255, 255, 0.322);
+    border-radius: 15px;
+}
+
+#filter_tabs li a {
+    border-radius: 10px;
+}
+
+#filter_tabs li a:active {
+    border-radius: 10px;
 }
 
 #recipes_view {
     text-align: center;
-    background-color: #f2f5f1;
-    /* float: left; */
+    margin-bottom: 10px;
 }
 
-.recipe_name {
+#recipe_search_results {
+    height: 850px;
+    margin-top: 70px;
+    text-align: center;
+}
+
+#diets_tab.col .row,
+#allergies_tab.col .row {
+    padding-left: 75px;
+}
+
+
+.recipe_card {
     display: inline-block;
+    margin-left: 15px;
+    margin-bottom: 45px;
 }
 
-.recipe_result {
-    margin: auto;
-    display: inline-block;
+.recipe_card_content {
+    width: 265px;
+    text-align: left;
 }
 
-.recipe_result_img {
-    height: 200px;
-    border-radius: 8px;
+.recipe_card_name {
+    cursor: pointer;
+    transition: .3s ease-out;
+    font-size: 15.5px;
+    margin-top: 3px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.recipe_card_source {
+    font-weight: 200;
+    color: grey;
+    margin-top: 5px;
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+.recipe_card_rating {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.recipe_card_rating i {
+    font-size: 15px;
+}
+
+.recipe_card_name:hover {
+    color: rgb(60, 145, 123);
+}
+
+.recipe_card_img img {
+    height: 190px;
+    border-radius: 10px;
     margin: auto;
     display: inline-block;
     cursor: pointer;
@@ -171,6 +232,13 @@ span.badge {
     height: 130px;
 }
 
+.preloader_content {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 /* class to create fade effect */
 .fadeIn {
     animation-name: fadeIn;
@@ -178,10 +246,6 @@ span.badge {
     animation-timing-function: ease-in;
 }
 
-#filters {
-    margin-bottom: 40px;
-    background-color: white;
-}
 
 .slideUpTab {
     animation-name: tabSlideUp;
@@ -329,4 +393,8 @@ input#search-bar:focus:-ms-placeholder {
 #starIcon {
     position: relative;
     top: 7px;
+}
+
+.num_results {
+    height: 70px;
 }

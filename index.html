@@ -96,12 +96,12 @@
   </div>
 
 
-
+  <!-- Start of Recipe Container -->
   <div class="container">
     <!-- Tabs for Filters -->
     <div class="row" id="filters">
       <div class="col s12">
-        <ul class="tabs">
+        <ul class="tabs" id="filter_tabs">
           <li class="tab col s3"><a href="#ingredients_tab">Ingredients</a></li>
           <li class="tab col s3"><a href="#diets_tab">Diets</a></li>
           <li class="tab col s3"><a href="#allergies_tab">Allergies</a></li>
@@ -288,20 +288,89 @@
     </div>
 
 
-    <!-- Total Matched Recipes -->
-    <div class="num_results">
-    </div>
 
+    <div id="recipe_search_results">
 
-    <!-- Recipes -->
-    <div id="recipe_content">
+      <!-- Total Matched Recipes -->
+      <div class="num_results">
+      </div>
+
+      <!-- Recipes Images-->
       <div class="row">
         <div class="col s12" id="recipes_view">
-          <!-- <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90" alt="" class="recipe_result_img"> -->
+
+          <!-- <div class="recipe_card fadeIn">
+            <div class="recipe_card_img recipe_option">
+              <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90">
+            </div>
+            <div class="recipe_card_content">
+              <h4 class="recipe_card_name">Vínarterta - Icelandic Celebration</h4>
+              <p class="recipe_card_source">Slow Cooker Gourmet</p>
+              <p class="recipe_card_rating"><i class="material-icons">star</i><i class="material-icons">star</i><i
+                  class="material-icons">star</i><i class="material-icons">star</i></p>
+            </div>
+          </div>
+
+          <div class="recipe_card fadeIn">
+            <div class="recipe_card_img">
+              <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90">
+            </div>
+            <div class="recipe_card_content">
+              <h4 class="recipe_card_name">Vínarterta - Icelandic Celebration</h4>
+              <p class="recipe_card_source">Slow Cooker Gourmet</p>
+              <p class="recipe_card_rating"><i class="material-icons">star</i><i class="material-icons">star</i><i
+                  class="material-icons">star</i><i class="material-icons">star</i></p>
+            </div>
+          </div>
+
+          <div class="recipe_card fadeIn">
+            <div class="recipe_card_img">
+              <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90">
+            </div>
+            <div class="recipe_card_content">
+              <h4 class="recipe_card_name">Vínarterta - Icelandic Celebration</h4>
+              <p class="recipe_card_source">Slow Cooker Gourmet</p>
+              <p class="recipe_card_rating"><i class="material-icons">star</i><i class="material-icons">star</i><i
+                  class="material-icons">star</i><i class="material-icons">star</i></p>
+            </div>
+          </div>
+
+          <div class="recipe_card fadeIn">
+            <div class="recipe_card_img">
+              <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90">
+            </div>
+            <div class="recipe_card_content">
+              <h4 class="recipe_card_name">Vínarterta</h4>
+              <p class="recipe_card_source">Slow Cooker Gourmet</p>
+              <p class="recipe_card_rating"><i class="material-icons">star</i>
+            </div>
+          </div>
+          <div class="recipe_card fadeIn">
+            <div class="recipe_card_img">
+              <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90">
+            </div>
+            <div class="recipe_card_content">
+              <h4 class="recipe_card_name">Vínarterta - Icelandic</h4>
+              <p class="recipe_card_source">Slow Cooker Gourmet</p>
+              <p class="recipe_card_rating"><i class="material-icons">star</i><i class="material-icons">star</i><i
+                  class="material-icons">star</i><i class="material-icons">star</i></p>
+            </div>
+          </div>
+
+          <div class="recipe_card fadeIn">
+            <div class="recipe_card_img">
+              <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90">
+            </div>
+            <div class="recipe_card_content">
+              <h4 class="recipe_card_name">Vínarterta - Icelandic Celebration</h4>
+              <p class="recipe_card_source">Slow Cooker Gourmet</p>
+              <p class="recipe_card_rating"><i class="material-icons">star</i><i class="material-icons">star</i><i
+                  class="material-icons">star</i><i class="material-icons">star</i></p>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
-
 
     <!-- Recipe Modal -->
     <div id="recipe_modal" class="modal">
@@ -318,9 +387,10 @@
     </div>
 
 
+
     <!-- End of entire search page container -->
   </div>
-  <!-- </div> -->
+
 
 
 

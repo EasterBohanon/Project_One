@@ -453,29 +453,48 @@ $(document).ready(function () {
 
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
-        var results = $("<div class='fadeIn'>");
 
         if (search.totalMatchCount === 0) {
             displayNoResults();
         } else {
             recipes.forEach(function (el) {
-                var img;
-                var name = $("<div class='fadeIn recipe_result' data-recipeID='" + el.id + "'>" + el.recipeName + "</div>");
+                var img, sourceText, rating;
+                var card = $('<div class="fadeIn recipe_card">');
+                var contentDiv = $('<div class="recipe_card_content">');
+                var source = $('<p class="recipe_card_source">');
+                var ratingP = $('<p class="recipe_card_rating">');
+                var star = $('<i class="material-icons">star</i>');
+
+                var imgDiv = $('<div class="recipe_card_img recipe_result" data-recipeid="' + el.id + '">');
+                var name = $('<h4 class="recipe_card_name recipe_result" data-recipeid="' + el.id + '">' + el.recipeName + '</div>"');
 
 
                 if (el.hasOwnProperty('smallImageUrls')) {
-                    img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
+                    img = $('<img>').attr('src', el.smallImageUrls[0]);
                 } else if (el.hasOwnProperty('imageUrlsBySize')) {
-                    img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
+                    img = $('<img>').attr('src', el.imageUrlsBySize['90']);
                 }
 
-                name.append(img);
-                results.append(name);
+                imgDiv.append(img);
+                card.append(imgDiv);
+                
+
+                if (el.hasOwnProperty('rating')) {
+
+                    for (var i = 0; i < el.rating + 1; i++) {
+                        ratingP.append(star);
+                    }
+                }
+
+                sourceText = el.sourceDisplayName.toUpperCase();
+                source.append(sourceText);
+                contentDiv.append(name).append(source).append(ratingP);
+                card.append(contentDiv);
+                $('#recipes_view').append(card);
             });
         }
         // Displays total matched recipes
-        $('#num_results').text(search.totalMatchCount);
-        $('#recipes_view').append(results);
+        // $('#num_results').text(search.totalMatchCount);
 
         // Assign ajaxRunning to false after recipes render in order to 
         // continue displaying more recipes once user scrolls to bottom
@@ -547,12 +566,14 @@ $(document).ready(function () {
 
     // Renders preloader gif
     var renderLoader = function (e) {
+        var loaderDiv = $("<div class='preloader_content'>");
         var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+        loaderDiv.append(loader);
 
         if (e) {
-            $('#recipes_view').append(loader);
+            $('#recipes_view').append(loaderDiv);
         } else {
-            $('.preloader').remove();
+            $('.preloader_content').remove();
         }
     };
 
