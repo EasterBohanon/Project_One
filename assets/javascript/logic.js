@@ -30,6 +30,7 @@ $(document).ready(function () {
 
 
     // Global Variables
+    var favorite = [];
     var search = {};
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
@@ -380,11 +381,20 @@ $(document).ready(function () {
         $('.current_page').append(p);
     };
 
+    var favoriteController = function (id){
 
+        for (i = 0; i < favorite.length; i++){
 
+            var fav = $('<a href="#!" class="collection-item">' + recipe.name +'</a>');
+            fav.attr("data-name", favorite[i]);
+            fav.text(nButton);
+            // $("div").append("<ul></ul>");
+            $('#favDisplay').append(fav);
 
+        }
 
-
+        recipe = new Recipe(id);
+    }
 
 
     /************************************ Event Listeners ********************************/
@@ -410,10 +420,29 @@ $(document).ready(function () {
     });
 
     //Add recipe to favorites page
-    $(document).on('click', '.recipe_result', function () {
-        var id = $(this).attr('data-recipeid');
+    $(document).on('click', '#starIcon', function () {
+        event.preventDefault();
+        var id = $(this).attr('data-recipeName');
+        var image = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
         recipeController(id);
+        // recipe.getRecipe()
+        favorite.push(recipe.name, recipe.images[0].hostedLargeUrl);
+        for(i = 0; i < favorite.length; i++){
+        var favRecipe = recipe.name;
+        recipeController(id);
+        
+       
+        // favRecipe.attr("data-recipeName", favorite[i]);
+        // favRecipe.text("#favRecipe");
+        // $("#favDisplay").append(myRecipe());
+    }
+        // favorite.push(recipe.name);
+
+        console.log(favorite);
+        
     });
+    
+    
 
 
     // Search Keypress Listener

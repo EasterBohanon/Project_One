@@ -1,17 +1,17 @@
 $(document).ready(function () {
 
 
+
   // Initialize Firebase
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyDcivjtLR1cf14Z7z1EiGaIThJ4qwWZKMQ",
-      authDomain: "healthapp-fc0e3.firebaseapp.com",
-      databaseURL: "https://healthapp-fc0e3.firebaseio.com",
-      projectId: "healthapp-fc0e3",
-      storageBucket: "healthapp-fc0e3.appspot.com",
-      messagingSenderId: "153355736177"
-    };
-    firebase.initializeApp(config);
+  var config = {
+    apiKey: "AIzaSyC2ofFoahSCG7naJIyo7txw0rGVKKxOq5o",
+    authDomain: "driven-copilot-227601.firebaseapp.com",
+    databaseURL: "https://driven-copilot-227601.firebaseio.com",
+    projectId: "driven-copilot-227601",
+    storageBucket: "driven-copilot-227601.appspot.com",
+    messagingSenderId: "973237957612"
+  };
+  firebase.initializeApp(config);
 
 
   var uiConfig = {
@@ -28,7 +28,31 @@ $(document).ready(function () {
     ],
   };
   // Initialize the FirebaseUI Widget using Firebase.  
-  var ui = new firebaseui.auth.AuthUI(firebase.auth());  
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
   // The start method will wait until the DOM is loaded.  
-  ui.start('#firebaseui-auth-container', uiConfig);  
+  ui.start('#firebaseui-auth-container', uiConfig);
+
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // User is signed in.
+      if (user && user.uid != currentUid) {
+
+        currentUid = user.uid;
+
+      }
+    } else {
+      // No user is signed in.
+      currentUid = null;
+    }
+    var user = firebase.auth().userId;
+    var name, email;
+
+    if (user != null) {
+      name = user.displayName;
+      email = user.email;
+
+      $('.name').append(name);
+      console.log(name);
+    }
+  });
 })
