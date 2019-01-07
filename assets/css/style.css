@@ -5,7 +5,6 @@ html {
 
 body {
     background-color: #f2f5f1;
-
 }
 
 p {
@@ -73,12 +72,6 @@ h1 {
     float: right;
 }
 
-
-
-/* #recipe_content {
-    height: 1000px;
-    margin-top: 70px;
-} */
 
 
 #actualSearchBar {
@@ -168,7 +161,7 @@ span.badge {
 }
 
 #recipe_search_results {
-    height: 850px;
+    height: 700px;
     margin-top: 70px;
     text-align: center;
 }
@@ -398,7 +391,3 @@ input#search-bar:focus:-ms-placeholder {
 .num_results {
     height: 70px;
 }
-
-/* .recipe_nutr_label {
-    
-} */

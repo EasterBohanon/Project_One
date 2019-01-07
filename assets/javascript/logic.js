@@ -377,14 +377,16 @@ $(document).ready(function () {
 
                 .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
-                    recipe.getNutrition().then(function () {
-                        // Combine the nutrition label template with the recipe nutrition data
-                        recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
-                        // Render recipe and open modal
+                    recipe.getNutrition()
 
-                        console.log(recipeNutrLabel)
-                        renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-                    })
+                        .then(function () {
+                            // Combine the nutrition label template with the recipe nutrition data
+                            recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                            // Render recipe and open modal
+
+                            console.log(recipeNutrLabel)
+                            renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+                        })
                 })
 
                 // If search fails
@@ -492,7 +494,7 @@ $(document).ready(function () {
                 card.append(contentDiv);
                 ratingP.html(totalStars.join(''));
                 $('#recipes_view').append(card);
-                
+
             });
         }
         // Displays total matched recipes
