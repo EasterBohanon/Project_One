@@ -374,27 +374,19 @@ $(document).ready(function () {
 
             // Call getRecipe method to call API request
             recipe.getRecipe()
-                .done(function () {
 
+                .done(function () {
+                    // After recipe object returns, get nutrition facts for recipe and ingredients
+                    recipe.getNutrition()
+                })
+
+                .done(function () {
+                    // Combine the nutrition label template with the recipe nutrition data
+                    recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
                     // Render recipe and open modal
                     renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-
                 })
-                .done(function () {
 
-                    // After recipe object returns, get nutrition facts for recipe and ingredients
-                    // recipe.getNutrition().done(function () {
-
-                        // Combine the nutrition label template with the recipe nutrition data
-                        // recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
-
-                        // console.log(recipeNutrLabel);
-                    // }).done(function () {
-
-                        // renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-
-                    // })
-                })
                 // If search fails
                 .fail(function (error) {
                     displayNoResults();
@@ -523,7 +515,6 @@ $(document).ready(function () {
 
         $(modalPic).appendTo(modalTitle);
         $(modalIngred).appendTo(modalTitle);
-        // $('#recipe_ingredients').nutritionLabel(recipeNutrLabel);
 
 
         var instance = M.Modal.init(modal, {
@@ -537,6 +528,7 @@ $(document).ready(function () {
         });
 
         instance.open();
+        $('#recipe_ingredients').nutritionLabel(recipeNutrLabel);
     };
 
 
