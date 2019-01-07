@@ -75,7 +75,6 @@ h1{
 
 
 
-
 #recipe_content {
     height: 1000px;
 }
@@ -305,3 +304,18 @@ input#search-bar:focus:-ms-placeholder {
 .ingredient_tag .close:hover {
     color: white;
 }
+<<<<<<< HEAD
+=======
+
+/* Modal Positioning */
+.modal {
+    display: flex;
+    position: fixed;
+    width: auto;
+  }
+
+#starIcon {
+    position: relative;
+    top: 7px;
+}
+>>>>>>> f74447e55a06c47a4afe29aa46d9f506b852e015
