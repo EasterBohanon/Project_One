@@ -16,8 +16,6 @@ p {
 /* getting that logo in aswell as the prespecified diets */
 #navbar {
     background-color: #e1d6cc;
-
-
 }
 
 .logo-image {
@@ -44,18 +42,26 @@ p {
 #info-blurb {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: white;
+    padding-left: 0;
 }
 
 h1 {
     font-family: 'Anton', sans-serif;
 }
 
-/* #search_row{
-    background: white;
-} */
+#search_row{
+    margin-bottom: 0;
+}
+
+
 #textarea1 {
-    background-color: white;
-    opacity: .40;
+    font-size: 20px;
+    padding-left: 20px;
+    color: white;
+}
+
+#textarea1:focus {
+    height: 100px;
 }
 
 #submitButton {
@@ -74,11 +80,24 @@ h1 {
 }
 
 
+#actualSearchBar {
+    background-color: rgba(255, 255, 255, 0.336);
+    /* background-color: white; */
+    height: 45px;
+    padding: 0;
+    border-radius: 7px;
+    /* opacity: .60; */
+}
+
+#search-btn_col {
+    padding-left: 0;
+}
 
 
 
-
-
+#filters {
+    background-color: 
+}
 /* Messing with the Modal */
 
 #recipe_modal {
