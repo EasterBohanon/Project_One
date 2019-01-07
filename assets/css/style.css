@@ -87,7 +87,7 @@ h1{
 
 /* Messing with the Modal */
 
-.modal.bottom-sheet{
+#recipe_modal{
     max-height: 80%;
 }
 
@@ -304,8 +304,6 @@ input#search-bar:focus:-ms-placeholder {
 .ingredient_tag .close:hover {
     color: white;
 }
-<<<<<<< HEAD
-=======
 
 /* Modal Positioning */
 .modal {
@@ -318,4 +316,3 @@ input#search-bar:focus:-ms-placeholder {
     position: relative;
     top: 7px;
 }
->>>>>>> f74447e55a06c47a4afe29aa46d9f506b852e015

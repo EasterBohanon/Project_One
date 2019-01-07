@@ -38,28 +38,26 @@
   </nav>
 
   <ul id="slide-out" class="sidenav">
-    <li>
-      <div class="user-view">
-        <div class="background">
-          <img src="">
+      <li>
+        <div class="user-view">
+          <div class="background">
+            <img src="">
+          </div>
+          <a href="#user"><img class="circle" src=""></a>
+          <a href="#name"><span class="white-text name">John Doe</span></a>
+          <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
         </div>
-        <a href="#user"><img class="circle" src=""></a>
-        <a href="#name"><span class="white-text name">John Doe</span></a>
-        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-      </div>
-    </li>
-    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
-    <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
-    <li>
-      <div class="divider"></div>
-    </li>
-    <!-- <li><a class="subheader">Subheader</a></li>
-      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
-  </ul>
-  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
-
-  <!-- <img src="" alt=""> -->
-
+      </li>
+      <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+      <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <!-- <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
+    </ul>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
+  
 
 
   <!-- All the below HTML are for just testing functionality with HTML inputs and AJAX calls -->
@@ -104,114 +102,194 @@
 
 
 
-  <!-- Tabs for Filters -->
-  <div class="row" id="filters">
-    <div class="col s12">
-      <ul class="tabs">
-        <li class="tab col s3"><a href="#ingredients_tab">Ingredients</a></li>
-        <li class="tab col s3"><a href="#diets_tab">Diets</a></li>
-        <li class="tab col s3"><a href="#allergies_tab">Allergies</a></li>
-        <li class="tab col s3"><a href="#nutrition_tab">Nutrition</a></li>
-      </ul>
-    </div>
-    <div id="ingredients_tab" class="col s12 slideUpTab">
-      <div class="row">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
-        dicta eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit
-        iusto Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda
-        maxime dolores adipisci quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse
-        fugiat.
+   <!-- Tabs for Filters -->
+   <div class="row" id="filters">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#ingredients_tab">Ingredients</a></li>
+          <li class="tab col s3"><a href="#diets_tab">Diets</a></li>
+          <li class="tab col s3"><a href="#allergies_tab">Allergies</a></li>
+          <li class="tab col s3"><a href="#nutrition_tab">Nutrition</a></li>
+        </ul>
       </div>
-    </div>
-
-    <!-- Diet Filters -->
-    <div id="diets_tab" class="col s12 slideUpTab">
-      <div class="row">
-        <div class="col s3">
-          <p>
-            <label>
-              <input type="checkbox" data-filter="406^Ketogenic" />
-              <span>Ketogenic</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" data-filter="388^Lacto vegetarian" />
-              <span>Lacto Vegetarian</span>
-            </label>
-          </p>
+  
+      <!-- Ingredient Filters -->
+      <div id="ingredients_tab" class="col s12 slideUpTab">
+        <div class="row">
+          <div class="col s4 offset-s1">
+            <form class="search-container ingredient_inc_form">
+              <i class="material-icons search-icon">search</i>
+              <input type="text" id="search-bar" class="ingredient_inc_field" placeholder="With Ingredients">
+              <i class="material-icons add-icon" id="ingredient_inc_btn">add</i>
+            </form>
+          </div>
+          <div class="col s4 offset-s1">
+            <form class="search-container ingredient_ex_form">
+              <i class="material-icons search-icon">search</i>
+              <input type="text" id="search-bar" class="ingredient_ex_field" placeholder="Without Ingredients">
+              <i class="material-icons add-icon" id="ingredient_ex_btn">add</i>
+            </form>
+          </div>
         </div>
-        <div class="col s3">
-          <p>
-            <label>
-              <input type="checkbox" data-filter="389^Ovo vegetarian" />
-              <span>Ovo Vegetarian</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" data-filter="390^Pescetarian" />
-              <span>Pescetarian</span>
-            </label>
-          </p>
-        </div>
-        <div class="col s3">
-          <p>
-            <label>
-              <input type="checkbox" data-filter="408^Low FODMAP" />
-              <span>Low FODMAP</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" data-filter="386^Vegan" />
-              <span>Vegan</span>
-            </label>
-          </p>
-        </div>
-        <div class="col s3">
-          <p>
-            <label>
-              <input type="checkbox" data-filter="387^Lacto-ovo vegetarian" />
-              <span>Vegetarian</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" data-filter="403^Paleo" />
-              <span>Paleo</span>
-            </label>
-          </p>
+        <!-- Row for included/excluded ingredient tags -->
+        <div class="row">
+          <div class="col s4 offset-s1 ingredient_inc_col">
+          </div>
+          <div class="col s5 ingredient_ex_col">
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Allergies Filter -->
-    <div id="allergies_tab" class="col s12 slideUpTab">
-      <div class="row">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
-        dicta
-        eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit iusto
-        Lorem ipsum
-        dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda maxime dolores
-        adipisci
-        quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
+  
+      <!-- Diet Filters -->
+      <div id="diets_tab" class="col s12 slideUpTab">
+        <div class="row">
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="406^Ketogenic" data-param="&allowedDiet%5B%5D=" />
+                <span>Ketogenic</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="388^Lacto vegetarian" data-param="&allowedDiet%5B%5D=" />
+                <span>Lacto Vegetarian</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="389^Ovo vegetarian" data-param="&allowedDiet%5B%5D=" />
+                <span>Ovo Vegetarian</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="390^Pescetarian" data-param="&allowedDiet%5B%5D=" />
+                <span>Pescetarian</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="408^Low FODMAP" data-param="&allowedDiet%5B%5D=" />
+                <span>Low FODMAP</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="386^Vegan" data-param="&allowedDiet%5B%5D=" />
+                <span>Vegan</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="387^Lacto-ovo vegetarian" data-param="&allowedDiet%5B%5D=" />
+                <span>Vegetarian</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="403^Paleo" data-param="&allowedDiet%5B%5D=" />
+                <span>Paleo</span>
+              </label>
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <!-- Nutrition Filter -->
-    <div id="nutrition_tab" class="col s12 slideUpTab">
-      <div class="row">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
-        dicta
-        eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit iusto
-        Lorem ipsum
-        dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda maxime dolores
-        adipisci
-        quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
+  
+      <!-- Allergies Filter -->
+      <div id="allergies_tab" class="col s12 slideUpTab">
+        <div class="row">
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="393^Gluten-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Gluten-Free</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="394^Peanut-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Peanut-Free</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="395^Tree Nut-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Tree Nut-Free</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="398^Seafood-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Seafood-Free</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="399^Sesame-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Sesame-Free</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="392^Wheat-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Wheat-Free</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="400^Soy-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Soy-Free</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="396^Dairy-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Dairy-Free</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" data-filter="397^Egg-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Egg-Free</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" data-filter="401^Sulfite-Free" data-param="&allowedAllergy%5B%5D=" />
+                <span>Sulfite-Free</span>
+              </label>
+            </p>
+          </div>
+        </div>
       </div>
+  
+      <!-- Nutrition Filter -->
+      <div id="nutrition_tab" class="col s12 slideUpTab">
+        <div class="row">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae placeat explicabo neque debitis ipsam
+          dicta
+          eveniet voluptate eos cum rerum, ex omnis voluptatibus deleniti dolorem dignissimos distinctio sit iusto
+          Lorem ipsum
+          dolor sit amet, consectetur adipisicing elit. Reiciendis nemo ad corrupti a quae assumenda maxime dolores
+          adipisci
+          quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
+        </div>
+      </div>
+  
     </div>
-  </div>
 
 
 
