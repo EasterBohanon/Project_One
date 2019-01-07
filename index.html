@@ -24,8 +24,7 @@
 <body>
   <!-- Navbar -->
   <nav id="navbar">
-
-    <div class="nav-wrapper" id="navbar">
+    <div class="nav-wrapper container" id="navbar">
       <a href="#" class="brand-logo">
         <div class="logo-image">
           <img id="ourlogo" src="assets/images/NewLogoConcept2.png">
@@ -36,37 +35,35 @@
         <li><a href="badges.html"><img id="veganLogo" src="assets/images/veganGreen.png" width="50px" height="50px"></a></li>
         <li><a href="collapsible.html"><img id="paleoLogo" src="assets/images/Paleo_green.png" width="50px" height="50px"></a></li>
       </ul>
-
-
-
+    </div>
   </nav>
 
   <ul id="slide-out" class="sidenav">
-      <li>
-        <div class="user-view">
-          <div class="background">
-            <img src="">
-          </div>
-          <a href="#user"><img class="circle" src=""></a>
-          <a href="#name"><span class="white-text name">John Doe</span></a>
-          <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="">
         </div>
-      </li>
-      <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
-      <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
-      <li>
-        <div class="divider"></div>
-      </li>
-      <!-- <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
-    </ul>
-    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
-  
+        <a href="#user"><img class="circle" src=""></a>
+        <a href="#name"><span class="white-text name">John Doe</span></a>
+        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+      </div>
+    </li>
+    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+    <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+    <li>
+      <div class="divider"></div>
+    </li>
+    <!-- <li><a class="subheader">Subheader</a></li>
+      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
+  </ul>
+  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
 
-    
 
 
-  <div class="container" id="imagetron">
+
+
+  <div id="imagetron">
     <div class="container">
       <div class="row">
         <div class="col s8" id="info-blurb">
@@ -81,8 +78,8 @@
         <form class="col s12" id="search_form">
           <div class="row">
             <!-- Search instructions -->
-            <span class="white-text" id="searchpictext">Search Here to Find recipes.
-            </span>
+            <p class="white-text" id="searchpictext">Search Here to Find recipes.
+            </p>
             <div class="input-field col s12" id="actualSearchBar">
               <textarea id="textarea1" class="materialize-textarea"></textarea>
               <label id="search_label" for="textarea1">Search</label>
@@ -92,15 +89,17 @@
                 <i class="material-icons right">send</i>
               </button>
             </div>
+          </div>
         </form>
       </div>
     </div>
-    <!-- </div> -->
+  </div>
 
 
 
-   <!-- Tabs for Filters -->
-   <div class="row" id="filters">
+  <div class="container">
+    <!-- Tabs for Filters -->
+    <div class="row" id="filters">
       <div class="col s12">
         <ul class="tabs">
           <li class="tab col s3"><a href="#ingredients_tab">Ingredients</a></li>
@@ -109,7 +108,7 @@
           <li class="tab col s3"><a href="#nutrition_tab">Nutrition</a></li>
         </ul>
       </div>
-  
+
       <!-- Ingredient Filters -->
       <div id="ingredients_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -136,7 +135,7 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Diet Filters -->
       <div id="diets_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -198,7 +197,7 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Allergies Filter -->
       <div id="allergies_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -272,7 +271,7 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Nutrition Filter -->
       <div id="nutrition_tab" class="col s12 slideUpTab">
         <div class="row">
@@ -285,7 +284,7 @@
           quibusdam praesentium officiis id facilis, et nam molestias nisi, aperiam esse fugiat.
         </div>
       </div>
-  
+
     </div>
 
 
@@ -298,7 +297,7 @@
     <div id="recipe_content">
       <div class="row">
         <div class="col s12" id="recipes_view">
-          <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90" alt="" class="recipe_result_img">
+          <!-- <img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=l90" alt="" class="recipe_result_img"> -->
         </div>
       </div>
     </div>
@@ -319,9 +318,9 @@
     </div>
 
 
-  <!-- End of entire search page container -->
+    <!-- End of entire search page container -->
   </div>
-  </div>
+  <!-- </div> -->
 
 
 
