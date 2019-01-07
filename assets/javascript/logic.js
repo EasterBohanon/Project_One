@@ -196,7 +196,7 @@ $(document).ready(function () {
                     cache: false,
                     dataType: 'json'
                 })
-                .done(function (response) {
+                .then(function (response) {
                     var ingredient = response.foods;
                     var allIngNutritionArr = [];
                     var calciumRecipe = 0;
@@ -259,23 +259,23 @@ $(document).ready(function () {
                                 var vitaminD = ['valueVitaminD'];
                                 var iron = ['valueIron'];
 
-                                // if (preArray[j][1][12] !== -1) {
-                                //     calcium[1] = preArray[j][1][12].value;
-                                //     filterArray.push(calcium);
-                                //     calciumRecipe += calcium[1];
-                                // }
-
-                                if (preArray[j][1][24] !== -1) {
-                                    // vitaminD[1] = preArray[j][1][24].value;
-                                    // filterArray.push(vitaminD);
-                                    // vD += vitaminD[1];
+                                if (preArray[j][1][12] !== undefined) {
+                                    calcium[1] = preArray[j][1][12].value;
+                                    filterArray.push(calcium);
+                                    calciumRecipe += calcium[1];
                                 }
 
-                                // if (preArray[j][1][20] !== -1) {
-                                //     iron[1] = preArray[j][1][20].value;
-                                //     filterArray.push(iron);
-                                //     ironRecipe += iron[1];
-                                // }
+                                if (preArray[j][1][24] !== undefined) {
+                                    vitaminD[1] = preArray[j][1][24].value;
+                                    filterArray.push(vitaminD);
+                                    vD += vitaminD[1];
+                                }
+
+                                if (preArray[j][1][20] !== undefined) {
+                                    iron[1] = preArray[j][1][20].value;
+                                    filterArray.push(iron);
+                                    ironRecipe += iron[1];
+                                }
                             }
 
                             if (j > 4) {
@@ -345,7 +345,7 @@ $(document).ready(function () {
         search.getResult(query)
 
             // If API request successful
-            .done(function () {
+            .then(function () {
                 console.log(search);
                 console.log(search.results);
 
@@ -375,17 +375,18 @@ $(document).ready(function () {
             // Call getRecipe method to call API request
             recipe.getRecipe()
 
-                .done(function () {
+                .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
-                    recipe.getNutrition()
+                    recipe.getNutrition().then(function () {
+                        // Combine the nutrition label template with the recipe nutrition data
+                        recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                        // Render recipe and open modal
+
+                        console.log(recipeNutrLabel)
+                        renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+                    })
                 })
 
-                .done(function () {
-                    // Combine the nutrition label template with the recipe nutrition data
-                    recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
-                    // Render recipe and open modal
-                    renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-                })
 
                 // If search fails
                 .fail(function (error) {
@@ -460,7 +461,7 @@ $(document).ready(function () {
         } else {
             recipes.forEach(function (el) {
                 var img;
-                var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+                var name = $("<div class='fadeIn recipe_result' data-recipeID='" + el.id + "'>" + el.recipeName + "</div>");
 
 
                 if (el.hasOwnProperty('smallImageUrls')) {
@@ -485,6 +486,7 @@ $(document).ready(function () {
 
     // Renders total amount of matches depending on search
     var renderTotalMatches = function (total) {
+        $('.num_results').empty();
         el = $("<p>Total Suggested Recipes: " + total + "</p>");
         $('.num_results').append(el);
     };
