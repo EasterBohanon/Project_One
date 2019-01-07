@@ -12,6 +12,7 @@ html {
 
 
 
+
 #recipe_content {
     height: 1000px;
 }
@@ -221,16 +222,4 @@ input#search-bar:focus:-ms-placeholder {
 
 .ingredient_tag .close:hover {
     color: white;
-}
-
-/* Modal Positioning */
-.modal {
-    display: flex;
-    position: fixed;
-    width: auto;
-  }
-
-#starIcon {
-    position: relative;
-    top: 7px;
 }
