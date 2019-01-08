@@ -36,8 +36,8 @@ $(document).ready(function () {
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
     var appID = '992846dd' // Chris's Yummly API ID
-    var searchURL = 'http://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23';
-    var recipeURL = 'http://api.yummly.com/v1/api/recipe/';
+    var searchURL = 'https://api.yummly.com/v1/api/recipes?_app_id=992846dd&_app_key=6c1aa41e76cc55600f7a88e531724d23';
+    var recipeURL = 'https://api.yummly.com/v1/api/recipe/';
     var searchQuery = '';
     var newQuery = '';
     var newIncIngredient = '';
@@ -46,8 +46,6 @@ $(document).ready(function () {
     var page = 10;
     var ajaxRunning = false;
     var recipeNutrLabel = {};
-
-
     var labelTemplate = {
         valueServingUnitQuantity: 2,
         showAmountPerServing: false,
