@@ -368,23 +368,23 @@ $(document).ready(function () {
 
             // Create new Recipe object
             recipe = new Recipe(id);
-            $('.recipe_content').empty();
+            // $('.recipe_content').empty();
 
             // Call getRecipe method to call API request
             recipe.getRecipe()
 
                 .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
-                    recipe.getNutrition()
+                    // recipe.getNutrition()
 
-                        .then(function () {
-                            // Combine the nutrition label template with the recipe nutrition data
-                            recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
-                            // Render recipe and open modal
+                    //     .then(function () {
+                    //         // Combine the nutrition label template with the recipe nutrition data
+                    //         recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                    //         // Render recipe and open modal
 
-                            console.log(recipeNutrLabel)
+                    //         console.log(recipeNutrLabel)
                             renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-                        })
+                        // })
                 })
 
                 // If search fails
@@ -542,10 +542,10 @@ $(document).ready(function () {
 
         var instance = M.Modal.init(modal, {
             onOpenStart: function () {
-                $('.recipe_content').append(modalTitle);
+                // $('.recipe_content').append(modalTitle);
             },
             onCloseEnd: function () {
-                $('.recipe_content').empty();
+                // $('.recipe_content').empty();
             },
             dismissible: true,
         });
