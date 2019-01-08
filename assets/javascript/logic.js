@@ -196,7 +196,7 @@ $(document).ready(function () {
                     cache: false,
                     dataType: 'json'
                 })
-                .done(function (response) {
+                .then(function (response) {
                     var ingredient = response.foods;
                     var allIngNutritionArr = [];
                     var calciumRecipe = 0;
@@ -259,23 +259,23 @@ $(document).ready(function () {
                                 var vitaminD = ['valueVitaminD'];
                                 var iron = ['valueIron'];
 
-                                // if (preArray[j][1][12] !== -1) {
-                                //     calcium[1] = preArray[j][1][12].value;
-                                //     filterArray.push(calcium);
-                                //     calciumRecipe += calcium[1];
-                                // }
-
-                                if (preArray[j][1][24] !== -1) {
-                                    // vitaminD[1] = preArray[j][1][24].value;
-                                    // filterArray.push(vitaminD);
-                                    // vD += vitaminD[1];
+                                if (preArray[j][1][12] !== undefined) {
+                                    calcium[1] = preArray[j][1][12].value;
+                                    filterArray.push(calcium);
+                                    calciumRecipe += calcium[1];
                                 }
 
-                                // if (preArray[j][1][20] !== -1) {
-                                //     iron[1] = preArray[j][1][20].value;
-                                //     filterArray.push(iron);
-                                //     ironRecipe += iron[1];
-                                // }
+                                if (preArray[j][1][24] !== undefined) {
+                                    vitaminD[1] = preArray[j][1][24].value;
+                                    filterArray.push(vitaminD);
+                                    vD += vitaminD[1];
+                                }
+
+                                if (preArray[j][1][20] !== undefined) {
+                                    iron[1] = preArray[j][1][20].value;
+                                    filterArray.push(iron);
+                                    ironRecipe += iron[1];
+                                }
                             }
 
                             if (j > 4) {
@@ -345,7 +345,7 @@ $(document).ready(function () {
         search.getResult(query)
 
             // If API request successful
-            .done(function () {
+            .then(function () {
                 console.log(search);
                 console.log(search.results);
 
@@ -374,31 +374,25 @@ $(document).ready(function () {
 
             // Call getRecipe method to call API request
             recipe.getRecipe()
-                .done(function () {
 
-                    // Render recipe and open modal
-                    renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-
-                })
-                .done(function () {
-
+                .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
-                    // recipe.getNutrition().done(function () {
+                    recipe.getNutrition()
 
-                        // Combine the nutrition label template with the recipe nutrition data
-                        // recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                        .then(function () {
+                            // Combine the nutrition label template with the recipe nutrition data
+                            recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                            // Render recipe and open modal
 
-                        // console.log(recipeNutrLabel);
-                    // }).done(function () {
-
-                        // renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-
-                    // })
+                            console.log(recipeNutrLabel)
+                            renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+                        })
                 })
+
                 // If search fails
                 .fail(function (error) {
                     displayNoResults();
-                });
+                })
         }
     };
 
@@ -461,29 +455,50 @@ $(document).ready(function () {
 
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
-        var results = $("<div class='fadeIn'>");
 
         if (search.totalMatchCount === 0) {
             displayNoResults();
         } else {
             recipes.forEach(function (el) {
-                var img;
-                var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+                var img, sourceText
+                totalStars = []
+                var card = $('<div class="fadeIn recipe_card">');
+                var contentDiv = $('<div class="recipe_card_content">');
+                var source = $('<p class="recipe_card_source">');
+                var ratingP = $('<p class="recipe_card_rating">');
+
+                var imgDiv = $('<div class="recipe_card_img recipe_result" data-recipeid="' + el.id + '">');
+                var name = $('<h4 class="recipe_card_name recipe_result" data-recipeid="' + el.id + '">' + limitRecipeTitle(el.recipeName) + '</div>"');
 
 
                 if (el.hasOwnProperty('smallImageUrls')) {
-                    img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
+                    img = $('<img>').attr('src', el.smallImageUrls[0]);
                 } else if (el.hasOwnProperty('imageUrlsBySize')) {
-                    img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
+                    img = $('<img>').attr('src', el.imageUrlsBySize['90']);
                 }
 
-                name.append(img);
-                results.append(name);
+                imgDiv.append(img);
+                card.append(imgDiv);
+
+
+                if (el.hasOwnProperty('rating')) {
+
+                    for (var i = 0; i < el.rating + 1; i++) {
+                        totalStars.push('<i class="material-icons">star</i>');
+                    }
+                }
+
+                sourceText = el.sourceDisplayName.toUpperCase();
+                source.append(sourceText);
+                contentDiv.append(name).append(source).append(ratingP);
+                card.append(contentDiv);
+                ratingP.html(totalStars.join(''));
+                $('#recipes_view').append(card);
+
             });
         }
         // Displays total matched recipes
-        $('#num_results').text(search.totalMatchCount);
-        $('#recipes_view').append(results);
+        // $('#num_results').text(search.totalMatchCount);
 
         // Assign ajaxRunning to false after recipes render in order to 
         // continue displaying more recipes once user scrolls to bottom
@@ -493,6 +508,7 @@ $(document).ready(function () {
 
     // Renders total amount of matches depending on search
     var renderTotalMatches = function (total) {
+        $('.num_results').empty();
         el = $("<p>Total Suggested Recipes: " + total + "</p>");
         $('.num_results').append(el);
     };
@@ -537,6 +553,7 @@ $(document).ready(function () {
         });
 
         instance.open();
+        $('#recipe_nutr_label').nutritionLabel(recipeNutrLabel);
     };
 
 
@@ -553,12 +570,14 @@ $(document).ready(function () {
 
     // Renders preloader gif
     var renderLoader = function (e) {
+        var loaderDiv = $("<div class='preloader_content'>");
         var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+        loaderDiv.append(loader);
 
         if (e) {
-            $('#recipes_view').append(loader);
+            $('#recipes_view').append(loaderDiv);
         } else {
-            $('.preloader').remove();
+            $('.preloader_content').remove();
         }
     };
 
@@ -581,6 +600,22 @@ $(document).ready(function () {
 
 
 
+    const limitRecipeTitle = (title) => {
+        var limit = 25
+        const newTitle = [];
+        if (title.length > limit) {
+            title.split(' ').reduce((acc, cur) => {
+                if (acc + cur.length <= limit) {
+                    newTitle.push(cur);
+                }
+                return acc + cur.length;
+            }, 0);
+
+            // return the result
+            return `${newTitle.join(' ')} ...`;
+        }
+        return title;
+    }
 
 
 
