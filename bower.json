@@ -1,0 +1,21 @@
+{
+  "name": "Project_One",
+  "homepage": "https://github.com/EasterBohanon/Project_One",
+  "authors": [
+    "Chris Nguyen <34232894+nguyenchris@users.noreply.github.com>"
+  ],
+  "description": "Nutritional Health App",
+  "main": "logic.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "nutrition-label-jquery-plugin": "^8.0.14"
+  }
+}

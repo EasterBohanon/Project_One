@@ -25,6 +25,8 @@ $(document).ready(function () {
         }
     });
 
+
+
     // Initialize side navbar
     $('.sidenav').sidenav();
 
@@ -43,18 +45,31 @@ $(document).ready(function () {
     var currentPage;
     var page = 10;
     var ajaxRunning = false;
+    var recipeNutrLabel = {};
 
 
-
-
-
+    var labelTemplate = {
+        valueServingUnitQuantity: 2,
+        showAmountPerServing: false,
+        showIngredients: false,
+        showServingUnitQuantity: false,
+        widthCustom: 'auto',
+        allowFDARounding: true,
+        decimalPlacesForNutrition: 2,
+        brand_name: null,
+        showPolyFat: false,
+        showMonoFat: false,
+        showTransFat: false,
+        showAddedSugars: false,
+        showLegacyVersion: false,
+    }
 
 
     /********************************** Classes / Dynamic Data ******************************/
 
     /***
      * Classes will construct a new object for every search
-     * Less API calls for data and easier saved locally
+     * Less API calls for data and easier saved locally in order for DRY code
      */
     class Search {
         constructor(query) {
@@ -113,7 +128,7 @@ $(document).ready(function () {
             this.id = id;
         }
 
-        // Method to get the recipe API request
+        // Method to get the Recipe API request
         getRecipe() {
 
             return $.get(`${recipeURL}${this.id}?_app_id=${appID}&_app_key=${key}`, function (response) {
@@ -134,7 +149,174 @@ $(document).ready(function () {
 
             }.bind(this));
         };
+
+        // Method will get all nutrition facts for the recipe 
+        // As well as for each individual ingredient
+        getNutrition() {
+
+            // Loop and remove characters that may cause incorrect query response
+            for (var i = 0; i < this.ingredientLines.length; i++) {
+                var str = this.ingredientLines[i];
+
+                if (str.includes('(')) {
+                    var paren1 = str.replace(/[(]/g, '');
+                    str = paren1;
+                }
+                if (str.includes(')')) {
+                    var paren2 = str.replace(/[)]/g, '');
+                    str = paren2;
+                }
+                if (str.includes(',')) {
+                    var comma = str.replace(/[,]/g, '');
+                    str = comma;
+                }
+                if (str.includes('[')) {
+                    var bracket = str.replace(/[[]]/g, '');
+                    str = bracket;
+                }
+
+                this.ingredientLines[i] = str;
+            }
+
+            var ingredientsQuery = this.ingredientLines.join(', ');
+
+            // Return Ajax POST request with string of different ingredients
+            return $.ajax({
+                    url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
+                    method: 'POST',
+                    data: JSON.stringify({
+                        "query": ingredientsQuery
+                    }),
+                    headers: {
+                        'x-app-id': '2d50c081',
+                        'x-app-key': '761211a498e0c9546a3d13704ab339b6',
+                        'x-remote-user-id': '0'
+                    },
+                    contentType: 'application/json',
+                    cache: false,
+                    dataType: 'json'
+                })
+                .then(function (response) {
+                    var ingredient = response.foods;
+                    var allIngNutritionArr = [];
+                    var calciumRecipe = 0;
+                    var vD = 0;
+                    var ironRecipe = 0;
+
+                    console.log(ingredient);
+
+                    // Calculate each nutrient from each ingredient object that is within an array
+                    var calories = ingredient.reduce((acc, ing) => acc + ing.nf_calories, 0);
+
+                    var cholesterol = ingredient.reduce((acc, ing) => acc + ing.nf_cholesterol, 0);
+
+                    var fiber = ingredient.reduce((acc, ing) => acc + ing.nf_dietary_fiber, 0);
+
+                    var potassium = ingredient.reduce((acc, ing) => acc + ing.nf_potassium, 0);
+
+                    var protein = ingredient.reduce((acc, ing) => acc + ing.nf_protein, 0);
+
+                    var satFat = ingredient.reduce((acc, ing) => acc + ing.nf_saturated_fat, 0);
+
+                    var sodium = ingredient.reduce((acc, ing) => acc + ing.nf_sodium, 0);
+
+                    var sugar = ingredient.reduce((acc, ing) => acc + ing.nf_sugars, 0);
+
+                    var carb = ingredient.reduce((acc, ing) => acc + ing.nf_total_carbohydrate, 0);
+
+                    var fat = ingredient.reduce((acc, ing) => acc + ing.nf_total_fat, 0);
+
+
+                    // Begin loop for each ingredient
+                    for (var i = 0; i < ingredient.length; i++) {
+
+                        // Make each object key/value pairs into an array
+                        var preArray = Object.entries(ingredient[i]);
+                        var filterArray = [];
+
+                        // Reassign key names from the response in order for jQuery 
+                        // NF Label Plug-in to display properly
+                        preArray[0][0] = 'itemName';
+                        preArray[5][0] = 'valueCalories';
+                        preArray[6][0] = 'valueTotalFat';
+                        preArray[7][0] = 'valueSatFat';
+                        preArray[8][0] = 'valueCholesterol';
+                        preArray[9][0] = 'valueSodium';
+                        preArray[10][0] = 'valueTotalCarb';
+                        preArray[11][0] = 'valueFibers';
+                        preArray[12][0] = 'valueSugars';
+                        preArray[13][0] = 'valueProteins';
+                        preArray[14][0] = 'valuePotassium_2018';
+                        preArray[15][0] = 'valuePhosphorus';
+
+
+                        // Loop first 17 nutrients/data
+                        for (var j = 0; j < 17; j++) {
+
+                            if (j === 16) {
+
+                                var calcium = ['valueCalcium'];
+                                var vitaminD = ['valueVitaminD'];
+                                var iron = ['valueIron'];
+
+                                if (preArray[j][1][12] !== undefined) {
+                                    calcium[1] = preArray[j][1][12].value;
+                                    filterArray.push(calcium);
+                                    calciumRecipe += calcium[1];
+                                }
+
+                                if (preArray[j][1][24] !== undefined) {
+                                    vitaminD[1] = preArray[j][1][24].value;
+                                    filterArray.push(vitaminD);
+                                    vD += vitaminD[1];
+                                }
+
+                                if (preArray[j][1][20] !== undefined) {
+                                    iron[1] = preArray[j][1][20].value;
+                                    filterArray.push(iron);
+                                    ironRecipe += iron[1];
+                                }
+                            }
+
+                            if (j > 4) {
+                                preArray[j][1];
+                            }
+
+                            filterArray.push(preArray[j]);
+                        }
+
+                        // Make the array of key/value arrays back to an object
+                        var obj = Object.assign(...filterArray.map(ing => ({
+                            [ing[0]]: ing[1]
+                        })));
+
+                        obj.img = preArray[31][1]['thumb'];
+                        allIngNutritionArr.push(obj);
+
+                    }
+
+                    // Assign all recipe nutrient data to recipe object
+                    this.recipeNutritionLabel = {
+                        itemName: this.name,
+                        valueServingUnitQuantity: this.numberOfServings,
+                        valueCalories: calories,
+                        valueTotalFat: fat,
+                        valueSatFat: satFat,
+                        valueCholesterol: cholesterol,
+                        valueSodium: sodium,
+                        valueTotalCarb: carb,
+                        valueFibers: fiber,
+                        valueSugars: sugar,
+                        valueProteins: protein,
+                        valuePotassium_2018: potassium,
+                        valueCalcium: calciumRecipe,
+                        valueVitaminD: vD,
+                        valueIron: ironRecipe
+                    }
+                }.bind(this))
+        }
     };
+
 
 
 
@@ -163,7 +345,7 @@ $(document).ready(function () {
         search.getResult(query)
 
             // If API request successful
-            .done(function () {
+            .then(function () {
                 console.log(search);
                 console.log(search.results);
 
@@ -171,9 +353,6 @@ $(document).ready(function () {
                 renderLoader(false);
                 renderTotalMatches(search.totalMatchCount);
                 renderResults(search.results);
-
-
-                // Add a method to create pagination buttons
 
             })
 
@@ -196,17 +375,24 @@ $(document).ready(function () {
             // Call getRecipe method to call API request
             recipe.getRecipe()
 
-                .done(function () {
+                .then(function () {
+                    // After recipe object returns, get nutrition facts for recipe and ingredients
+                    recipe.getNutrition()
 
-                    // Render recipe and open modal
-                    renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+                        .then(function () {
+                            // Combine the nutrition label template with the recipe nutrition data
+                            recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                            // Render recipe and open modal
 
+                            console.log(recipeNutrLabel)
+                            renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
+                        })
                 })
 
                 // If search fails
                 .fail(function (error) {
                     displayNoResults();
-                });
+                })
         }
     };
 
@@ -214,8 +400,11 @@ $(document).ready(function () {
     // Controls all search filter selections / removals
     const filterController = function (type, param, status) {
         var filter = param + type;
+
+        // Reassign page variable to 10 in order to reset page start parameter
         page = 10;
 
+        // If page start parameter is present in query, remove it
         if (searchQuery.indexOf('&start=') !== -1) {
             searchQuery = searchQuery.replace('&start=' + currentPage, '');
         }
@@ -236,7 +425,6 @@ $(document).ready(function () {
 
                 // If user removes filter
             } else if (!status) {
-
                 // Remove filter from search query
                 searchQuery = searchQuery.replace(filter, '');
             }
@@ -245,8 +433,8 @@ $(document).ready(function () {
         searchController(searchQuery);
     };
 
-
     // Closure in order to increment page number by multiples of 10
+    // Resets to page 1 if a new search occurs
     var incrementPage = (function (n) {
         return function () {
             if (page === 10) {
@@ -262,33 +450,55 @@ $(document).ready(function () {
 
 
 
+
     /********************************** UI / View Functions ******************************/
 
     // Renders results and appends to recipes class in DOM
     var renderResults = function (recipes) {
-        var results = $("<div class='fadeIn'>");
 
         if (search.totalMatchCount === 0) {
             displayNoResults();
         } else {
             recipes.forEach(function (el) {
-                var img;
-                var name = $("<div class='fadeIn recipe_result recipe_" + el.recipeName + "' data-recipeID='" + el.id + "'>" + el.recipeName + "<br></div>");
+                var img, sourceText
+                totalStars = []
+                var card = $('<div class="fadeIn recipe_card">');
+                var contentDiv = $('<div class="recipe_card_content">');
+                var source = $('<p class="recipe_card_source">');
+                var ratingP = $('<p class="recipe_card_rating">');
+
+                var imgDiv = $('<div class="recipe_card_img recipe_result" data-recipeid="' + el.id + '">');
+                var name = $('<h4 class="recipe_card_name recipe_result" data-recipeid="' + el.id + '">' + limitRecipeTitle(el.recipeName) + '</div>"');
 
 
                 if (el.hasOwnProperty('smallImageUrls')) {
-                    img = $('<img>').attr('src', el.smallImageUrls[0]).addClass('recipe_result_img');
+                    img = $('<img>').attr('src', el.smallImageUrls[0]);
                 } else if (el.hasOwnProperty('imageUrlsBySize')) {
-                    img = $('<img>').attr('src', el.imageUrlsBySize['90']).addClass('recipe_result_img');
+                    img = $('<img>').attr('src', el.imageUrlsBySize['90']);
                 }
 
-                name.append(img);
-                results.append(name);
+                imgDiv.append(img);
+                card.append(imgDiv);
+
+
+                if (el.hasOwnProperty('rating')) {
+
+                    for (var i = 0; i < el.rating + 1; i++) {
+                        totalStars.push('<i class="material-icons">star</i>');
+                    }
+                }
+
+                sourceText = el.sourceDisplayName.toUpperCase();
+                source.append(sourceText);
+                contentDiv.append(name).append(source).append(ratingP);
+                card.append(contentDiv);
+                ratingP.html(totalStars.join(''));
+                $('#recipes_view').append(card);
+
             });
         }
         // Displays total matched recipes
-        $('#num_results').text(search.totalMatchCount);
-        $('#recipes_view').append(results);
+        // $('#num_results').text(search.totalMatchCount);
 
         // Assign ajaxRunning to false after recipes render in order to 
         // continue displaying more recipes once user scrolls to bottom
@@ -298,6 +508,7 @@ $(document).ready(function () {
 
     // Renders total amount of matches depending on search
     var renderTotalMatches = function (total) {
+        $('.num_results').empty();
         el = $("<p>Total Suggested Recipes: " + total + "</p>");
         $('.num_results').append(el);
     };
@@ -308,28 +519,41 @@ $(document).ready(function () {
 
         var modal = document.querySelector('#recipe_modal');
 
+        var modalTitle = $("<div " + "class='row'" + ">");
+        var modalPic = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
+        var modalIngred = $("<div " + "class='col s5'" + "id='recipe_ingredients'" + ">");
         var recipeName = $("<h4>" + name + "</h4>");
-        var recipeImg = $('<img>').attr({
+        var divider = $('<div>').attr({
+            class: divider,
+        });
+        var recipeImg = $("<img>").attr({
             src: img,
-            alt: name
+            alt: name,
         });
 
         var ingredients = $("<p>").text(ing);
-        recipeName.append(recipeImg).append(ingredients);
+
+        modalTitle.append(recipeName);
+        modalPic.append(recipeImg);
+        modalIngred.append(ingredients);
+
+        $(modalPic).appendTo(modalTitle);
+        $(modalIngred).appendTo(modalTitle);
+        // $('#recipe_ingredients').nutritionLabel(recipeNutrLabel);
+
 
         var instance = M.Modal.init(modal, {
             onOpenStart: function () {
-                $('.recipe_content').append(recipeName);
+                $('.recipe_content').append(modalTitle);
             },
             onCloseEnd: function () {
                 $('.recipe_content').empty();
             },
-            dismissible: false,
-            startingTop: '70%',
-            endingTop: '60%'
+            dismissible: true,
         });
 
         instance.open();
+        $('#recipe_nutr_label').nutritionLabel(recipeNutrLabel);
     };
 
 
@@ -338,7 +562,6 @@ $(document).ready(function () {
         var enQuery = encodeURIComponent(query);
 
         if (param == '&allowedIngredient%5B%5D=' || param == '&excludedIngredient%5B%5D=') {
-
             filterController(enQuery, param, true);
         } else if (param == '&q=') {
             filterController(enQuery, param);
@@ -347,12 +570,14 @@ $(document).ready(function () {
 
     // Renders preloader gif
     var renderLoader = function (e) {
+        var loaderDiv = $("<div class='preloader_content'>");
         var loader = $("<img class='preloader'>").attr('src', 'assets/images/preloader.gif');
+        loaderDiv.append(loader);
 
         if (e) {
-            $('#recipes_view').append(loader);
+            $('#recipes_view').append(loaderDiv);
         } else {
-            $('.preloader').remove();
+            $('.preloader_content').remove();
         }
     };
 
@@ -373,15 +598,24 @@ $(document).ready(function () {
         $(selector).append(html);
     };
 
-    var displayCurrentPage = function (page) {
-        var p = $('<p>');
-        p.text('Current Page: ' + page);
-        $('.current_page').empty();
-        $('.current_page').append(p);
-    };
 
 
+    const limitRecipeTitle = (title) => {
+        var limit = 25
+        const newTitle = [];
+        if (title.length > limit) {
+            title.split(' ').reduce((acc, cur) => {
+                if (acc + cur.length <= limit) {
+                    newTitle.push(cur);
+                }
+                return acc + cur.length;
+            }, 0);
 
+            // return the result
+            return `${newTitle.join(' ')} ...`;
+        }
+        return title;
+    }
 
 
 
@@ -399,7 +633,6 @@ $(document).ready(function () {
         }
 
         $('#textarea1').val('');
-        // $('#filters').slideUp('slow');
     });
 
 
@@ -418,7 +651,6 @@ $(document).ready(function () {
             if (query.length > 1) {
                 encodeSearch('&q=', query);
                 $('#textarea1').val('');
-                // $('#filters').slideUp();
             }
         }
     });
@@ -470,7 +702,7 @@ $(document).ready(function () {
     });
 
 
-    // // Kepress listener for included ingredients search field
+    // // Keypress listener for included ingredients search field
     $('.ingredient_inc_form').keypress((e) => {
         var ingredient = $('.ingredient_inc_field').val().trim();
         if (e.keyCode === 13 || e.which === 13) {
@@ -521,9 +753,9 @@ $(document).ready(function () {
                     ajaxRunning = true;
                     currentPage = incrementPage();
                     page = currentPage;
-                    queryPage = `${searchQuery}&start=${currentPage}`
+                    queryPage = `${searchQuery}&start=${currentPage}`;
                     searchController(queryPage, true);
-                    console.log(page);
+
                 }
             }
         }
@@ -559,53 +791,4 @@ $(document).ready(function () {
         $('.sidenav').sidenav();
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /********************
-     * All below code are just 
-     * for testing
-     */
-
-
-    /*********************** Search Recipe GET request
-     * ********* The below options will produce whatever is needed after making an AJAX query * ****** *****Search request ('response' is the JSON object returned)
-     * 
-     * 
-     * 1) All matched recipes depending on search query input (array) - response.matches
-     * 2) ID for that particular recipe (string) - response.matches[i].id
-     * 2) Ingredients in one recipe (array) - response.matches[i].ingredients
-     * 3) Name of recipe(string) - response.matches[i].recipeName
-     * 4) Total Time in seconds(number) - response.matches[i].totalTimeInSeconds
-     * 5) Flavors for that recipe (object) - response.matches[i].flavors
-     * 6) Rating for that recipe (number)  - response.matches[i].rating
-     * 7) Types of courses associated with recipe (array) - response.matches[i].attributes.course[i]
-     * 8) Types of cuisine associated with recipe (array) - response.matches[i].attributes.cuisine[i]
-     * 9) Total Matched results - response.totalMatchCount (number)
-     * 
-     * 10) This states the query parameters for the result set (object) - response.criteria
-     * ^ see same at bottom of page for what is in criteria https://developer.yummly.com/documentation/search-recipes-response-sample
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     */
 });
