@@ -10,6 +10,12 @@ body {
 p {
     color: black;
 }
+
+h6 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    line-height: 25px;
+}
 /* Nav Bar */
 /* getting that logo in aswell as the prespecified diets */
 #navbar {
@@ -47,6 +53,8 @@ p {
 }
 h1{
     font-family: 'Anton', sans-serif;
+    font-size: 65px;
+    line-height: 80px;
 
 }
 
