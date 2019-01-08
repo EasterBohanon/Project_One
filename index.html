@@ -312,19 +312,23 @@
       </div>
 
 
-      <!-- Area for Recipe Content -->
-<<<<<<< HEAD
-      <!-- <div class="modal-content recipe_content">
-      </div> -->
-=======
-      <div class="modal-content recipe_content">
-        <div class="row">
-          <h4>Vínarterta - Icelandic Celebration Cake</h4>
-          <div class="col s4" id="recipe_image"><img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=s360"
-              alt="Vínarterta - Icelandic Celebration Cake"></div>
-          <div class="col s3" id="recipe_ingredients">
 
-            <h5>Ingredients</h5>
+      <div class="modal-content">
+        <!-- Area for Recipe Content in one row-->
+        <div class="recipe_content">
+          <div class="row">
+            <h4>Vínarterta - Icelandic Celebration Cake</h4>
+            <div class="col s4" id="recipe_image"><img src="https://lh3.googleusercontent.com/mPL0SPBGcz89zPcIG7bHDe0o6QQH3o_OduflG_T9n5YVjOcwfHbx0jHFCOtYt1YwkiJ0RfDJn5rWLrm1MotSQw=s360"
+                alt="Vínarterta - Icelandic Celebration Cake">
+              <h5 id="cook_time">Cook Time: </h5>
+              <h5 id="number_servings">Servings: </h5>
+              <a class="waves-effect waves-light btn" id="goto_recipe_button"><i class="material-icons right">kitchen</i>Go
+                To Recipe Page</a>
+            </div>
+
+            <!-- Unordered List of Ingredients -->
+            <div class="col s3" id="recipe_ingredients">
+              <h5>Ingredients</h5>
               <ul id="ing_list">
                 <li>2 cups water</li>
                 <li>1 kg pitted dried prunes</li>
@@ -344,21 +348,18 @@
                 <li>1 Tbsp almond extract</li>
                 <li>½ cup milk</li>
               </ul>
+            </div>
 
-              <div class="col s4" id="recipe_nutr_label">
-                NUTRITIONIX LABEL
-              </div>
+            <!-- Nutrition Label Area -->
+            <div class="col s4" id="recipe_nutr_label">
+            </div>
           </div>
         </div>
 
-        <div class="row" id="recipe_details">
-          <div class="col">
-            <h5 id="cook_time">Cook Time: </h5>
-            <h5 id="number_servings">Servings: </h5>
-            <a class="waves-effect waves-light btn" id="goto_recipe_button"><i class="material-icons right">kitchen</i>Go To Recipe Page</a>
-          </div>
+        <!-- Recipe Ingredient Details -->
+        <div class="row" id="ing_details_row">
           <div class="col" id="ing_table">
-            <table class="striped">
+            <table class="highlighted">
               <thead>
                 <tr>
                   <th id="ing_name">Ingredient</th>
@@ -377,54 +378,11 @@
           </div>
         </div>
       </div>
->>>>>>> e469a79c09f279ce0517ba60f8fa687eea6296b7
-
-      <!-- Area for Recipe Nutrition -->
-      <!-- Will be listing each ingredient's picture, quantity, calories, weight food group in a table layout -->
-      <!-- <div class="recipe_nutrition">
-        <div class="row">
-<<<<<<< HEAD
-          <div class="col">
-            <table class="highlight">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Item Name</th>
-                  <th>Item Price</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>Alvin</td>
-                  <td>Eclair</td>
-                  <td>$0.87</td>
-                </tr>
-                <tr>
-                  <td>Alan</td>
-                  <td>Jellybean</td>
-                  <td>$3.76</td>
-                </tr>
-                <tr>
-                  <td>Jonathan</td>
-                  <td>Lollipop</td>
-                  <td>$7.00</td>
-                </tr>
-              </tbody>
-            </table>
-=======
-          <div class="col s4" id="recipe_nutr_label" style="padding-right: 36px; padding-left: 36px;">
->>>>>>> e469a79c09f279ce0517ba60f8fa687eea6296b7
-          </div>
-          <!-- <div class="col offset-s10" id="recipe_nutr_label"> -->
-        </div>
-      </div> -->
     </div>
-  </div>
 
 
 
-  <!-- End of entire search page container -->
+    <!-- End of entire search page container -->
   </div>
 
 
@@ -435,7 +393,7 @@
   <script src="
           https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous">
-    </script>
+  </script>
   <!-- Materialize JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- JavaScript -->

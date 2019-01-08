@@ -376,8 +376,8 @@ input#search-bar:focus:-ms-placeholder {
 
 /* Modal Positioning */
 .modal {
-    display: flex;
-    position: fixed;
+    /* display: flex; */
+    /* position: fixed; */
     width: auto;
     height: 1000px;
 }
@@ -389,4 +389,21 @@ input#search-bar:focus:-ms-placeholder {
 
 .num_results {
     height: 70px;
+}
+
+
+#ing_list li {
+    list-style-type: circle;
+    transition: transform .2s;
+}
+
+#ing_list li:hover {
+    color: rgb(60, 145, 123);
+    transform: translateX(3px);
+}
+
+
+
+#recipe_image img {
+    border-radius: 10px;
 }
