@@ -379,26 +379,26 @@ $(document).ready(function () {
                     // recipe.getNutrition()
 
                     //     .then(function () {
-                            // Combine the nutrition label template with the recipe nutrition data
-                            recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                    // Combine the nutrition label template with the recipe nutrition data
+                    recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
 
-                            console.log(recipeNutrLabel);
+                    console.log(recipeNutrLabel);
 
-                            // Render recipe content
-                            renderRecipeContent(recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl, recipe.attribution.html);
+                    // Render recipe content
+                    renderRecipeContent(recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl, recipe.attribution.html);
 
-                            // Render ingredient list
-                            renderIngredientList(recipe.ingredientLines);
+                    // Render ingredient list
+                    renderIngredientList(recipe.ingredientLines);
 
-                            // Render nutrition label
-                            renderNutrLabel(recipeNutrLabel);
-                            
-                        // })
+                    // Render nutrition label
+                    renderNutrLabel(recipeNutrLabel);
 
-                        // .then(function () {
-                            // After all recipe items are rendered to modal, open the modal
-                            renderRecipeModal();
-                        })
+                    // })
+
+                    // .then(function () {
+                    // After all recipe items are rendered to modal, open the modal
+                    renderRecipeModal();
+                })
                 // })
 
                 // If search fails
@@ -474,7 +474,7 @@ $(document).ready(function () {
             recipes.forEach(function (el) {
                 var img, sourceText
                 totalStars = []
-                var card = $('<div class="fadeIn recipe_card">');
+                var card = $('<div class="fadeInSearch recipe_card">');
                 var contentDiv = $('<div class="recipe_card_content">');
                 var source = $('<p class="recipe_card_source">');
                 var ratingP = $('<p class="recipe_card_rating">');
@@ -593,7 +593,9 @@ $(document).ready(function () {
         if (e) {
             $('#recipes_view').append(loaderDiv);
         } else {
-            $('.preloader_content').remove();
+            setTimeout(function () {
+                $('.preloader_content').remove();
+            }, 400);
         }
     };
 

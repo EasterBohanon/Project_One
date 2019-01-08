@@ -233,10 +233,19 @@ span.badge {
 }
 
 /* class to create fade effect */
+
 .fadeIn {
     animation-name: fadeIn;
     animation-duration: 0.7s;
-    animation-timing-function: ease-in;
+    animation-timing-function: ease-in-out;
+}
+
+
+
+.fadeInSearch {
+    animation-name: fadeInSearch;
+    animation-duration: 1.1s;
+    animation-timing-function: ease-in-out;
 }
 
 
@@ -255,10 +264,25 @@ span.badge {
 }
 
 
+@keyframes fadeInSearch {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
-        transform: translateY(50px);
     }
 
     100% {
@@ -378,8 +402,8 @@ input#search-bar:focus:-ms-placeholder {
 
 /* Modal Positioning */
 #recipe_modal {
-max-height: 85%;
-width: 85%;
+    max-height: 85%;
+    width: 85%;
 }
 
 #starIcon {
@@ -388,9 +412,7 @@ width: 85%;
     font-size: 33px;
 }
 
-#starIcon:hover {
-
-}
+/* #starIcon:hover {} */
 
 #modal_close {
     font-size: 33px;
@@ -434,8 +456,3 @@ width: 85%;
 #recipe_title {
     /* text-align: center; */
 }
-
-
-
-
-
