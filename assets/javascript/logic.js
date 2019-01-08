@@ -85,7 +85,7 @@ $(document).ready(function () {
                 // Search API request does not contain larger images
                 // Loop array of recipes
                 for (var i = 0; i < arr.length; i++) {
-                    var largeImg = null
+                    var largeImg = null;
                     var img;
 
                     // change to large image URL
@@ -368,7 +368,7 @@ $(document).ready(function () {
 
             // Create new Recipe object
             recipe = new Recipe(id);
-            $('.recipe_content').empty();
+            // $('.recipe_content').empty();
 
             // Call getRecipe method to call API request
             recipe.getRecipe()
@@ -478,7 +478,6 @@ $(document).ready(function () {
                 imgDiv.append(img);
                 card.append(imgDiv);
 
-
                 if (el.hasOwnProperty('rating')) {
 
                     for (var i = 0; i < el.rating + 1; i++) {
@@ -492,11 +491,8 @@ $(document).ready(function () {
                 card.append(contentDiv);
                 ratingP.html(totalStars.join(''));
                 $('#recipes_view').append(card);
-
             });
         }
-        // Displays total matched recipes
-        // $('#num_results').text(search.totalMatchCount);
 
         // Assign ajaxRunning to false after recipes render in order to 
         // continue displaying more recipes once user scrolls to bottom
@@ -537,8 +533,6 @@ $(document).ready(function () {
 
         $(modalPic).appendTo(modalTitle);
         $(modalIngred).appendTo(modalTitle);
-        // $('#recipe_ingredients').nutritionLabel(recipeNutrLabel);
-
 
         var instance = M.Modal.init(modal, {
             onOpenStart: function () {
@@ -597,9 +591,10 @@ $(document).ready(function () {
     };
 
 
-
+    // Limits length of the name of the recipe to prevent the name extending 
+    // to a second line on HTML during recipe search
     const limitRecipeTitle = (title) => {
-        var limit = 25
+        var limit = 24
         const newTitle = [];
         if (title.length > limit) {
             title.split(' ').reduce((acc, cur) => {
@@ -753,7 +748,6 @@ $(document).ready(function () {
                     page = currentPage;
                     queryPage = `${searchQuery}&start=${currentPage}`;
                     searchController(queryPage, true);
-
                 }
             }
         }

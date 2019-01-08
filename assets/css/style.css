@@ -11,6 +11,8 @@ p {
     color: black;
 }
 
+
+
 /* Nav Bar */
 /* getting that logo in aswell as the prespecified diets */
 #navbar {
@@ -79,6 +81,7 @@ h1 {
     /* background-color: white; */
     height: 45px;
     padding: 0;
+    margin: 0;
     border-radius: 7px;
     /* opacity: .60; */
 }
