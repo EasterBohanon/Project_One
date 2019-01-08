@@ -32,6 +32,7 @@ $(document).ready(function () {
 
 
     // Global Variables
+    var favorite = [];
     var search = {};
     var recipe = {};
     var key = '6c1aa41e76cc55600f7a88e531724d23'; // Chris's Yummly API key
@@ -180,20 +181,20 @@ $(document).ready(function () {
 
             // Return Ajax POST request with string of different ingredients
             return $.ajax({
-                    url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
-                    method: 'POST',
-                    data: JSON.stringify({
-                        "query": ingredientsQuery
-                    }),
-                    headers: {
-                        'x-app-id': '2d50c081',
-                        'x-app-key': '761211a498e0c9546a3d13704ab339b6',
-                        'x-remote-user-id': '0'
-                    },
-                    contentType: 'application/json',
-                    cache: false,
-                    dataType: 'json'
-                })
+                url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
+                method: 'POST',
+                data: JSON.stringify({
+                    "query": ingredientsQuery
+                }),
+                headers: {
+                    'x-app-id': '2d50c081',
+                    'x-app-key': '761211a498e0c9546a3d13704ab339b6',
+                    'x-remote-user-id': '0'
+                },
+                contentType: 'application/json',
+                cache: false,
+                dataType: 'json'
+            })
                 .then(function (response) {
                     var ingredient = response.foods;
                     var allIngNutritionArr = [];
@@ -517,16 +518,10 @@ $(document).ready(function () {
 
         var modal = document.querySelector('#recipe_modal');
 
-        var modalTitle = $("<div " + "class='row'" + ">");
-        var modalPic = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
-        var modalIngred = $("<div " + "class='col s5'" + "id='recipe_ingredients'" + ">");
         var recipeName = $("<h4>" + name + "</h4>");
-        var divider = $('<div>').attr({
-            class: divider,
-        });
-        var recipeImg = $("<img>").attr({
+        var recipeImg = $('<img>').attr({
             src: img,
-            alt: name,
+            alt: name
         });
 
         var ingredients = $("<p>").text(ing);
@@ -542,12 +537,14 @@ $(document).ready(function () {
 
         var instance = M.Modal.init(modal, {
             onOpenStart: function () {
-                $('.recipe_content').append(modalTitle);
+                $('.recipe_content').append(recipeName);
             },
             onCloseEnd: function () {
                 $('.recipe_content').empty();
             },
-            dismissible: true,
+            dismissible: false,
+            startingTop: '70%',
+            endingTop: '60%'
         });
 
         instance.open();
@@ -597,26 +594,29 @@ $(document).ready(function () {
     };
 
 
+    var favoriteController = function (id) {
 
-    const limitRecipeTitle = (title) => {
-        var limit = 25
-        const newTitle = [];
-        if (title.length > limit) {
-            title.split(' ').reduce((acc, cur) => {
-                if (acc + cur.length <= limit) {
-                    newTitle.push(cur);
-                }
-                return acc + cur.length;
-            }, 0);
+        const limitRecipeTitle = (title) => {
+            var limit = 25
+            const newTitle = [];
+            if (title.length > limit) {
+                title.split(' ').reduce((acc, cur) => {
+                    if (acc + cur.length <= limit) {
+                        newTitle.push(cur);
+                    }
+                    return acc + cur.length;
+                }, 0);
 
-            // return the result
-            return `${newTitle.join(' ')} ...`;
+                // return the result
+                return `${newTitle.join(' ')} ...`;
+            }
+            return title;
         }
-        return title;
+
     }
 
-
-
+    recipe = new Recipe(id);
+},
 
 
     /************************************ Event Listeners ********************************/
@@ -631,162 +631,186 @@ $(document).ready(function () {
         }
 
         $('#textarea1').val('');
-    });
+    }));
 
 
-    // Click Listener for when a user clicks a recipe image to display recipe details
-    $(document).on('click', '.recipe_result', function () {
-        var id = $(this).attr('data-recipeid');
+// Click Listener for when a user clicks a recipe image to display recipe details
+$(document).on('click', '.recipe_result', function () {
+    var id = $(this).attr('data-recipeid');
+    recipeController(id);
+});
+
+//Add recipe to favorites page
+$(document).on('click', '#starIcon', function () {
+    event.preventDefault();
+    var id = $(this).attr('data-recipeName');
+    var image = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
+    recipeController(id);
+    // recipe.getRecipe()
+    favorite.push(recipe.name, recipe.images[0].hostedLargeUrl);
+    for (i = 0; i < favorite.length; i++) {
+        var favRecipe = recipe.name;
         recipeController(id);
-    });
 
 
-    // Search Keypress Listener
-    $('#search_form').keypress((e) => {
-        var query = $('#textarea1').val().trim();
-        if (e.keyCode === 13 || e.which === 13) {
-            e.preventDefault();
-            if (query.length > 1) {
-                encodeSearch('&q=', query);
-                $('#textarea1').val('');
-            }
-        }
-    });
+        // favRecipe.attr("data-recipeName", favorite[i]);
+        // favRecipe.text("#favRecipe");
+        // $("#favDisplay").append(myRecipe());
+    }
+    // favorite.push(recipe.name);
 
-
-    // Search field listener for when a user clicks on search field or not, slides filters down
-    $("#textarea1").on({
-        focus: function () {
-            $('#filters').slideDown('435');
-        },
-        blur: function () {
-            hideOnClickOutside('#filters');
-        }
-    });
-
-
-    // Function adds/removes click listener depending on if user clicks inside or outside filter area
-    var hideOnClickOutside = function (selector) {
-        const outsideClickListener = (event) => {
-            if (!$(event.target).closest(selector).length) {
-                if ($(selector).is(':visible')) {
-                    if ($(event.target).hasClass('ingredient_del')) {
-                        event.stopPropagation();
-                    } else {
-                        $(selector).slideUp('435');
-                        removeClickListener();
-                    }
-                }
-            }
-        };
-        const removeClickListener = () => {
-            document.removeEventListener('click', outsideClickListener);
-        };
-        document.addEventListener('click', outsideClickListener);
-    };
-
-
-    // Check box listener to determine if a certain checkbox is selected or not
-    $('input[type=checkbox]').on('change', function () {
-        var input = $(this);
-        var filterType = input.attr('data-filter');
-        var param = input.attr('data-param');
-
-        if (input.is(':checked')) {
-            filterController(filterType, param, true);
-        } else {
-            filterController(filterType, param, false);
-        }
-    });
-
-
-    // // Keypress listener for included ingredients search field
-    $('.ingredient_inc_form').keypress((e) => {
-        var ingredient = $('.ingredient_inc_field').val().trim();
-        if (e.keyCode === 13 || e.which === 13) {
-            e.preventDefault();
-            if (ingredient.length > 1) {
-                newIncIngredient = ingredient.toLowerCase();
-                encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
-                displayIngredientFilter('inc', newIncIngredient, '&allowedIngredient%5B%5D=');
-                $('.ingredient_inc_field').val('');
-            }
-        }
-    });
-
-
-    // Keypress listener for excluded ingredients search field
-    $('.ingredient_ex_form').keypress((e) => {
-        var ingredient = $('.ingredient_ex_field').val().trim();
-        if (e.keyCode === 13 || e.which === 13) {
-            e.preventDefault();
-            if (ingredient.length > 1) {
-                newExIngredient = ingredient.toLowerCase();
-                encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
-                displayIngredientFilter('ex', newExIngredient, '&excludedIngredient%5B%5D=');
-                $('.ingredient_ex_field').val('');
-            }
-        }
-    });
-
-
-    // Click listener for when user removes a filtered ingredient
-    $(document).on('click', '.ingredient_del', function (e) {
-        var parentEl = $(this).parent();
-        var ingredient = parentEl.attr('data-ingredient');
-        var param = parentEl.attr('data-ingparam');
-        filterController(ingredient, param, false);
-        parentEl.remove();
-    });
-
-
-    // Scroll listener to detect when user scrolls to the bottom of the page
-    $(window).scroll(function () {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            if (searchQuery.length > 0) {
-                if (searchQuery.indexOf('&start=') !== -1) {
-                    searchQuery = searchQuery.replace('&start=' + currentPage, '');
-                }
-                if (!ajaxRunning) {
-                    ajaxRunning = true;
-                    currentPage = incrementPage();
-                    page = currentPage;
-                    queryPage = `${searchQuery}&start=${currentPage}`;
-                    searchController(queryPage, true);
-
-                }
-            }
-        }
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Sidenav button event listener
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     var elems = document.querySelectorAll('.sidenav');
-    //     var instances = M.Sidenav.init(elems, options);
-    // });
-
-    // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
-    // var collapsibleElem = document.querySelector('.collapsible');
-    // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
-    // Sidenav event listener
-    $(document).ready(function () {
-        $('.sidenav').sidenav();
-    });
+    console.log(favorite);
 
 });
+
+
+
+
+// Search Keypress Listener
+$('#search_form').keypress((e) => {
+    var query = $('#textarea1').val().trim();
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        if (query.length > 1) {
+            encodeSearch('&q=', query);
+            $('#textarea1').val('');
+        }
+    }
+});
+
+
+// Search field listener for when a user clicks on search field or not, slides filters down
+$("#textarea1").on({
+    focus: function () {
+        $('#filters').slideDown('435');
+    },
+    blur: function () {
+        hideOnClickOutside('#filters');
+    }
+});
+
+
+// Function adds/removes click listener depending on if user clicks inside or outside filter area
+var hideOnClickOutside = function (selector) {
+    const outsideClickListener = (event) => {
+        if (!$(event.target).closest(selector).length) {
+            if ($(selector).is(':visible')) {
+                if ($(event.target).hasClass('ingredient_del')) {
+                    event.stopPropagation();
+                } else {
+                    $(selector).slideUp('435');
+                    removeClickListener();
+                }
+            }
+        }
+    };
+    const removeClickListener = () => {
+        document.removeEventListener('click', outsideClickListener);
+    };
+    document.addEventListener('click', outsideClickListener);
+};
+
+
+// Check box listener to determine if a certain checkbox is selected or not
+$('input[type=checkbox]').on('change', function () {
+    var input = $(this);
+    var filterType = input.attr('data-filter');
+    var param = input.attr('data-param');
+
+    if (input.is(':checked')) {
+        filterController(filterType, param, true);
+    } else {
+        filterController(filterType, param, false);
+    }
+});
+
+
+// // Keypress listener for included ingredients search field
+$('.ingredient_inc_form').keypress((e) => {
+    var ingredient = $('.ingredient_inc_field').val().trim();
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        if (ingredient.length > 1) {
+            newIncIngredient = ingredient.toLowerCase();
+            encodeSearch('&allowedIngredient%5B%5D=', newIncIngredient);
+            displayIngredientFilter('inc', newIncIngredient, '&allowedIngredient%5B%5D=');
+            $('.ingredient_inc_field').val('');
+        }
+    }
+});
+
+
+// Keypress listener for excluded ingredients search field
+$('.ingredient_ex_form').keypress((e) => {
+    var ingredient = $('.ingredient_ex_field').val().trim();
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        if (ingredient.length > 1) {
+            newExIngredient = ingredient.toLowerCase();
+            encodeSearch('&excludedIngredient%5B%5D=', newExIngredient);
+            displayIngredientFilter('ex', newExIngredient, '&excludedIngredient%5B%5D=');
+            $('.ingredient_ex_field').val('');
+        }
+    }
+});
+
+
+// Click listener for when user removes a filtered ingredient
+$(document).on('click', '.ingredient_del', function (e) {
+    var parentEl = $(this).parent();
+    var ingredient = parentEl.attr('data-ingredient');
+    var param = parentEl.attr('data-ingparam');
+    filterController(ingredient, param, false);
+    parentEl.remove();
+});
+
+
+// Scroll listener to detect when user scrolls to the bottom of the page
+$(window).scroll(function () {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        if (searchQuery.length > 0) {
+            if (searchQuery.indexOf('&start=') !== -1) {
+                searchQuery = searchQuery.replace('&start=' + currentPage, '');
+            }
+            if (!ajaxRunning) {
+                ajaxRunning = true;
+                currentPage = incrementPage();
+                page = currentPage;
+                queryPage = `${searchQuery}&start=${currentPage}`;
+                searchController(queryPage, true);
+
+            }
+        }
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Sidenav button event listener
+// document.addEventListener('DOMContentLoaded', function () {
+//     var elems = document.querySelectorAll('.sidenav');
+//     var instances = M.Sidenav.init(elems, options);
+// });
+
+// Initialize collapsible (uncomment the lines below if you use the dropdown variation)
+// var collapsibleElem = document.querySelector('.collapsible');
+// var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+// Sidenav event listener
+$(document).ready(function () {
+    $('.sidenav').sidenav();
+});
+

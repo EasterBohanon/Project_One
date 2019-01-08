@@ -38,6 +38,11 @@ p {
     background-repeat: no-repeat;
 }
 
+<<<<<<< HEAD
+
+#recipe_content {
+    height: 1000px;
+=======
 #info-blurb {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: white;
@@ -57,6 +62,7 @@ h1 {
     font-size: 20px;
     padding-left: 20px;
     color: white;
+>>>>>>> 185d33d5884fa34ca30fbc6b2ab3678357923ab7
 }
 
 #textarea1:focus {
@@ -373,6 +379,9 @@ input#search-bar:focus:-ms-placeholder {
 
 .ingredient_tag .close:hover {
     color: white;
+<<<<<<< HEAD
+}
+=======
 }
 
 /* Modal Positioning */
@@ -391,3 +400,4 @@ input#search-bar:focus:-ms-placeholder {
 .num_results {
     height: 70px;
 }
+>>>>>>> 185d33d5884fa34ca30fbc6b2ab3678357923ab7
