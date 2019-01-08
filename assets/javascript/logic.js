@@ -376,9 +376,9 @@ $(document).ready(function () {
                 .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
                     console.log(recipe);
-                    recipe.getNutrition()
+                    // recipe.getNutrition()
 
-                        .then(function () {
+                    //     .then(function () {
                             // Combine the nutrition label template with the recipe nutrition data
                             recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
 
@@ -393,13 +393,13 @@ $(document).ready(function () {
                             // Render nutrition label
                             renderNutrLabel(recipeNutrLabel);
                             
-                        })
+                        // })
 
-                        .then(function () {
+                        // .then(function () {
                             // After all recipe items are rendered to modal, open the modal
                             renderRecipeModal();
                         })
-                })
+                // })
 
                 // If search fails
                 .fail(function (error) {
@@ -783,4 +783,5 @@ $(document).ready(function () {
 });
 
 // BECKY - COMMENT/UNCOMMENT THESE LINES FOR MODAL TESTING
-// Lines 378-385; 387; 540(?); 545; 554; 548; 371
+// Lines 379-381, 396-398, 402
+// Every recipe content will update except for the ingredient table for now
