@@ -38,34 +38,33 @@
     </div>
   </nav>
 
-  <ul id="slide-out" class="sidenav">
-    <li>
-      <div class="user-view">
-        <div class="background">
-          <img src="">
-        </div>
-        <a href="#user"><img class="circle" src=""></a>
-        <a href="#name"><span class="white-text name">John Doe</span></a>
-        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-      </div>
-    </li>
-    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
-    <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
-    <li>
-      <div class="divider"></div>
-    </li>
-    <!-- <li><a class="subheader">Subheader</a></li>
-      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
-  </ul>
-  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
-
-
-
-
-
   <div id="imagetron">
     <div class="container">
+      <!-- Sidenav -->
+      <div class='row' style='margin-bottom: 0px; position: relative; top: 20px;'>
+        <ul id="slide-out" class="sidenav">
+          <li>
+            <div class="user-view">
+              <div class="background">
+                <img src="">
+              </div>
+              <!-- <a href="#user"><img class="circle" src=""></a> -->
+              <a href="#name"><span class="black-text name">Name</span></a>
+              <a href="#email"><span class="black-text email">Email</span></a>
+            </div>
+          </li>
+          <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+          <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+          <li>
+            <div class="divider"></div>
+          </li>
+        </ul>
+        <a href="#" data-target="slide-out" class="sidenav-trigger">
+          <i class="medium material-icons white-text">local_dining</i>
+        </a>
+      </div>
       <div class="row">
+
         <div class="col s8" id="info-blurb">
           <!-- changed it to h1 because it is intervening with the text in the Modal -->
           <h1>Specialized Nutrition, Made Easy </h1>
@@ -74,10 +73,10 @@
         </div>
       </div>
 
+      <!-- Search Bar -->
       <div class="row" id="search_row">
         <form class="col s10" id="search_form">
           <div class="row">
-            <!-- Search instructions -->
             <div class="input-field col s10" id="actualSearchBar">
               <i class="material-icons prefix">search</i>
               <textarea id="textarea1" class="materialize-textarea"></textarea>
@@ -339,7 +338,7 @@
   <script src="
           https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous">
-  </script>
+    </script>
   <!-- Materialize JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!-- JavaScript -->
