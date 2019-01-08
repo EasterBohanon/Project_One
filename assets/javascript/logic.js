@@ -78,7 +78,7 @@ $(document).ready(function () {
         getResult() {
 
             // returns the GET request
-            return $.get(`${searchURL}${this.query}&requirePictures=true`, function (response) {
+            return $.get(`${searchURL}${this.query}&maxResult=9&requirePictures=true`, function (response) {
 
                 var arr = response.matches;
 
@@ -186,8 +186,8 @@ $(document).ready(function () {
                         "query": ingredientsQuery
                     }),
                     headers: {
-                        'x-app-id': '2d50c081',
-                        'x-app-key': '761211a498e0c9546a3d13704ab339b6',
+                        'x-app-id': '5c7c2452',
+                        'x-app-key': '3be9c3d24ea69fa0514bc303edc7171b',
                         'x-remote-user-id': '0'
                     },
                     contentType: 'application/json',
@@ -375,16 +375,30 @@ $(document).ready(function () {
 
                 .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
-                    // recipe.getNutrition()
+                    console.log(recipe);
+                    recipe.getNutrition()
 
-                    //     .then(function () {
-                    //         // Combine the nutrition label template with the recipe nutrition data
-                    //         recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
-                    //         // Render recipe and open modal
+                        .then(function () {
+                            // Combine the nutrition label template with the recipe nutrition data
+                            recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
 
-                    //         console.log(recipeNutrLabel)
-                            renderRecipeModal(recipe.images[0].hostedLargeUrl, recipe.name, recipe.ingredientLines);
-                        // })
+                            console.log(recipeNutrLabel);
+
+                            // Render recipe content
+                            renderRecipeContent(recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl, recipe.attribution.html);
+
+                            // Render ingredient list
+                            renderIngredientList(recipe.ingredientLines);
+
+                            // Render nutrition label
+                            renderNutrLabel(recipeNutrLabel);
+                            
+                        })
+
+                        .then(function () {
+                            // After all recipe items are rendered to modal, open the modal
+                            renderRecipeModal();
+                        })
                 })
 
                 // If search fails
@@ -507,46 +521,56 @@ $(document).ready(function () {
         $('.num_results').append(el);
     };
 
+    // Renders the recipe content, not including ingredient list
+    var renderRecipeContent = function (name, img, time, servings, source, attr) {
+        recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl
 
-    // Still working on this 
-    var renderRecipeModal = function (img, name, ing) {
-
-        var modal = document.querySelector('#recipe_modal');
-
-        var modalTitle = $("<div " + "class='row'" + ">");
-        var modalPic = $("<div " + "class='col s5'" + "id='recipe_image'" + ">");
-        var modalIngred = $("<div " + "class='col s5'" + "id='recipe_ingredients'" + ">");
-        var recipeName = $("<h4>" + name + "</h4>");
-        var divider = $('<div>').attr({
-            class: divider,
-        });
-        var recipeImg = $("<img>").attr({
+        var imgElem = $('<img>').attr({
             src: img,
-            alt: name,
+            alt: name
         });
 
-        var ingredients = $("<p>").text(ing);
+        $('#recipe_image').append(imgElem);
+        $('#recipe_title').text(name);
+        $('#num_servings').text(servings)
+        $('#cook_time').text(time);
+        $('#directions_btn').attr('href', source);
+        $('.recipe_attribution').html(attr);
+    }
 
-        modalTitle.append(recipeName);
-        modalPic.append(recipeImg);
-        modalIngred.append(ingredients);
-
-        $(modalPic).appendTo(modalTitle);
-        $(modalIngred).appendTo(modalTitle);
-
+    // Renders the modal to open, also removes all the different items in HTML after being closed
+    var renderRecipeModal = function () {
+        var modal = document.querySelector('#recipe_modal');
         var instance = M.Modal.init(modal, {
-            onOpenStart: function () {
-                // $('.recipe_content').append(modalTitle);
-            },
+            onOpenStart: function () {},
             onCloseEnd: function () {
-                // $('.recipe_content').empty();
+                $('#recipe_title').empty();
+                $('#recipe_image').empty();
+                $('#cook_time').empty();
+                $('#num_servings').empty();
+                $('#recipe_attribution').empty();
             },
             dismissible: true,
         });
-
         instance.open();
-        // $('#recipe_nutr_label').nutritionLabel(recipeNutrLabel);
+    }
+
+    // Renders unordered list of ingredients to modal
+    var renderIngredientList = function (list) {
+        var tmpList = '';
+        for (i = 0; i < list.length; i++) {
+
+            li = '<li>' + list[i] + '</li>';
+            tmpList += li;
+        }
+        $('#ing_list').append(tmpList);
     };
+
+    // Renders nutrition label to modal
+    var renderNutrLabel = function (obj) {
+        $('#recipe_nutr_label').nutritionLabel(obj)
+    }
+
 
 
     // Prevents white space in URL
@@ -578,7 +602,7 @@ $(document).ready(function () {
         var tag = $('<h4>');
         tag.text('Sorry, no recipes found.');
 
-        $('#recipes_view').append(tag);
+        $('.num_results').append(tag);
     };
 
     // Displays ingredient filter tag inside ingredients filter
@@ -737,6 +761,7 @@ $(document).ready(function () {
 
     // Scroll listener to detect when user scrolls to the bottom of the page
     $(window).scroll(function () {
+
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             if (searchQuery.length > 0) {
                 if (searchQuery.indexOf('&start=') !== -1) {
@@ -754,34 +779,6 @@ $(document).ready(function () {
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Sidenav button event listener
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     var elems = document.querySelectorAll('.sidenav');
-    //     var instances = M.Sidenav.init(elems, options);
-    // });
-
-    // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
-    // var collapsibleElem = document.querySelector('.collapsible');
-    // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
-    // Sidenav event listener
-    $(document).ready(function () {
-        $('.sidenav').sidenav();
-    });
 
 });
 
