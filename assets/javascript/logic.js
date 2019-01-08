@@ -50,7 +50,7 @@ $(document).ready(function () {
         valueServingUnitQuantity: 2,
         showAmountPerServing: false,
         showIngredients: false,
-        showServingUnitQuantity: false,
+        showServingUnitQuantity: true,
         widthCustom: 'auto',
         allowFDARounding: true,
         decimalPlacesForNutrition: 2,
@@ -290,13 +290,13 @@ $(document).ready(function () {
 
                         obj.img = preArray[31][1]['thumb'];
                         allIngNutritionArr.push(obj);
-
                     }
 
                     // Assign all recipe nutrient data to recipe object
                     this.recipeNutritionLabel = {
                         itemName: this.name,
                         valueServingUnitQuantity: this.numberOfServings,
+                        valueServingSizeUnit: this.numberOfServings,
                         valueCalories: calories,
                         valueTotalFat: fat,
                         valueSatFat: satFat,
@@ -311,7 +311,40 @@ $(document).ready(function () {
                         valueVitaminD: vD,
                         valueIron: ironRecipe
                     }
+
+                    this.allIngNutritionArr = allIngNutritionArr;
+
                 }.bind(this))
+        }
+
+
+
+        getIngNutrition() {
+
+            // brand_name: null
+            // full_nutrients: (64)[{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+            // img: "https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png"
+            // itemName: "cherry pie filling"
+            // serving_qty: 21
+            // serving_unit: "oz"
+            // serving_weight_grams: 595.35
+            // valueCalcium: 625.1175
+            // valueCalories: 684.65
+            // valueCholesterol: 0
+            // valueFibers: 3.57
+            // valueIron: 59.535
+            // valuePhosphorus: 89.3
+            // valuePotassium_2018: 625.12
+            // valueProteins: 2.2
+            // valueSatFat: 0.11
+            // valueSodium: 107.16
+            // valueSugars: null
+            // valueTotalCarb: 166.7
+            // valueTotalFat: 0.42
+            // valueVitaminD: 21.4326
+
+
+
         }
     };
 
@@ -368,7 +401,6 @@ $(document).ready(function () {
 
             // Create new Recipe object
             recipe = new Recipe(id);
-            // $('.recipe_content').empty();
 
             // Call getRecipe method to call API request
             recipe.getRecipe()
@@ -376,30 +408,32 @@ $(document).ready(function () {
                 .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
                     console.log(recipe);
-                    // recipe.getNutrition()
+                    recipe.getNutrition()
 
-                    //     .then(function () {
-                    // Combine the nutrition label template with the recipe nutrition data
-                    recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
+                        .then(function () {
+                            // Combine the nutrition label template with the recipe nutrition data
+                            recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
 
-                    console.log(recipeNutrLabel);
+                            console.log(recipeNutrLabel);
 
-                    // Render recipe content
-                    renderRecipeContent(recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl, recipe.attribution.html);
+                            // Render recipe content
+                            renderRecipeContent(recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl, recipe.attribution.html);
 
-                    // Render ingredient list
-                    renderIngredientList(recipe.ingredientLines);
+                            // Render ingredient list
+                            renderIngredientList(recipe.ingredientLines);
 
-                    // Render nutrition label
-                    renderNutrLabel(recipeNutrLabel);
+                            // Render nutrition label
+                            renderNutrLabel(recipeNutrLabel);
 
-                    // })
+                            console.log(recipe.allIngNutritionArr);
 
-                    // .then(function () {
-                    // After all recipe items are rendered to modal, open the modal
-                    renderRecipeModal();
+                        })
+
+                        .then(function () {
+                            // After all recipe items are rendered to modal, open the modal
+                            renderRecipeModal();
+                        })
                 })
-                // })
 
                 // If search fails
                 .fail(function (error) {
@@ -542,7 +576,6 @@ $(document).ready(function () {
     var renderRecipeModal = function () {
         var modal = document.querySelector('#recipe_modal');
         var instance = M.Modal.init(modal, {
-            onOpenStart: function () {},
             onCloseEnd: function () {
                 $('#recipe_title').empty();
                 $('#recipe_image').empty();
@@ -595,7 +628,7 @@ $(document).ready(function () {
         } else {
             setTimeout(function () {
                 $('.preloader_content').remove();
-            }, 400);
+            }, 200);
         }
     };
 
@@ -685,15 +718,14 @@ $(document).ready(function () {
         }
     });
 
-
     // Function adds/removes click listener depending on if user clicks inside or outside filter area
     var hideOnClickOutside = function (selector) {
         const outsideClickListener = (event) => {
             if (!$(event.target).closest(selector).length) {
-                if ($(selector).is(':visible')) {
+                if ($(selector).is(':visible') || $(event.target).has('#actualSearchBar')) {
                     if ($(event.target).hasClass('ingredient_del')) {
                         event.stopPropagation();
-                    } else {
+                    }  else {
                         $(selector).slideUp('435');
                         removeClickListener();
                     }
