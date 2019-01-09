@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Health App</title>
+
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Marialize Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-wrapper teal">
+            <a href="#" class="brand-logo teal">Health App</a>
+        </div>
+    </nav>
+
+    <!-- Sidenav -->
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="">
+                </div>
+                <a href="#user"><img class="circle" src=""></a>
+                <a href="#name"><span class="white-text name">John Doe</span></a>
+                <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div>
+        </li>
+        <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+        <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+        <li>
+            <div class="divider"></div>
+        </li>
+    </ul>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
+
+    <div class='container'>
+        <!-- Shopping Cart -->
+        <div class='row'>
+            <div class='col' id='shoppingListDiv'>
+                <h4>Shopping List</h4>
+                <!-- Table Head -->
+                <div class='divider'></div>
+                    <table class='striped' id='shoppingListTable'>
+                        <thead>
+                            <th>Ingredient</th>
+                            <th> </th>
+                        </thead>
+                        <!-- Table Body -->
+                        <tr>
+                            <td>Sugar</td>
+                            <td>
+                                <label><input type="checkbox" class="filled-in" />
+                                    <span></span></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Flour</td>
+                            <td>
+                                <label><input type="checkbox" class="filled-in" />
+                                <span></span></label>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
+    <!-- JavaScript -->
+    <script src="assets/javascript/logic.js"></script>
+</body>
+
+</html>

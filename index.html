@@ -22,6 +22,10 @@
 </head>
 
 <body>
+  <a id="button"><i class="material-icons">keyboard_arrow_up</i></a>
+
+
+
   <!-- Navbar -->
   <nav id="navbar">
     <div class="nav-wrapper container" id="navbar">
@@ -31,41 +35,40 @@
         </div>
       </a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html"><img id="glutenfreeLogo" src="assets/images/glutenfreeGreen.png" width="50px" height="50px"></a></li>
-        <li><a href="badges.html"><img id="veganLogo" src="assets/images/veganGreen.png" width="50px" height="50px"></a></li>
-        <li><a href="collapsible.html"><img id="paleoLogo" src="assets/images/Paleo_green.png" width="50px" height="50px"></a></li>
+        <li><img id="glutenfreeLogo" src="assets/images/glutenfreeGreen.png" width="50px" height="50px" style="margin: 5px;"></li>
+        <li><img id="veganLogo" src="assets/images/veganGreen.png" width="50px" height="50px" style="margin: 5px;"></li>
+        <li><img id="paleoLogo" src="assets/images/Paleo_green.png" width="50px" height="50px" style="margin: 5px;"></li>
       </ul>
     </div>
   </nav>
 
-  <ul id="slide-out" class="sidenav">
-    <li>
-      <div class="user-view">
-        <div class="background">
-          <img src="">
-        </div>
-        <a href="#user"><img class="circle" src=""></a>
-        <a href="#name"><span class="white-text name">John Doe</span></a>
-        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-      </div>
-    </li>
-    <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
-    <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
-    <li>
-      <div class="divider"></div>
-    </li>
-    <!-- <li><a class="subheader">Subheader</a></li>
-      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
-  </ul>
-  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons">menu</i></a>
-
-
-
-
-
   <div id="imagetron">
     <div class="container">
+      <!-- Sidenav -->
+      <div class='row' style='margin-bottom: 0px; position: relative; top: 20px;'>
+        <ul id="slide-out" class="sidenav">
+          <li>
+            <div class="user-view">
+              <div class="background">
+                <img src="">
+              </div>
+              <!-- <a href="#user"><img class="circle" src=""></a> -->
+              <a href="#name"><span class="black-text name">Name</span></a>
+              <a href="#email"><span class="black-text email">Email</span></a>
+            </div>
+          </li>
+          <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+          <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+          <li>
+            <div class="divider"></div>
+          </li>
+        </ul>
+        <a href="#" data-target="slide-out" class="sidenav-trigger">
+          <i class="medium material-icons white-text">local_dining</i>
+        </a>
+      </div>
       <div class="row">
+
         <div class="col s8" id="info-blurb">
           <!-- changed it to h1 because it is intervening with the text in the Modal -->
           <h1>Specialized Nutrition, Made Easy </h1>
@@ -74,20 +77,17 @@
         </div>
       </div>
 
+      <!-- Search Bar -->
       <div class="row" id="search_row">
-        <form class="col s12" id="search_form">
+        <form class="col s10" id="search_form">
           <div class="row">
-            <!-- Search instructions -->
-            <span class="white-text" id="searchpictext">Search Here to Find recipes.
-            </span>
-            <div class="input-field col s12" id="actualSearchBar">
+            <div class="input-field col s10" id="actualSearchBar">
+              <i class="material-icons prefix">search</i>
               <textarea id="textarea1" class="materialize-textarea"></textarea>
-              <label id="search_label" for="textarea1">Search</label>
+              <label id="search_label" for="textarea1"></label>
             </div>
-            <div class="col" id="search-btn_col">
-              <button id="submitButton" class="btn waves-effect waves-light submit" type="submit" name="action">Submit
-                <i class="material-icons right">send</i>
-              </button>
+            <div class="col s2" id="search-btn_col">
+              <button id="submitButton" class="btn waves-effect waves-light submit" type="submit" name="action">Submit</button>
             </div>
           </div>
         </form>
@@ -308,26 +308,69 @@
     <div id="recipe_modal" class="modal">
       <div class="modal-header">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">
-          <i class="material-icons">close</i>
+          <i class="material-icons" id="modal_close">close</i>
         </a>
         <a href="#" onclick="return false;">
           <i class="material-icons" id="starIcon">star_border</i>
         </a>
       </div>
 
-      <!-- Area for Recipe Content -->
-      <div class="modal-content recipe_content">
-      </div>
 
-      <!-- Area for Recipe Nutrition -->
-      <!-- Will be listing each ingredient's picture, quantity, calories, weight food group in a table layout -->
-      <div class="recipe_nutrition">
-        <div class="row">
-          <div class="col offset-s10" id="recipe_nutr_label">
+
+
+      <!-- Not sure if you wanted the layout to be like this for the modal -->
+      <!-- Feel free to change it or style it -->
+      <div class="modal-content">
+
+        <!-- Area for Recipe Content in one row-->
+        <div class="recipe_content">
+          <div class="row">
+
+            <!-- Recipe Details Column -->
+            <h4 id="recipe_title"></h4>
+            <div class="col s4">
+              <div id="recipe_image">
+              </div>
+              <h5>Cook Time: <span id="cook_time"></span></h5>
+              <h5>Servings: <span id="num_servings"></span></h5>
+              <a class="waves-effect waves-light btn" id="directions_btn" target="_blank"><i class="material-icons right">kitchen</i>Directions</a>
+              <div class="recipe_attribution">
+              </div>
+            </div>
+
+            <!-- Unordered List of Ingredients Column -->
+            <div class="col s3 offset-s1">
+              <h5>Ingredients</h5>
+              <ul id="ing_list">
+              </ul>
+            </div>
+
+            <!-- Nutrition Label Column -->
+            <div class="col s3" id="recipe_nutr_label">
+            </div>
+          </div>
+        </div>
+
+        <!-- This 2nd row will be dedicated to the table of ingredient details -->
+        <!-- Upon clicking each ingredient, the nutrition label will render for it -->
+        <!-- Recipe Ingredient Details -->
+        <div class="row" id="ing_details_row">
+          <div class="col offset-s5" id="ing_table">
+            <table class="highlight">
+              <thead>
+                <tr>
+                </tr>
+              </thead>
+              <tbody id="ing_details">
+                <tr>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
+
 
 
 
