@@ -316,36 +316,6 @@ $(document).ready(function () {
 
                 }.bind(this))
         }
-
-
-
-        getIngNutrition() {
-
-            // brand_name: null
-            // full_nutrients: (64)[{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-            // img: "https://d2eawub7utcl6.cloudfront.net/images/nix-apple-grey.png"
-            // itemName: "cherry pie filling"
-            // serving_qty: 21
-            // serving_unit: "oz"
-            // serving_weight_grams: 595.35
-            // valueCalcium: 625.1175
-            // valueCalories: 684.65
-            // valueCholesterol: 0
-            // valueFibers: 3.57
-            // valueIron: 59.535
-            // valuePhosphorus: 89.3
-            // valuePotassium_2018: 625.12
-            // valueProteins: 2.2
-            // valueSatFat: 0.11
-            // valueSodium: 107.16
-            // valueSugars: null
-            // valueTotalCarb: 166.7
-            // valueTotalFat: 0.42
-            // valueVitaminD: 21.4326
-
-
-
-        }
     };
 
 
@@ -425,6 +395,7 @@ $(document).ready(function () {
                             // Render nutrition label
                             renderNutrLabel(recipeNutrLabel);
 
+                            renderIngredientDetails(recipe.allIngNutritionArr);
                             console.log(recipe.allIngNutritionArr);
 
                         })
@@ -557,7 +528,7 @@ $(document).ready(function () {
 
     // Renders the recipe content, not including ingredient list
     var renderRecipeContent = function (name, img, time, servings, source, attr) {
-        recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl
+        // recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl
 
         var imgElem = $('<img>').attr({
             src: img,
@@ -599,9 +570,27 @@ $(document).ready(function () {
         $('#ing_list').append(tmpList);
     };
 
+    var renderIngredientDetails = function (arr) {
+        for (i = 0; i < arr.length; i++) {
+            
+            ingImg = `<td><img src="${arr[i].img}" alt="${arr[i].itemName}"></td>`
+            ingQty = `<td>${arr[i].serving_qty}</td>`
+            ingUnit = `<td>${arr[i].serving_unit}</td>`
+            ingName = `<td>${arr[i].itemName}</td>`
+            ingCal = `<td>${arr[i].valueCalories}</td>`
+            ingWeight = `<td>${arr[i].serving_weight_grams} g</td>`
+
+            ingRow = `<tr class="ing_details_row" data-ingdetails="${i}">${ingImg}${ingQty}${ingUnit}${ingName}${ingCal}${ingWeight}</tr>`
+            $('#ing_details').append(ingRow);
+        }
+
+
+    }
+
     // Renders nutrition label to modal
     var renderNutrLabel = function (obj) {
-        $('#recipe_nutr_label').nutritionLabel(obj)
+        $('#recipe_nutr_label').empty();
+        $('#recipe_nutr_label').nutritionLabel(obj);
     }
 
 
@@ -638,6 +627,8 @@ $(document).ready(function () {
         tag.text('Sorry, no recipes found.');
 
         $('.num_results').append(tag);
+
+        $('.preloader_content').remove();
     };
 
     // Displays ingredient filter tag inside ingredients filter
@@ -695,6 +686,14 @@ $(document).ready(function () {
     });
 
 
+    $(document).on('click', '.ing_details_row', function() {
+        var i = $(this).attr('data-ingdetails');
+        recipeNutrLabel = Object.assign({}, labelTemplate, recipe.allIngNutritionArr[i]);
+        recipeNutrLabel.valueServingUnitQuantity = recipe.allIngNutritionArr[i].serving_qty;
+        recipeNutrLabel.valueServingSizeUnit = recipe.allIngNutritionArr[i].serving_qty;
+        renderNutrLabel(recipeNutrLabel);
+    });
+
     // Search Keypress Listener
     $('#search_form').keypress((e) => {
         var query = $('#textarea1').val().trim();
@@ -725,7 +724,7 @@ $(document).ready(function () {
                 if ($(selector).is(':visible') || $(event.target).has('#actualSearchBar')) {
                     if ($(event.target).hasClass('ingredient_del')) {
                         event.stopPropagation();
-                    }  else {
+                    } else {
                         $(selector).slideUp('435');
                         removeClickListener();
                     }
