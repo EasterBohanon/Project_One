@@ -50,7 +50,7 @@ $(document).ready(function () {
         valueServingUnitQuantity: 2,
         showAmountPerServing: false,
         showIngredients: false,
-        showServingUnitQuantity: false,
+        showServingUnitQuantity: true,
         widthCustom: 'auto',
         allowFDARounding: true,
         decimalPlacesForNutrition: 2,
@@ -290,13 +290,13 @@ $(document).ready(function () {
 
                         obj.img = preArray[31][1]['thumb'];
                         allIngNutritionArr.push(obj);
-
                     }
 
                     // Assign all recipe nutrient data to recipe object
                     this.recipeNutritionLabel = {
                         itemName: this.name,
                         valueServingUnitQuantity: this.numberOfServings,
+                        valueServingSizeUnit: this.numberOfServings,
                         valueCalories: calories,
                         valueTotalFat: fat,
                         valueSatFat: satFat,
@@ -311,6 +311,9 @@ $(document).ready(function () {
                         valueVitaminD: vD,
                         valueIron: ironRecipe
                     }
+
+                    this.allIngNutritionArr = allIngNutritionArr;
+
                 }.bind(this))
         }
     };
@@ -368,7 +371,6 @@ $(document).ready(function () {
 
             // Create new Recipe object
             recipe = new Recipe(id);
-            // $('.recipe_content').empty();
 
             // Call getRecipe method to call API request
             recipe.getRecipe()
@@ -376,9 +378,9 @@ $(document).ready(function () {
                 .then(function () {
                     // After recipe object returns, get nutrition facts for recipe and ingredients
                     console.log(recipe);
-                    // recipe.getNutrition()
+                    recipe.getNutrition()
 
-                    //     .then(function () {
+                        .then(function () {
                             // Combine the nutrition label template with the recipe nutrition data
                             recipeNutrLabel = Object.assign({}, labelTemplate, recipe.recipeNutritionLabel);
 
@@ -392,14 +394,17 @@ $(document).ready(function () {
 
                             // Render nutrition label
                             renderNutrLabel(recipeNutrLabel);
-                            
-                        // })
 
-                        // .then(function () {
+                            renderIngredientDetails(recipe.allIngNutritionArr);
+                            console.log(recipe.allIngNutritionArr);
+
+                        })
+
+                        .then(function () {
                             // After all recipe items are rendered to modal, open the modal
                             renderRecipeModal();
                         })
-                // })
+                })
 
                 // If search fails
                 .fail(function (error) {
@@ -474,7 +479,7 @@ $(document).ready(function () {
             recipes.forEach(function (el) {
                 var img, sourceText
                 totalStars = []
-                var card = $('<div class="fadeIn recipe_card">');
+                var card = $('<div class="fadeInSearch recipe_card">');
                 var contentDiv = $('<div class="recipe_card_content">');
                 var source = $('<p class="recipe_card_source">');
                 var ratingP = $('<p class="recipe_card_rating">');
@@ -523,7 +528,7 @@ $(document).ready(function () {
 
     // Renders the recipe content, not including ingredient list
     var renderRecipeContent = function (name, img, time, servings, source, attr) {
-        recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl
+        // recipe.name, recipe.images[0].hostedLargeUrl, recipe.totalTime, recipe.numberOfServings, recipe.source.sourceRecipeUrl
 
         var imgElem = $('<img>').attr({
             src: img,
@@ -542,7 +547,6 @@ $(document).ready(function () {
     var renderRecipeModal = function () {
         var modal = document.querySelector('#recipe_modal');
         var instance = M.Modal.init(modal, {
-            onOpenStart: function () {},
             onCloseEnd: function () {
                 $('#recipe_title').empty();
                 $('#recipe_image').empty();
@@ -566,9 +570,27 @@ $(document).ready(function () {
         $('#ing_list').append(tmpList);
     };
 
+    var renderIngredientDetails = function (arr) {
+        for (i = 0; i < arr.length; i++) {
+            
+            ingImg = `<td><img src="${arr[i].img}" alt="${arr[i].itemName}"></td>`
+            ingQty = `<td>${arr[i].serving_qty}</td>`
+            ingUnit = `<td>${arr[i].serving_unit}</td>`
+            ingName = `<td>${arr[i].itemName}</td>`
+            ingCal = `<td>${arr[i].valueCalories}</td>`
+            ingWeight = `<td>${arr[i].serving_weight_grams} g</td>`
+
+            ingRow = `<tr class="ing_details_row" data-ingdetails="${i}">${ingImg}${ingQty}${ingUnit}${ingName}${ingCal}${ingWeight}</tr>`
+            $('#ing_details').append(ingRow);
+        }
+
+
+    }
+
     // Renders nutrition label to modal
     var renderNutrLabel = function (obj) {
-        $('#recipe_nutr_label').nutritionLabel(obj)
+        $('#recipe_nutr_label').empty();
+        $('#recipe_nutr_label').nutritionLabel(obj);
     }
 
 
@@ -593,7 +615,9 @@ $(document).ready(function () {
         if (e) {
             $('#recipes_view').append(loaderDiv);
         } else {
-            $('.preloader_content').remove();
+            setTimeout(function () {
+                $('.preloader_content').remove();
+            }, 200);
         }
     };
 
@@ -603,6 +627,8 @@ $(document).ready(function () {
         tag.text('Sorry, no recipes found.');
 
         $('.num_results').append(tag);
+
+        $('.preloader_content').remove();
     };
 
     // Displays ingredient filter tag inside ingredients filter
@@ -660,6 +686,14 @@ $(document).ready(function () {
     });
 
 
+    $(document).on('click', '.ing_details_row', function() {
+        var i = $(this).attr('data-ingdetails');
+        recipeNutrLabel = Object.assign({}, labelTemplate, recipe.allIngNutritionArr[i]);
+        recipeNutrLabel.valueServingUnitQuantity = recipe.allIngNutritionArr[i].serving_qty;
+        recipeNutrLabel.valueServingSizeUnit = recipe.allIngNutritionArr[i].serving_qty;
+        renderNutrLabel(recipeNutrLabel);
+    });
+
     // Search Keypress Listener
     $('#search_form').keypress((e) => {
         var query = $('#textarea1').val().trim();
@@ -683,12 +717,11 @@ $(document).ready(function () {
         }
     });
 
-
     // Function adds/removes click listener depending on if user clicks inside or outside filter area
     var hideOnClickOutside = function (selector) {
         const outsideClickListener = (event) => {
             if (!$(event.target).closest(selector).length) {
-                if ($(selector).is(':visible')) {
+                if ($(selector).is(':visible') || $(event.target).has('#actualSearchBar')) {
                     if ($(event.target).hasClass('ingredient_del')) {
                         event.stopPropagation();
                     } else {
