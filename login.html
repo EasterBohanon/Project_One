@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign In</title>
+    <!-- Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Marialize Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <!-- CSS -->
+   <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+   <!-- Firebase -->
+   <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>  
+    <!--Authentication Firebase Link-->
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <!--Login Widget Initializer-->
+    <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>  
+   <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css"></link> 
+   <script type="text/javascript"></script>
+</head>
+<body>
+
+
+    
+  <!-- Navbar -->
+  <nav id="navbar">
+        <div class="nav-wrapper container" id="navbar">
+          <a href="#" class="brand-logo">
+            <div class="logo-image">
+              <img id="ourlogo" src="assets/images/NewLogoConcept2.png">
+            </div>
+          </a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><img id="glutenfreeLogo" src="assets/images/glutenfreeGreen.png" width="50px" height="50px" style="margin: 5px;"></li>
+            <li><img id="veganLogo" src="assets/images/veganGreen.png" width="50px" height="50px" style="margin: 5px;"></li>
+            <li><img id="paleoLogo" src="assets/images/Paleo_green.png" width="50px" height="50px" style="margin: 5px;"></li>
+          </ul>
+        </div>
+      </nav>
+    
+      <div id="imagetron">
+        <div class="container">
+          <!-- Sidenav -->
+          <div class='row' style='margin-bottom: 0px; position: relative; top: 20px;'>
+            <ul id="slide-out" class="sidenav">
+              <li>
+                <div class="user-view">
+                  <div class="background">
+                    <img src="">
+                  </div>
+                  <!-- <a href="#user"><img class="circle" src=""></a> -->
+                  <a href="#name"><span class="black-text name">Name</span></a>
+                  <a href="#email"><span class="black-text email">Email</span></a>
+                </div>
+              </li>
+              <li><a href="#!"><i class="material-icons">star</i>Favorite Recipes</a></li>
+              <li><a href="#!"><i class="material-icons">shopping_cart</i>Shopping Cart</a> </li>
+              <li>
+                <div class="divider"></div>
+              </li>
+            </ul>
+            <a href="#" data-target="slide-out" class="sidenav-trigger">
+              <i class="medium material-icons white-text">local_dining</i>
+            </a>
+          </div>
+          <div class="row">
+    
+            <div class="col s8" id="info-blurb">
+                     
+          </div>
+          <div id="firebaseui-auth-container"></div> 
+
+
+        <!-- jQuery -->
+  <script src="
+          https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous">
+  </script>
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- JavaScript -->
+  <script type="text/javascript" src="bower_components/nutrition-label-jquery-plugin/dist/js/nutritionLabel-min.js"></script>
+<script src="../Project_One/assets/javascript/login.js"></script>
+</body>
+</html>
